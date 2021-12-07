@@ -42,6 +42,7 @@ Run `carthage update`
 
 ### CocoaPods
 
+Add `pod ‘ApiVideoClient’, '0.1.0'` in your `Podfile`
 Run `pod install`
 
 ## Code sample
