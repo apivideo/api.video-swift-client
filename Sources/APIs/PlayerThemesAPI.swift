@@ -373,7 +373,7 @@ open class PlayerThemesAPI {
     /**
      Upload a logo
      - POST /players/{playerId}/logo
-     - The uploaded image maximum size should be 200x100 and its weight should be 200KB.  It will be scaled down to 30px height and converted to PNG to be displayed in the player.
+     - The uploaded image maximum size should be 200x100 and its weight should be 100KB.  It will be scaled down to 30px height and converted to PNG to be displayed in the player.
      - BASIC:
        - type: http
        - name: bearerAuth
