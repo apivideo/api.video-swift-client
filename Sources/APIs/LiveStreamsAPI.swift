@@ -349,7 +349,7 @@ open class LiveStreamsAPI {
      Upload a thumbnail
      
      - parameter liveStreamId: (path) The unique ID for the live stream you want to upload. 
-     - parameter file: (form) The image to be added as a thumbnail. 
+     - parameter file: (form) The .jpg image to be added as a thumbnail. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects.
      */
@@ -374,7 +374,7 @@ open class LiveStreamsAPI {
        - type: http
        - name: bearerAuth
      - parameter liveStreamId: (path) The unique ID for the live stream you want to upload. 
-     - parameter file: (form) The image to be added as a thumbnail. 
+     - parameter file: (form) The .jpg image to be added as a thumbnail. 
      - returns: RequestBuilder<LiveStream> 
      */
     open class func uploadThumbnailWithRequestBuilder(liveStreamId: String, file: URL) -> RequestBuilder<LiveStream> {

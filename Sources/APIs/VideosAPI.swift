@@ -783,7 +783,7 @@ open class VideosAPI {
      Upload a thumbnail
      
      - parameter videoId: (path) Unique identifier of the chosen video  
-     - parameter file: (form) The image to be added as a thumbnail. 
+     - parameter file: (form) The .jpg image to be added as a thumbnail. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects.
      */
@@ -808,7 +808,7 @@ open class VideosAPI {
        - type: http
        - name: bearerAuth
      - parameter videoId: (path) Unique identifier of the chosen video  
-     - parameter file: (form) The image to be added as a thumbnail. 
+     - parameter file: (form) The .jpg image to be added as a thumbnail. 
      - returns: RequestBuilder<Video> 
      */
     open class func uploadThumbnailWithRequestBuilder(videoId: String, file: URL) -> RequestBuilder<Video> {
