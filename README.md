@@ -73,7 +73,8 @@ import ApiVideoClient
     if let error = error {
        // Manage create error here
     }
-}```
+}
+```
 
 # Documentation
 
