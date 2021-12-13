@@ -38,6 +38,12 @@ api.video's iOS client streamlines the coding process. Chunking files is handled
 
 ### Carthage
 
+Specify it in your `Cartfile`:
+
+```
+github "apivideo/api.video-ios-client" ~> 0.1.0
+```
+
 Run `carthage update`
 
 ### CocoaPods
