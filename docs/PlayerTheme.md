@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 **playerId** | **String** |  | 
 **createdAt** | **Date** | When the player was created, presented in ISO-8601 format. | [optional] 
 **updatedAt** | **Date** | When the player was last updated, presented in ISO-8601 format. | [optional] 
-**linkActive** | **String** | Deprecated | [optional] 
+**linkActive** | **String** | RGBA color for the play button when hovered. | [optional] 
 **assets** | [**PlayerThemeAssets**](PlayerThemeAssets.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
