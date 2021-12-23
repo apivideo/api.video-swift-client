@@ -47,7 +47,7 @@ public struct PlayerTheme: Codable, Hashable {
     public var createdAt: Date?
     /** When the player was last updated, presented in ISO-8601 format. */
     public var updatedAt: Date?
-    /** Deprecated */
+    /** RGBA color for the play button when hovered. */
     public var linkActive: String?
     public var assets: PlayerThemeAssets?
 
