@@ -222,7 +222,7 @@ open class VideosAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "title": title?.encodeToJSON(),
-            "tags": tags?.encodeToJSON(),
+            "tags[]": tags?.encodeToJSON(),
             "metadata": metadata?.encodeToJSON(),
             "description": description?.encodeToJSON(),
             "liveStreamId": liveStreamId?.encodeToJSON(),
