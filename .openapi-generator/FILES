@@ -13,6 +13,7 @@ Sources/APIs/PlayerThemesAPI.swift
 Sources/APIs/RawStatisticsAPI.swift
 Sources/APIs/UploadTokensAPI.swift
 Sources/APIs/VideosAPI.swift
+Sources/APIs/WatermarksAPI.swift
 Sources/APIs/WebhooksAPI.swift
 Sources/AlamofireImplementations.swift
 Sources/Auth/ApiVideoAuthenticator.swift
@@ -66,6 +67,7 @@ Sources/Models/TokenListResponse.swift
 Sources/Models/UploadToken.swift
 Sources/Models/Video.swift
 Sources/Models/VideoAssets.swift
+Sources/Models/VideoClip.swift
 Sources/Models/VideoCreationPayload.swift
 Sources/Models/VideoSession.swift
 Sources/Models/VideoSessionClient.swift
@@ -83,7 +85,10 @@ Sources/Models/VideoStatusEncodingMetadata.swift
 Sources/Models/VideoStatusIngest.swift
 Sources/Models/VideoThumbnailPickPayload.swift
 Sources/Models/VideoUpdatePayload.swift
+Sources/Models/VideoWatermark.swift
 Sources/Models/VideosListResponse.swift
+Sources/Models/Watermark.swift
+Sources/Models/WatermarksListResponse.swift
 Sources/Models/Webhook.swift
 Sources/Models/WebhooksCreationPayload.swift
 Sources/Models/WebhooksListResponse.swift
@@ -141,6 +146,7 @@ docs/UploadToken.md
 docs/UploadTokensAPI.md
 docs/Video.md
 docs/VideoAssets.md
+docs/VideoClip.md
 docs/VideoCreationPayload.md
 docs/VideoSession.md
 docs/VideoSessionClient.md
@@ -158,8 +164,12 @@ docs/VideoStatusEncodingMetadata.md
 docs/VideoStatusIngest.md
 docs/VideoThumbnailPickPayload.md
 docs/VideoUpdatePayload.md
+docs/VideoWatermark.md
 docs/VideosAPI.md
 docs/VideosListResponse.md
+docs/Watermark.md
+docs/WatermarksAPI.md
+docs/WatermarksListResponse.md
 docs/Webhook.md
 docs/WebhooksAPI.md
 docs/WebhooksCreationPayload.md

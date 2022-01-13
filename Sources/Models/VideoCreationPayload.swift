@@ -30,8 +30,10 @@ public struct VideoCreationPayload: Codable, Hashable {
     public var tags: [String]?
     /** A list of key value pairs that you use to provide metadata for your video. These pairs can be made dynamic, allowing you to segment your audience. Read more on [dynamic metadata](https://api.video/blog/endpoints/dynamic-metadata). */
     public var metadata: [Metadata]?
+    public var clip: VideoClip?
+    public var watermark: VideoWatermark?
 
-    public init(title: String, description: String? = nil, source: String? = nil, _public: Bool? = true, panoramic: Bool? = false, mp4Support: Bool? = true, playerId: String? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil) {
+    public init(title: String, description: String? = nil, source: String? = nil, _public: Bool? = true, panoramic: Bool? = false, mp4Support: Bool? = true, playerId: String? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, clip: VideoClip? = nil, watermark: VideoWatermark? = nil) {
         self.title = title
         self.description = description
         self.source = source
@@ -41,6 +43,8 @@ public struct VideoCreationPayload: Codable, Hashable {
         self.playerId = playerId
         self.tags = tags
         self.metadata = metadata
+        self.clip = clip
+        self.watermark = watermark
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -53,6 +57,8 @@ public struct VideoCreationPayload: Codable, Hashable {
         case playerId
         case tags
         case metadata
+        case clip
+        case watermark
     }
 
     // Encodable protocol methods
@@ -68,6 +74,8 @@ public struct VideoCreationPayload: Codable, Hashable {
         try container.encodeIfPresent(playerId, forKey: .playerId)
         try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(metadata, forKey: .metadata)
+        try container.encodeIfPresent(clip, forKey: .clip)
+        try container.encodeIfPresent(watermark, forKey: .watermark)
     }
 }
 
