@@ -47,6 +47,7 @@ Sources/Models/LiveStreamSessionSession.swift
 Sources/Models/LiveStreamUpdatePayload.swift
 Sources/Models/Metadata.swift
 Sources/Models/NotFound.swift
+Sources/Models/NullableString.swift
 Sources/Models/Pagination.swift
 Sources/Models/PaginationLink.swift
 Sources/Models/PlayerSessionEvent.swift

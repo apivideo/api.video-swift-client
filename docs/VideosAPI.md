@@ -247,7 +247,7 @@ Use this endpoint to update the parameters associated with your video. The video
 import ApiVideoClient
 
 let videoId = "videoId_example" // String | The video ID for the video you want to delete.
-let videoUpdatePayload = video-update-payload(playerId: "playerId_example", title: "title_example", description: "description_example", _public: true, panoramic: false, mp4Support: true, tags: ["tags_example"], metadata: [metadata(key: "key_example", value: "value_example")]) // VideoUpdatePayload | 
+let videoUpdatePayload = video-update-payload(playerId: NullableString(value: "pl4k0jvEUuaTdRAEjQ4Jfrgz"), title: "title_example", description: "description_example", _public: true, panoramic: false, mp4Support: true, tags: ["tags_example"], metadata: [metadata(key: "key_example", value: "value_example")]) // VideoUpdatePayload | 
 
 // Update a video
 VideosAPI.update(videoId: videoId, videoUpdatePayload: videoUpdatePayload) { (response, error) in
