@@ -402,7 +402,7 @@ Create a video
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let videoCreationPayload = video-creation-payload(title: "title_example", description: "description_example", source: "source_example", _public: true, panoramic: false, mp4Support: true, playerId: "playerId_example", tags: ["tags_example"], metadata: [metadata(key: "key_example", value: "value_example")]) // VideoCreationPayload | video to create
+let videoCreationPayload = video-creation-payload(title: "title_example", description: "description_example", source: "source_example", _public: true, panoramic: false, mp4Support: true, playerId: "playerId_example", tags: ["tags_example"], metadata: [metadata(key: "key_example", value: "value_example")], clip: video-clip(startTimecode: "startTimecode_example", endTimecode: "endTimecode_example"), watermark: video-watermark(id: "id_example", top: "top_example", _left: "_left_example", bottom: "bottom_example", _right: "_right_example", width: "width_example", height: "height_example", opacity: "opacity_example")) // VideoCreationPayload | video to create
 
 // Create a video
 VideosAPI.create(videoCreationPayload: videoCreationPayload) { (response, error) in

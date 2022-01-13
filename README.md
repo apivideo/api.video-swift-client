@@ -21,6 +21,7 @@
     - [RawStatisticsAPI](#RawStatisticsAPI)
     - [UploadTokensAPI](#UploadTokensAPI)
     - [VideosAPI](#VideosAPI)
+    - [WatermarksAPI](#WatermarksAPI)
     - [WebhooksAPI](#WebhooksAPI)
   - [Models](#models)
   - [Authorization](#documentation-for-authorization)
@@ -41,14 +42,14 @@ api.video's iOS client streamlines the coding process. Chunking files is handled
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-ios-client" ~> 0.1.2
+github "apivideo/api.video-ios-client" ~> 1.0.0
 ```
 
 Run `carthage update`
 
 ### CocoaPods
 
-Add `pod 'ApiVideoClient', '0.1.2'` in your `Podfile`
+Add `pod 'ApiVideoClient', '1.0.0'` in your `Podfile`
 
 Run `pod install`
 
@@ -227,6 +228,23 @@ Method | HTTP request | Description
 [**uploadThumbnail**](docs/VideosAPI.md#uploadThumbnail) | **POST** /videos/{videoId}/thumbnail | Upload a thumbnail
 
 
+### WatermarksAPI
+
+#### Retrieve an instance of WatermarksAPI:
+
+```swift
+WatermarksAPI
+```
+
+#### Endpoints
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**delete**](docs/WatermarksAPI.md#delete) | **DELETE** /watermarks/{watermarkId} | Delete a watermark
+[**list**](docs/WatermarksAPI.md#list) | **GET** /watermarks | List all watermarks
+[**upload**](docs/WatermarksAPI.md#upload) | **POST** /watermarks | Upload a watermark
+
+
 ### WebhooksAPI
 
 #### Retrieve an instance of WebhooksAPI:
@@ -289,6 +307,7 @@ Method | HTTP request | Description
  - [UploadToken](docs/UploadToken.md)
  - [Video](docs/Video.md)
  - [VideoAssets](docs/VideoAssets.md)
+ - [VideoClip](docs/VideoClip.md)
  - [VideoCreationPayload](docs/VideoCreationPayload.md)
  - [VideoSession](docs/VideoSession.md)
  - [VideoSessionClient](docs/VideoSessionClient.md)
@@ -306,7 +325,10 @@ Method | HTTP request | Description
  - [VideoStatusIngest](docs/VideoStatusIngest.md)
  - [VideoThumbnailPickPayload](docs/VideoThumbnailPickPayload.md)
  - [VideoUpdatePayload](docs/VideoUpdatePayload.md)
+ - [VideoWatermark](docs/VideoWatermark.md)
  - [VideosListResponse](docs/VideosListResponse.md)
+ - [Watermark](docs/Watermark.md)
+ - [WatermarksListResponse](docs/WatermarksListResponse.md)
  - [Webhook](docs/Webhook.md)
  - [WebhooksCreationPayload](docs/WebhooksCreationPayload.md)
  - [WebhooksListResponse](docs/WebhooksListResponse.md)
