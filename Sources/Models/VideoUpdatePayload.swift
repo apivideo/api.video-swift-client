@@ -13,7 +13,7 @@ import AnyCodable
 public struct VideoUpdatePayload: Codable, Hashable {
 
     /** The unique ID for the player you want to associate with your video. */
-    public var playerId: String?
+    public var playerId: NullableString?
     /** The title you want to use for your video. */
     public var title: String?
     /** A brief description of the video. */
@@ -29,7 +29,7 @@ public struct VideoUpdatePayload: Codable, Hashable {
     /** A list (array) of dictionaries where each dictionary contains a key value pair that describes the video. As with tags, you must send the complete list of metadata you want as whatever you send here will overwrite the existing metadata for the video. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) allows you to define a key that allows any value pair. */
     public var metadata: [Metadata]?
 
-    public init(playerId: String? = nil, title: String? = nil, description: String? = nil, _public: Bool? = nil, panoramic: Bool? = nil, mp4Support: Bool? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil) {
+    public init(playerId: NullableString? = nil, title: String? = nil, description: String? = nil, _public: Bool? = nil, panoramic: Bool? = nil, mp4Support: Bool? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil) {
         self.playerId = playerId
         self.title = title
         self.description = description
