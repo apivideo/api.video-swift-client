@@ -232,7 +232,7 @@ Use a player ID to update specific details for a player. NOTE: It may take up to
 import ApiVideoClient
 
 let playerId = "playerId_example" // String | The unique identifier for the player.
-let playerThemeUpdatePayload = player-theme-update-payload(name: "name_example", text: "text_example", link: "link_example", linkHover: "linkHover_example", trackPlayed: "trackPlayed_example", trackUnplayed: "trackUnplayed_example", trackBackground: "trackBackground_example", backgroundTop: "backgroundTop_example", backgroundBottom: "backgroundBottom_example", backgroundText: "backgroundText_example", enableApi: false, enableControls: false, forceAutoplay: false, hideTitle: false, forceLoop: false) // PlayerThemeUpdatePayload | 
+let playerThemeUpdatePayload = player-theme-update-payload(name: "name_example", text: "text_example", link: "link_example", linkHover: "linkHover_example", linkActive: "linkActive_example", trackPlayed: "trackPlayed_example", trackUnplayed: "trackUnplayed_example", trackBackground: "trackBackground_example", backgroundTop: "backgroundTop_example", backgroundBottom: "backgroundBottom_example", backgroundText: "backgroundText_example", enableApi: false, enableControls: false, forceAutoplay: false, hideTitle: false, forceLoop: false) // PlayerThemeUpdatePayload | 
 
 // Update a player
 PlayerThemesAPI.update(playerId: playerId, playerThemeUpdatePayload: playerThemeUpdatePayload) { (response, error) in
@@ -283,7 +283,7 @@ Create a player for your video, and customise it.
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let playerThemeCreationPayload = player-theme-creation-payload(name: "name_example", text: "text_example", link: "link_example", linkHover: "linkHover_example", trackPlayed: "trackPlayed_example", trackUnplayed: "trackUnplayed_example", trackBackground: "trackBackground_example", backgroundTop: "backgroundTop_example", backgroundBottom: "backgroundBottom_example", backgroundText: "backgroundText_example", enableApi: false, enableControls: false, forceAutoplay: false, hideTitle: false, forceLoop: false) // PlayerThemeCreationPayload | 
+let playerThemeCreationPayload = player-theme-creation-payload(name: "name_example", text: "text_example", link: "link_example", linkHover: "linkHover_example", linkActive: "linkActive_example", trackPlayed: "trackPlayed_example", trackUnplayed: "trackUnplayed_example", trackBackground: "trackBackground_example", backgroundTop: "backgroundTop_example", backgroundBottom: "backgroundBottom_example", backgroundText: "backgroundText_example", enableApi: false, enableControls: false, forceAutoplay: false, hideTitle: false, forceLoop: false) // PlayerThemeCreationPayload | 
 
 // Create a player
 PlayerThemesAPI.create(playerThemeCreationPayload: playerThemeCreationPayload) { (response, error) in
