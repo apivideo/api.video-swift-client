@@ -20,6 +20,8 @@ public struct PlayerTheme: Codable, Hashable {
     public var link: String?
     /** RGBA color for all controls when hovered. Default: rgba(255, 255, 255, 1) */
     public var linkHover: String?
+    /** RGBA color for the play button when hovered. */
+    public var linkActive: String?
     /** RGBA color playback bar: played content. Default: rgba(88, 131, 255, .95) */
     public var trackPlayed: String?
     /** RGBA color playback bar: downloaded but unplayed (buffered) content. Default: rgba(255, 255, 255, .35) */
@@ -47,15 +49,14 @@ public struct PlayerTheme: Codable, Hashable {
     public var createdAt: Date?
     /** When the player was last updated, presented in ISO-8601 format. */
     public var updatedAt: Date?
-    /** RGBA color for the play button when hovered. */
-    public var linkActive: String?
     public var assets: PlayerThemeAssets?
 
-    public init(name: String? = nil, text: String? = nil, link: String? = nil, linkHover: String? = nil, trackPlayed: String? = nil, trackUnplayed: String? = nil, trackBackground: String? = nil, backgroundTop: String? = nil, backgroundBottom: String? = nil, backgroundText: String? = nil, enableApi: Bool? = nil, enableControls: Bool? = nil, forceAutoplay: Bool? = nil, hideTitle: Bool? = nil, forceLoop: Bool? = nil, playerId: String, createdAt: Date? = nil, updatedAt: Date? = nil, linkActive: String? = nil, assets: PlayerThemeAssets? = nil) {
+    public init(name: String? = nil, text: String? = nil, link: String? = nil, linkHover: String? = nil, linkActive: String? = nil, trackPlayed: String? = nil, trackUnplayed: String? = nil, trackBackground: String? = nil, backgroundTop: String? = nil, backgroundBottom: String? = nil, backgroundText: String? = nil, enableApi: Bool? = nil, enableControls: Bool? = nil, forceAutoplay: Bool? = nil, hideTitle: Bool? = nil, forceLoop: Bool? = nil, playerId: String, createdAt: Date? = nil, updatedAt: Date? = nil, assets: PlayerThemeAssets? = nil) {
         self.name = name
         self.text = text
         self.link = link
         self.linkHover = linkHover
+        self.linkActive = linkActive
         self.trackPlayed = trackPlayed
         self.trackUnplayed = trackUnplayed
         self.trackBackground = trackBackground
@@ -70,7 +71,6 @@ public struct PlayerTheme: Codable, Hashable {
         self.playerId = playerId
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-        self.linkActive = linkActive
         self.assets = assets
     }
 
@@ -79,6 +79,7 @@ public struct PlayerTheme: Codable, Hashable {
         case text
         case link
         case linkHover
+        case linkActive
         case trackPlayed
         case trackUnplayed
         case trackBackground
@@ -93,7 +94,6 @@ public struct PlayerTheme: Codable, Hashable {
         case playerId
         case createdAt
         case updatedAt
-        case linkActive
         case assets
     }
 
@@ -105,6 +105,7 @@ public struct PlayerTheme: Codable, Hashable {
         try container.encodeIfPresent(text, forKey: .text)
         try container.encodeIfPresent(link, forKey: .link)
         try container.encodeIfPresent(linkHover, forKey: .linkHover)
+        try container.encodeIfPresent(linkActive, forKey: .linkActive)
         try container.encodeIfPresent(trackPlayed, forKey: .trackPlayed)
         try container.encodeIfPresent(trackUnplayed, forKey: .trackUnplayed)
         try container.encodeIfPresent(trackBackground, forKey: .trackBackground)
@@ -119,7 +120,6 @@ public struct PlayerTheme: Codable, Hashable {
         try container.encode(playerId, forKey: .playerId)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
-        try container.encodeIfPresent(linkActive, forKey: .linkActive)
         try container.encodeIfPresent(assets, forKey: .assets)
     }
 }

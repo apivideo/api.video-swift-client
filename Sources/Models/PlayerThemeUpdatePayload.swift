@@ -20,6 +20,8 @@ public struct PlayerThemeUpdatePayload: Codable, Hashable {
     public var link: String?
     /** RGBA color for all controls when hovered. Default: rgba(255, 255, 255, 1) */
     public var linkHover: String?
+    /** RGBA color for the play button when hovered. */
+    public var linkActive: String?
     /** RGBA color playback bar: played content. Default: rgba(88, 131, 255, .95) */
     public var trackPlayed: String?
     /** RGBA color playback bar: downloaded but unplayed (buffered) content. Default: rgba(255, 255, 255, .35) */
@@ -43,11 +45,12 @@ public struct PlayerThemeUpdatePayload: Codable, Hashable {
     /** enable/disable looping. Default: false */
     public var forceLoop: Bool?
 
-    public init(name: String? = nil, text: String? = nil, link: String? = nil, linkHover: String? = nil, trackPlayed: String? = nil, trackUnplayed: String? = nil, trackBackground: String? = nil, backgroundTop: String? = nil, backgroundBottom: String? = nil, backgroundText: String? = nil, enableApi: Bool? = nil, enableControls: Bool? = nil, forceAutoplay: Bool? = nil, hideTitle: Bool? = nil, forceLoop: Bool? = nil) {
+    public init(name: String? = nil, text: String? = nil, link: String? = nil, linkHover: String? = nil, linkActive: String? = nil, trackPlayed: String? = nil, trackUnplayed: String? = nil, trackBackground: String? = nil, backgroundTop: String? = nil, backgroundBottom: String? = nil, backgroundText: String? = nil, enableApi: Bool? = nil, enableControls: Bool? = nil, forceAutoplay: Bool? = nil, hideTitle: Bool? = nil, forceLoop: Bool? = nil) {
         self.name = name
         self.text = text
         self.link = link
         self.linkHover = linkHover
+        self.linkActive = linkActive
         self.trackPlayed = trackPlayed
         self.trackUnplayed = trackUnplayed
         self.trackBackground = trackBackground
@@ -66,6 +69,7 @@ public struct PlayerThemeUpdatePayload: Codable, Hashable {
         case text
         case link
         case linkHover
+        case linkActive
         case trackPlayed
         case trackUnplayed
         case trackBackground
@@ -87,6 +91,7 @@ public struct PlayerThemeUpdatePayload: Codable, Hashable {
         try container.encodeIfPresent(text, forKey: .text)
         try container.encodeIfPresent(link, forKey: .link)
         try container.encodeIfPresent(linkHover, forKey: .linkHover)
+        try container.encodeIfPresent(linkActive, forKey: .linkActive)
         try container.encodeIfPresent(trackPlayed, forKey: .trackPlayed)
         try container.encodeIfPresent(trackUnplayed, forKey: .trackUnplayed)
         try container.encodeIfPresent(trackBackground, forKey: .trackBackground)
