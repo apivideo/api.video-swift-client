@@ -31,7 +31,7 @@
 - [Contribution](#contribution)
 
 # Project description
-api.video's iOS client streamlines the coding process. Chunking files is handled for you, as is pagination and refreshing your tokens.
+api.video's iOS  streamlines the coding process. Chunking files is handled for you, as is pagination and refreshing your tokens.
 
 # Getting started
 
@@ -42,14 +42,14 @@ api.video's iOS client streamlines the coding process. Chunking files is handled
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-ios-client" ~> 1.0.1
+github "apivideo/api.video-ios-client" ~> 1.0.2
 ```
 
 Run `carthage update`
 
 ### CocoaPods
 
-Add `pod 'ApiVideoClient', '1.0.1'` in your `Podfile`
+Add `pod 'ApiVideoClient', '1.0.2'` in your `Podfile`
 
 Run `pod install`
 
