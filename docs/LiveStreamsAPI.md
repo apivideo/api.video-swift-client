@@ -338,7 +338,7 @@ Upload an image to use as a backdrop for your livestream. Tutorials that [update
 import ApiVideoClient
 
 let liveStreamId = "liveStreamId_example" // String | The unique ID for the live stream you want to upload.
-let file = URL(string: "https://example.com")! // URL | The .jpg image to be added as a thumbnail.
+let file = URL(string: "https://example.com")! // URL | The image to be added as a thumbnail. The mime type should be image/jpeg, image/png or image/webp. The max allowed size is 8 MiB.
 
 // Upload a thumbnail
 LiveStreamsAPI.uploadThumbnail(liveStreamId: liveStreamId, file: file) { (response, error) in
@@ -358,7 +358,7 @@ LiveStreamsAPI.uploadThumbnail(liveStreamId: liveStreamId, file: file) { (respon
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **liveStreamId** | **String** | The unique ID for the live stream you want to upload. | 
- **file** | **URL** | The .jpg image to be added as a thumbnail. | 
+ **file** | **URL** | The image to be added as a thumbnail. The mime type should be image/jpeg, image/png or image/webp. The max allowed size is 8 MiB. | 
 
 ### Return type
 

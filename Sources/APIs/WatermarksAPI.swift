@@ -35,7 +35,7 @@ open class WatermarksAPI {
     /**
      Delete a watermark
      - DELETE /watermarks/{watermarkId}
-     - Delete a watermark. A watermark is a static image overlapping a video used as a \"stamp\" to limit leetching.
+     - Delete a watermark. A watermark is a static image, directly burnt-into a video.
      - BASIC:
        - type: http
        - name: bearerAuth
@@ -90,7 +90,7 @@ open class WatermarksAPI {
     /**
      List all watermarks
      - GET /watermarks
-     - List all watermarks. A watermark is a static image overlapping a video used as a \"stamp\" to limit leetching.
+     - List all watermarks. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
      - BASIC:
        - type: http
        - name: bearerAuth
@@ -128,7 +128,7 @@ open class WatermarksAPI {
     /**
      Upload a watermark
      
-     - parameter file: (form) The .jpg or .png image to be added as a watermark. 
+     - parameter file: (form) The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects.
      */
@@ -148,11 +148,11 @@ open class WatermarksAPI {
     /**
      Upload a watermark
      - POST /watermarks
-     - Create a new watermark by uploading a .jpg or a .png image. A watermark is a static image overlapping a video used as a \"stamp\" to limit leetching.
+     - Create a new watermark by uploading a `JPG` or a `PNG` image. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter file: (form) The .jpg or .png image to be added as a watermark. 
+     - parameter file: (form) The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. 
      - returns: RequestBuilder<Watermark> 
      */
     open class func uploadWithRequestBuilder(file: URL) -> RequestBuilder<Watermark> {

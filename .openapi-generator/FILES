@@ -83,6 +83,7 @@ Sources/Models/VideoStatus.swift
 Sources/Models/VideoStatusEncoding.swift
 Sources/Models/VideoStatusEncodingMetadata.swift
 Sources/Models/VideoStatusIngest.swift
+Sources/Models/VideoStatusIngestReceivedParts.swift
 Sources/Models/VideoThumbnailPickPayload.swift
 Sources/Models/VideoUpdatePayload.swift
 Sources/Models/VideoWatermark.swift
@@ -162,6 +163,7 @@ docs/VideoStatus.md
 docs/VideoStatusEncoding.md
 docs/VideoStatusEncodingMetadata.md
 docs/VideoStatusIngest.md
+docs/VideoStatusIngestReceivedParts.md
 docs/VideoThumbnailPickPayload.md
 docs/VideoUpdatePayload.md
 docs/VideoWatermark.md
