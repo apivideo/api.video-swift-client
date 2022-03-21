@@ -12,7 +12,7 @@ import AnyCodable
 
 public struct VideoStatusIngestReceivedParts: Codable, Hashable {
 
-    /** The parts that are have been uploaded, ordered. For example, if part 2 was sent before part 1, and both have been uploaded, the output will be [1, 2]. */
+    /** The parts that have been uploaded, ordered. For example, if part 2 was sent before part 1, and both have been uploaded, the output will be [1, 2]. */
     public var parts: [Int]?
     /** Contains the number of expected parts. The total will be listed as \"null\" until the total number of parts is known. */
     public var total: Int?

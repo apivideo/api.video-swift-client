@@ -16,7 +16,7 @@ public struct BytesRange: Codable, Hashable {
     public var from: Int?
     /** The ending point for the range of bytes for a chunk of a video. */
     public var to: Int?
-    /** The total number of bytes in the provided range. */
+    /** The total number of expected bytes. */
     public var total: Int?
 
     public init(from: Int? = nil, to: Int? = nil, total: Int? = nil) {
