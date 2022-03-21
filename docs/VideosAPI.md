@@ -505,7 +505,7 @@ The thumbnail is the poster that appears in the player window before video playb
 import ApiVideoClient
 
 let videoId = "videoId_example" // String | Unique identifier of the chosen video 
-let file = URL(string: "https://example.com")! // URL | The .jpg image to be added as a thumbnail.
+let file = URL(string: "https://example.com")! // URL | The image to be added as a thumbnail. The mime type should be image/jpeg, image/png or image/webp. The max allowed size is 8 MiB.
 
 // Upload a thumbnail
 VideosAPI.uploadThumbnail(videoId: videoId, file: file) { (response, error) in
@@ -525,7 +525,7 @@ VideosAPI.uploadThumbnail(videoId: videoId, file: file) { (response, error) in
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **videoId** | **String** | Unique identifier of the chosen video  | 
- **file** | **URL** | The .jpg image to be added as a thumbnail. | 
+ **file** | **URL** | The image to be added as a thumbnail. The mime type should be image/jpeg, image/png or image/webp. The max allowed size is 8 MiB. | 
 
 ### Return type
 

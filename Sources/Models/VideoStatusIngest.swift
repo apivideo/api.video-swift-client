@@ -24,17 +24,20 @@ public struct VideoStatusIngest: Codable, Hashable {
     public var filesize: Int?
     /** The total number of bytes received, listed for each chunk of the upload. */
     public var receivedBytes: [BytesRange]?
+    public var receivedParts: VideoStatusIngestReceivedParts?
 
-    public init(status: Status? = nil, filesize: Int? = nil, receivedBytes: [BytesRange]? = nil) {
+    public init(status: Status? = nil, filesize: Int? = nil, receivedBytes: [BytesRange]? = nil, receivedParts: VideoStatusIngestReceivedParts? = nil) {
         self.status = status
         self.filesize = filesize
         self.receivedBytes = receivedBytes
+        self.receivedParts = receivedParts
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case status
         case filesize
         case receivedBytes
+        case receivedParts
     }
 
     // Encodable protocol methods
@@ -44,6 +47,7 @@ public struct VideoStatusIngest: Codable, Hashable {
         try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(filesize, forKey: .filesize)
         try container.encodeIfPresent(receivedBytes, forKey: .receivedBytes)
+        try container.encodeIfPresent(receivedParts, forKey: .receivedParts)
     }
 }
 

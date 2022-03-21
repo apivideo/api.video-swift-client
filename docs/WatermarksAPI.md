@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 Delete a watermark
 
-Delete a watermark. A watermark is a static image overlapping a video used as a \"stamp\" to limit leetching.
+Delete a watermark. A watermark is a static image, directly burnt-into a video.
 
 ### Example
 ```swift
@@ -66,7 +66,7 @@ Void (empty response body)
 
 List all watermarks
 
-List all watermarks. A watermark is a static image overlapping a video used as a \"stamp\" to limit leetching.
+List all watermarks. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
 
 ### Example
 ```swift
@@ -122,14 +122,14 @@ Name | Type | Description  | Notes
 
 Upload a watermark
 
-Create a new watermark by uploading a .jpg or a .png image. A watermark is a static image overlapping a video used as a \"stamp\" to limit leetching.
+Create a new watermark by uploading a `JPG` or a `PNG` image. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let file = URL(string: "https://example.com")! // URL | The .jpg or .png image to be added as a watermark.
+let file = URL(string: "https://example.com")! // URL | The `.jpg` or `.png` image to be added as a watermark.
 
 // Upload a watermark
 WatermarksAPI.upload(file: file) { (response, error) in
@@ -148,7 +148,7 @@ WatermarksAPI.upload(file: file) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file** | **URL** | The .jpg or .png image to be added as a watermark. | 
+ **file** | **URL** | The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. | 
 
 ### Return type
 

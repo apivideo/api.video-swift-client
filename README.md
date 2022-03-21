@@ -42,14 +42,14 @@ api.video's iOS  streamlines the coding process. Chunking files is handled for y
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-ios-client" ~> 1.0.2
+github "apivideo/api.video-ios-client" ~> 1.0.3
 ```
 
 Run `carthage update`
 
 ### CocoaPods
 
-Add `pod 'ApiVideoClient', '1.0.2'` in your `Podfile`
+Add `pod 'ApiVideoClient', '1.0.3'` in your `Podfile`
 
 Run `pod install`
 
@@ -323,6 +323,7 @@ Method | HTTP request | Description
  - [VideoStatusEncoding](docs/VideoStatusEncoding.md)
  - [VideoStatusEncodingMetadata](docs/VideoStatusEncodingMetadata.md)
  - [VideoStatusIngest](docs/VideoStatusIngest.md)
+ - [VideoStatusIngestReceivedParts](docs/VideoStatusIngestReceivedParts.md)
  - [VideoThumbnailPickPayload](docs/VideoThumbnailPickPayload.md)
  - [VideoUpdatePayload](docs/VideoUpdatePayload.md)
  - [VideoWatermark](docs/VideoWatermark.md)
