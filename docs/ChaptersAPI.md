@@ -17,6 +17,7 @@ Method | HTTP request | Description
 
 Delete a chapter
 
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -68,6 +69,7 @@ Void (empty response body)
 List video chapters
 
 Retrieve a list of all chapters for a specified video.
+
 
 ### Example
 ```swift
@@ -123,6 +125,7 @@ Show a chapter
 
 Chapters help your viewers find the sections of the video they are most interested in viewing. Tutorials that use the [chapters endpoint](https://api.video/blog/endpoints/chapters).
 
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -174,6 +177,7 @@ Name | Type | Description  | Notes
 Upload a chapter
 
 Chapters help break the video into sections. Read our [tutorial](https://api.video/blog/tutorials/adding-chapters-to-your-videos) for more details.
+
 
 ### Example
 ```swift

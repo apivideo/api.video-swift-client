@@ -16,6 +16,7 @@ Method | HTTP request | Description
 
 List live stream player sessions
 
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -72,6 +73,7 @@ List player session events
 
 Useful to track and measure video's engagement.
 
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -125,6 +127,7 @@ Name | Type | Description  | Notes
 List video player sessions
 
 Retrieve all available user sessions for a specific video. Tutorials that use the [analytics endpoint](https://api.video/blog/endpoints/analytics).
+
 
 ### Example
 ```swift

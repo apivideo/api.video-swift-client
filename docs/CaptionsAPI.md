@@ -20,6 +20,7 @@ Delete a caption
 
 Delete a caption in a specific language by providing the video ID for the video you want to delete the caption from and the language the caption is in.
 
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -71,6 +72,7 @@ Void (empty response body)
 List video captions
 
 Retrieve a list of available captions for the videoId you provide.
+
 
 ### Example
 ```swift
@@ -126,6 +128,7 @@ Show a caption
 
 Display a caption for a video in a specific language. If the language is available, the caption is returned. Otherwise, you will get a response indicating the caption was not found. Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/captions).
 
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -177,6 +180,7 @@ Name | Type | Description  | Notes
 Update caption
 
 To have the captions on automatically, use this PATCH to set default: true.
+
 
 ### Example
 ```swift
@@ -231,6 +235,7 @@ Name | Type | Description  | Notes
 Upload a caption
 
 Upload a VTT file to add captions to your video.  Read our [captioning tutorial](https://api.video/blog/tutorials/adding-captions) for more details.
+
 
 ### Example
 ```swift
