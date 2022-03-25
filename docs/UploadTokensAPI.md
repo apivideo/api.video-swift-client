@@ -19,6 +19,7 @@ Delete an upload token
 
 Delete an existing upload token. This is especially useful for tokens you may have created that do not expire.
 
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -68,6 +69,7 @@ Void (empty response body)
 List all active upload tokens.
 
 A delegated token is used to allow secure uploads without exposing your API key. Use this endpoint to retrieve a list of all currently active delegated tokens. Tutorials using [delegated upload](https://api.video/blog/endpoints/delegated-upload).
+
 
 ### Example
 ```swift
@@ -125,6 +127,7 @@ Show upload token
 
 You can retrieve details about a specific upload token if you have the unique identifier for the upload token. Add it in the path of the endpoint. Details include time-to-live (ttl), when the token was created, and when it will expire.
 
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -174,6 +177,7 @@ Name | Type | Description  | Notes
 Generate an upload token
 
 Use this endpoint to generate an upload token. You can use this token to authenticate video uploads while keeping your API key safe. Tutorials using [delegated upload](https://api.video/blog/endpoints/delegated-upload).
+
 
 ### Example
 ```swift

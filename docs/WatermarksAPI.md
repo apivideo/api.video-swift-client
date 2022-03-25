@@ -18,6 +18,7 @@ Delete a watermark
 
 Delete a watermark. A watermark is a static image, directly burnt-into a video.
 
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -67,6 +68,7 @@ Void (empty response body)
 List all watermarks
 
 List all watermarks. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
+
 
 ### Example
 ```swift
@@ -123,6 +125,7 @@ Name | Type | Description  | Notes
 Upload a watermark
 
 Create a new watermark by uploading a `JPG` or a `PNG` image. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
+
 
 ### Example
 ```swift
