@@ -25,7 +25,7 @@
     - [WebhooksAPI](#WebhooksAPI)
   - [Models](#models)
   - [Authorization](#documentation-for-authorization)
-    - [API token](#api-token)
+    - [API key](#api-key)
     - [Public endpoints](#public-endpoints)
 - [Have you gotten use from this API client?](#have-you-gotten-use-from-this-api-client)
 - [Contribution](#contribution)
@@ -59,7 +59,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 ```swift
 import ApiVideoClient
 
-    ApiVideoClient.apiKey = "YOUR_API_TOKEN"
+    ApiVideoClient.apiKey = "YOUR_API_KEY"
     // if you rather like to use the sandbox environment:
     // ApiVideoClient.basePath = Environment.sandbox.rawValue
 
@@ -104,8 +104,8 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**delete**](docs/CaptionsAPI.md#delete) | **DELETE** /videos/{videoId}/captions/{language} | Delete a caption
 [**list**](docs/CaptionsAPI.md#list) | **GET** /videos/{videoId}/captions | List video captions
-[**get**](docs/CaptionsAPI.md#get) | **GET** /videos/{videoId}/captions/{language} | Show a caption
-[**update**](docs/CaptionsAPI.md#update) | **PATCH** /videos/{videoId}/captions/{language} | Update caption
+[**get**](docs/CaptionsAPI.md#get) | **GET** /videos/{videoId}/captions/{language} | Retrieve a caption
+[**update**](docs/CaptionsAPI.md#update) | **PATCH** /videos/{videoId}/captions/{language} | Update a caption
 [**upload**](docs/CaptionsAPI.md#upload) | **POST** /videos/{videoId}/captions/{language} | Upload a caption
 
 
@@ -123,7 +123,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**delete**](docs/ChaptersAPI.md#delete) | **DELETE** /videos/{videoId}/chapters/{language} | Delete a chapter
 [**list**](docs/ChaptersAPI.md#list) | **GET** /videos/{videoId}/chapters | List video chapters
-[**get**](docs/ChaptersAPI.md#get) | **GET** /videos/{videoId}/chapters/{language} | Show a chapter
+[**get**](docs/ChaptersAPI.md#get) | **GET** /videos/{videoId}/chapters/{language} | Retrieve a chapter
 [**upload**](docs/ChaptersAPI.md#upload) | **POST** /videos/{videoId}/chapters/{language} | Upload a chapter
 
 
@@ -142,7 +142,7 @@ Method | HTTP request | Description
 [**delete**](docs/LiveStreamsAPI.md#delete) | **DELETE** /live-streams/{liveStreamId} | Delete a live stream
 [**deleteThumbnail**](docs/LiveStreamsAPI.md#deleteThumbnail) | **DELETE** /live-streams/{liveStreamId}/thumbnail | Delete a thumbnail
 [**list**](docs/LiveStreamsAPI.md#list) | **GET** /live-streams | List all live streams
-[**get**](docs/LiveStreamsAPI.md#get) | **GET** /live-streams/{liveStreamId} | Show live stream
+[**get**](docs/LiveStreamsAPI.md#get) | **GET** /live-streams/{liveStreamId} | Retrieve live stream
 [**update**](docs/LiveStreamsAPI.md#update) | **PATCH** /live-streams/{liveStreamId} | Update a live stream
 [**create**](docs/LiveStreamsAPI.md#create) | **POST** /live-streams | Create live stream
 [**uploadThumbnail**](docs/LiveStreamsAPI.md#uploadThumbnail) | **POST** /live-streams/{liveStreamId}/thumbnail | Upload a thumbnail
@@ -163,7 +163,7 @@ Method | HTTP request | Description
 [**delete**](docs/PlayerThemesAPI.md#delete) | **DELETE** /players/{playerId} | Delete a player
 [**deleteLogo**](docs/PlayerThemesAPI.md#deleteLogo) | **DELETE** /players/{playerId}/logo | Delete logo
 [**list**](docs/PlayerThemesAPI.md#list) | **GET** /players | List all player themes
-[**get**](docs/PlayerThemesAPI.md#get) | **GET** /players/{playerId} | Show a player
+[**get**](docs/PlayerThemesAPI.md#get) | **GET** /players/{playerId} | Retrieve a player
 [**update**](docs/PlayerThemesAPI.md#update) | **PATCH** /players/{playerId} | Update a player
 [**create**](docs/PlayerThemesAPI.md#create) | **POST** /players | Create a player
 [**uploadLogo**](docs/PlayerThemesAPI.md#uploadLogo) | **POST** /players/{playerId}/logo | Upload a logo
@@ -200,7 +200,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**deleteToken**](docs/UploadTokensAPI.md#deleteToken) | **DELETE** /upload-tokens/{uploadToken} | Delete an upload token
 [**list**](docs/UploadTokensAPI.md#list) | **GET** /upload-tokens | List all active upload tokens.
-[**getToken**](docs/UploadTokensAPI.md#getToken) | **GET** /upload-tokens/{uploadToken} | Show upload token
+[**getToken**](docs/UploadTokensAPI.md#getToken) | **GET** /upload-tokens/{uploadToken} | Retrieve upload token
 [**createToken**](docs/UploadTokensAPI.md#createToken) | **POST** /upload-tokens | Generate an upload token
 
 
@@ -217,8 +217,8 @@ VideosAPI
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**delete**](docs/VideosAPI.md#delete) | **DELETE** /videos/{videoId} | Delete a video
-[**get**](docs/VideosAPI.md#get) | **GET** /videos/{videoId} | Show a video
-[**getStatus**](docs/VideosAPI.md#getStatus) | **GET** /videos/{videoId}/status | Show video status
+[**get**](docs/VideosAPI.md#get) | **GET** /videos/{videoId} | Retrieve a video
+[**getStatus**](docs/VideosAPI.md#getStatus) | **GET** /videos/{videoId}/status | Retrieve video status
 [**list**](docs/VideosAPI.md#list) | **GET** /videos | List all videos
 [**update**](docs/VideosAPI.md#update) | **PATCH** /videos/{videoId} | Update a video
 [**pickThumbnail**](docs/VideosAPI.md#pickThumbnail) | **PATCH** /videos/{videoId}/thumbnail | Pick a thumbnail
@@ -258,7 +258,7 @@ WebhooksAPI
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**delete**](docs/WebhooksAPI.md#delete) | **DELETE** /webhooks/{webhookId} | Delete a Webhook
-[**get**](docs/WebhooksAPI.md#get) | **GET** /webhooks/{webhookId} | Show Webhook details
+[**get**](docs/WebhooksAPI.md#get) | **GET** /webhooks/{webhookId} | Retrieve Webhook details
 [**list**](docs/WebhooksAPI.md#list) | **GET** /webhooks | List all webhooks
 [**create**](docs/WebhooksAPI.md#create) | **POST** /webhooks | Create Webhook
 
@@ -337,12 +337,12 @@ Method | HTTP request | Description
 
 ## Documentation for Authorization
 
-### API token
+### API key
 
-Most endpoints required to be authenticated using the API token mechanism described in our [documentation](https://docs.api.video/reference#authentication).
-The access token generation mechanism is automatically handled by the client. All you have to do is provide an API token:
+Most endpoints required to be authenticated using the API key mechanism described in our [documentation](https://docs.api.video/reference#authentication).
+The access token generation mechanism is automatically handled by the client. All you have to do is provide an API key:
 ```swift
-ApiVideoClient.apiKey = YOUR_API_TOKEN
+ApiVideoClient.apiKey = YOUR_API_KEY
 ```
 
 ### Public endpoints

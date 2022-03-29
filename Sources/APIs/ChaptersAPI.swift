@@ -36,6 +36,7 @@ open class ChaptersAPI {
     /**
      Delete a chapter
      - DELETE /videos/{videoId}/chapters/{language}
+     - Delete a chapter in a specific language by providing the video ID for the video you want to delete the chapter from and the language the chapter is in.
      - BASIC:
        - type: http
        - name: bearerAuth
@@ -129,7 +130,7 @@ open class ChaptersAPI {
 
 
     /**
-     Show a chapter
+     Retrieve a chapter
      
      - parameter videoId: (path) The unique identifier for the video you want to show a chapter for. 
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
@@ -150,9 +151,9 @@ open class ChaptersAPI {
 
 
     /**
-     Show a chapter
+     Retrieve a chapter
      - GET /videos/{videoId}/chapters/{language}
-     - Chapters help your viewers find the sections of the video they are most interested in viewing. Tutorials that use the [chapters endpoint](https://api.video/blog/endpoints/chapters).
+     - Retrieve a chapter for a video in a specific language.  Chapters help your viewers find the sections of the video they are most interested in viewing. Tutorials that use the [chapters endpoint](https://api.video/blog/endpoints/chapters).
      - BASIC:
        - type: http
        - name: bearerAuth
@@ -210,7 +211,7 @@ open class ChaptersAPI {
     /**
      Upload a chapter
      - POST /videos/{videoId}/chapters/{language}
-     - Chapters help break the video into sections. Read our [tutorial](https://api.video/blog/tutorials/adding-chapters-to-your-videos) for more details.
+     - Upload a VTT file to add chapters to your video. Chapters help break the video into sections. Read our [tutorial](https://api.video/blog/tutorials/adding-chapters-to-your-videos) for more details.
      - BASIC:
        - type: http
        - name: bearerAuth

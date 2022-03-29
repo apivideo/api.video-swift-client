@@ -87,6 +87,7 @@ open class PlayerThemesAPI {
     /**
      Delete logo
      - DELETE /players/{playerId}/logo
+     - Delete the logo associated to a player.
      - BASIC:
        - type: http
        - name: bearerAuth
@@ -194,7 +195,7 @@ open class PlayerThemesAPI {
 
 
     /**
-     Show a player
+     Retrieve a player
      
      - parameter playerId: (path) The unique identifier for the player you want to retrieve.  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -214,7 +215,7 @@ open class PlayerThemesAPI {
 
 
     /**
-     Show a player
+     Retrieve a player
      - GET /players/{playerId}
      - Use a player ID to retrieve details about the player and display it for viewers.
      - BASIC:
@@ -269,7 +270,7 @@ open class PlayerThemesAPI {
     /**
      Update a player
      - PATCH /players/{playerId}
-     - Use a player ID to update specific details for a player. NOTE: It may take up to 10 min before the new player configuration is available from our CDN.
+     - Use a player ID to update specific details for a player.  NOTE: It may take up to 10 min before the new player configuration is available from our CDN.
      - BASIC:
        - type: http
        - name: bearerAuth

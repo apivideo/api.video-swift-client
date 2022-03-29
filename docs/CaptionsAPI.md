@@ -6,8 +6,8 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**delete**](CaptionsAPI.md#deletevideosvideoidcaptionslanguage) | **DELETE** /videos/{videoId}/captions/{language} | Delete a caption
 [**list**](CaptionsAPI.md#getvideosvideoidcaptions) | **GET** /videos/{videoId}/captions | List video captions
-[**get**](CaptionsAPI.md#getvideosvideoidcaptionslanguage) | **GET** /videos/{videoId}/captions/{language} | Show a caption
-[**update**](CaptionsAPI.md#patchvideosvideoidcaptionslanguage) | **PATCH** /videos/{videoId}/captions/{language} | Update caption
+[**get**](CaptionsAPI.md#getvideosvideoidcaptionslanguage) | **GET** /videos/{videoId}/captions/{language} | Retrieve a caption
+[**update**](CaptionsAPI.md#patchvideosvideoidcaptionslanguage) | **PATCH** /videos/{videoId}/captions/{language} | Update a caption
 [**upload**](CaptionsAPI.md#postvideosvideoidcaptionslanguage) | **POST** /videos/{videoId}/captions/{language} | Upload a caption
 
 
@@ -124,9 +124,11 @@ Name | Type | Description  | Notes
     open class func get(videoId: String, language: String, completion: @escaping (_ data: Caption?, _ error: Error?) -> Void)
 ```
 
-Show a caption
+Retrieve a caption
 
-Display a caption for a video in a specific language. If the language is available, the caption is returned. Otherwise, you will get a response indicating the caption was not found. Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/captions).
+Retrieve a caption for a video in a specific language. If the language is available, the caption is returned. Otherwise, you will get a error indicating the caption was not found.
+
+Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/captions).
 
 
 ### Example
@@ -137,7 +139,7 @@ import ApiVideoClient
 let videoId = "videoId_example" // String | The unique identifier for the video you want captions for.
 let language = "language_example" // String | A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation
 
-// Show a caption
+// Retrieve a caption
 CaptionsAPI.get(videoId: videoId, language: language) { (response, error) in
     guard error == nil else {
         print(error)
@@ -177,9 +179,9 @@ Name | Type | Description  | Notes
     open class func update(videoId: String, language: String, captionsUpdatePayload: CaptionsUpdatePayload, completion: @escaping (_ data: Caption?, _ error: Error?) -> Void)
 ```
 
-Update caption
+Update a caption
 
-To have the captions on automatically, use this PATCH to set default: true.
+To have the captions on automatically, use this method to set default: true.
 
 
 ### Example
@@ -191,7 +193,7 @@ let videoId = "videoId_example" // String | The unique identifier for the video 
 let language = "language_example" // String | A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation.
 let captionsUpdatePayload = captions-update-payload(_default: false) // CaptionsUpdatePayload | 
 
-// Update caption
+// Update a caption
 CaptionsAPI.update(videoId: videoId, language: language, captionsUpdatePayload: captionsUpdatePayload) { (response, error) in
     guard error == nil else {
         print(error)
