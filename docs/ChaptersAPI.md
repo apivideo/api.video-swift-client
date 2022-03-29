@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**delete**](ChaptersAPI.md#deletevideosvideoidchapterslanguage) | **DELETE** /videos/{videoId}/chapters/{language} | Delete a chapter
 [**list**](ChaptersAPI.md#getvideosvideoidchapters) | **GET** /videos/{videoId}/chapters | List video chapters
-[**get**](ChaptersAPI.md#getvideosvideoidchapterslanguage) | **GET** /videos/{videoId}/chapters/{language} | Show a chapter
+[**get**](ChaptersAPI.md#getvideosvideoidchapterslanguage) | **GET** /videos/{videoId}/chapters/{language} | Retrieve a chapter
 [**upload**](ChaptersAPI.md#postvideosvideoidchapterslanguage) | **POST** /videos/{videoId}/chapters/{language} | Upload a chapter
 
 
@@ -16,6 +16,8 @@ Method | HTTP request | Description
 ```
 
 Delete a chapter
+
+Delete a chapter in a specific language by providing the video ID for the video you want to delete the chapter from and the language the chapter is in.
 
 
 ### Example
@@ -121,9 +123,9 @@ Name | Type | Description  | Notes
     open class func get(videoId: String, language: String, completion: @escaping (_ data: Chapter?, _ error: Error?) -> Void)
 ```
 
-Show a chapter
+Retrieve a chapter
 
-Chapters help your viewers find the sections of the video they are most interested in viewing. Tutorials that use the [chapters endpoint](https://api.video/blog/endpoints/chapters).
+Retrieve a chapter for a video in a specific language.  Chapters help your viewers find the sections of the video they are most interested in viewing. Tutorials that use the [chapters endpoint](https://api.video/blog/endpoints/chapters).
 
 
 ### Example
@@ -134,7 +136,7 @@ import ApiVideoClient
 let videoId = "videoId_example" // String | The unique identifier for the video you want to show a chapter for.
 let language = "language_example" // String | A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation.
 
-// Show a chapter
+// Retrieve a chapter
 ChaptersAPI.get(videoId: videoId, language: language) { (response, error) in
     guard error == nil else {
         print(error)
@@ -176,7 +178,7 @@ Name | Type | Description  | Notes
 
 Upload a chapter
 
-Chapters help break the video into sections. Read our [tutorial](https://api.video/blog/tutorials/adding-chapters-to-your-videos) for more details.
+Upload a VTT file to add chapters to your video. Chapters help break the video into sections. Read our [tutorial](https://api.video/blog/tutorials/adding-chapters-to-your-videos) for more details.
 
 
 ### Example

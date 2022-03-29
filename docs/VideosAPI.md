@@ -5,8 +5,8 @@ All URIs are relative to *https://ws.api.video*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**delete**](VideosAPI.md#deletevideo) | **DELETE** /videos/{videoId} | Delete a video
-[**get**](VideosAPI.md#getvideo) | **GET** /videos/{videoId} | Show a video
-[**getStatus**](VideosAPI.md#getvideostatus) | **GET** /videos/{videoId}/status | Show video status
+[**get**](VideosAPI.md#getvideo) | **GET** /videos/{videoId} | Retrieve a video
+[**getStatus**](VideosAPI.md#getvideostatus) | **GET** /videos/{videoId}/status | Retrieve video status
 [**list**](VideosAPI.md#listvideos) | **GET** /videos | List all videos
 [**update**](VideosAPI.md#patchvideo) | **PATCH** /videos/{videoId} | Update a video
 [**pickThumbnail**](VideosAPI.md#patchvideosvideoidthumbnail) | **PATCH** /videos/{videoId}/thumbnail | Pick a thumbnail
@@ -72,7 +72,7 @@ Void (empty response body)
     open class func get(videoId: String, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
 ```
 
-Show a video
+Retrieve a video
 
 This call provides the same information provided on video creation. For private videos, it will generate a unique token url. Use this to retrieve any details you need about a video, or set up a private viewing URL.
 
@@ -84,7 +84,7 @@ import ApiVideoClient
 
 let videoId = "videoId_example" // String | The unique identifier for the video you want details about.
 
-// Show a video
+// Retrieve a video
 VideosAPI.get(videoId: videoId) { (response, error) in
     guard error == nil else {
         print(error)
@@ -123,7 +123,7 @@ Name | Type | Description  | Notes
     open class func getStatus(videoId: String, completion: @escaping (_ data: VideoStatus?, _ error: Error?) -> Void)
 ```
 
-Show video status
+Retrieve video status
 
 This method provides upload status & encoding status to determine when the video is uploaded or ready to playback. Once encoding is completed, the response also lists the available stream qualities.
 
@@ -135,7 +135,7 @@ import ApiVideoClient
 
 let videoId = "videoId_example" // String | The unique identifier for the video you want the status for.
 
-// Show video status
+// Retrieve video status
 VideosAPI.getStatus(videoId: videoId) { (response, error) in
     guard error == nil else {
         print(error)
@@ -245,7 +245,10 @@ Update a video
 
 Updates the parameters associated with your video. The video you are updating is determined by the video ID you provide. 
 
+
+
 NOTE: If you are updating an array, you must provide the entire array as what you provide here overwrites what is in the system rather than appending to it.
+
 
 
 
@@ -301,9 +304,14 @@ Pick a thumbnail
 
 Pick a thumbnail from the given time code. 
 
+
+
 If you'd like to upload an image for your thumbnail, use the dedicated [method](#uploadThumbnail). 
 
+
+
 There may be a short delay for the thumbnail to update.
+
 
 
 
@@ -463,13 +471,22 @@ Upload a video
 
 To upload a video to the videoId you created. You can only upload your video to the videoId once.
 
+
+
 We offer 2 types of upload: 
+
 * Regular upload 
+
 * Progressive upload
+
 The latter allows you to split a video source into X chunks and send those chunks independently (concurrently or sequentially). The 2 main goals for our users are to
+
   * allow the upload of video sources > 200 MiB (200 MiB = the max. allowed file size for regular upload)
+
   * allow to send a video source "progressively", i.e., before before knowing the total size of the video.
+
   Once all chunks have been sent, they are reaggregated to one source file. The video source is considered as "completely sent" when the "last" chunk is sent (i.e., the chunk that "completes" the upload).
+
 
 
 
@@ -525,9 +542,15 @@ Upload a thumbnail
 
 The thumbnail is the poster that appears in the player window before video playback begins.
 
+
+
 This endpoint allows you to upload an image for the thumbnail.
 
+
+
 To select a still frame from the video using a time stamp, use the [dedicated method](#pickThumbnail) to pick a time in the video.
+
+
 
 Note: There may be a short delay before the new thumbnail is delivered to our CDN.
 

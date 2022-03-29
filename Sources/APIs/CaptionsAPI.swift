@@ -130,7 +130,7 @@ open class CaptionsAPI {
 
 
     /**
-     Show a caption
+     Retrieve a caption
      
      - parameter videoId: (path) The unique identifier for the video you want captions for. 
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation 
@@ -151,9 +151,11 @@ open class CaptionsAPI {
 
 
     /**
-     Show a caption
+     Retrieve a caption
      - GET /videos/{videoId}/captions/{language}
-     - Display a caption for a video in a specific language. If the language is available, the caption is returned. Otherwise, you will get a response indicating the caption was not found. Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/captions).
+     - Retrieve a caption for a video in a specific language. If the language is available, the caption is returned. Otherwise, you will get a error indicating the caption was not found.
+
+Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/captions).
      - BASIC:
        - type: http
        - name: bearerAuth
@@ -187,7 +189,7 @@ open class CaptionsAPI {
 
 
     /**
-     Update caption
+     Update a caption
      
      - parameter videoId: (path) The unique identifier for the video you want to have automatic captions for. 
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
@@ -209,9 +211,9 @@ open class CaptionsAPI {
 
 
     /**
-     Update caption
+     Update a caption
      - PATCH /videos/{videoId}/captions/{language}
-     - To have the captions on automatically, use this PATCH to set default: true.
+     - To have the captions on automatically, use this method to set default: true.
      - BASIC:
        - type: http
        - name: bearerAuth

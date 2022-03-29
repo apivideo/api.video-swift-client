@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**delete**](PlayerThemesAPI.md#deleteplayersplayerid) | **DELETE** /players/{playerId} | Delete a player
 [**deleteLogo**](PlayerThemesAPI.md#deleteplayersplayeridlogo) | **DELETE** /players/{playerId}/logo | Delete logo
 [**list**](PlayerThemesAPI.md#getplayers) | **GET** /players | List all player themes
-[**get**](PlayerThemesAPI.md#getplayersplayerid) | **GET** /players/{playerId} | Show a player
+[**get**](PlayerThemesAPI.md#getplayersplayerid) | **GET** /players/{playerId} | Retrieve a player
 [**update**](PlayerThemesAPI.md#patchplayersplayerid) | **PATCH** /players/{playerId} | Update a player
 [**create**](PlayerThemesAPI.md#postplayers) | **POST** /players | Create a player
 [**uploadLogo**](PlayerThemesAPI.md#postplayersplayeridlogo) | **POST** /players/{playerId}/logo | Upload a logo
@@ -70,6 +70,8 @@ Void (empty response body)
 ```
 
 Delete logo
+
+Delete the logo associated to a player.
 
 
 ### Example
@@ -175,7 +177,7 @@ Name | Type | Description  | Notes
     open class func get(playerId: String, completion: @escaping (_ data: PlayerTheme?, _ error: Error?) -> Void)
 ```
 
-Show a player
+Retrieve a player
 
 Use a player ID to retrieve details about the player and display it for viewers.
 
@@ -187,7 +189,7 @@ import ApiVideoClient
 
 let playerId = "playerId_example" // String | The unique identifier for the player you want to retrieve. 
 
-// Show a player
+// Retrieve a player
 PlayerThemesAPI.get(playerId: playerId) { (response, error) in
     guard error == nil else {
         print(error)
@@ -228,7 +230,7 @@ Name | Type | Description  | Notes
 
 Update a player
 
-Use a player ID to update specific details for a player. NOTE: It may take up to 10 min before the new player configuration is available from our CDN.
+Use a player ID to update specific details for a player.  NOTE: It may take up to 10 min before the new player configuration is available from our CDN.
 
 
 ### Example

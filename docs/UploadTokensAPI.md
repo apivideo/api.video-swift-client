@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**deleteToken**](UploadTokensAPI.md#deleteuploadtokensuploadtoken) | **DELETE** /upload-tokens/{uploadToken} | Delete an upload token
 [**list**](UploadTokensAPI.md#getuploadtokens) | **GET** /upload-tokens | List all active upload tokens.
-[**getToken**](UploadTokensAPI.md#getuploadtokensuploadtoken) | **GET** /upload-tokens/{uploadToken} | Show upload token
+[**getToken**](UploadTokensAPI.md#getuploadtokensuploadtoken) | **GET** /upload-tokens/{uploadToken} | Retrieve upload token
 [**createToken**](UploadTokensAPI.md#postuploadtokens) | **POST** /upload-tokens | Generate an upload token
 
 
@@ -123,7 +123,7 @@ Name | Type | Description  | Notes
     open class func getToken(uploadToken: String, completion: @escaping (_ data: UploadToken?, _ error: Error?) -> Void)
 ```
 
-Show upload token
+Retrieve upload token
 
 You can retrieve details about a specific upload token if you have the unique identifier for the upload token. Add it in the path of the endpoint. Details include time-to-live (ttl), when the token was created, and when it will expire.
 
@@ -135,7 +135,7 @@ import ApiVideoClient
 
 let uploadToken = "uploadToken_example" // String | The unique identifier for the token you want information about.
 
-// Show upload token
+// Retrieve upload token
 UploadTokensAPI.getToken(uploadToken: uploadToken) { (response, error) in
     guard error == nil else {
         print(error)

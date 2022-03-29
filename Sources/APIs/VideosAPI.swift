@@ -65,7 +65,7 @@ open class VideosAPI {
 
 
     /**
-     Show a video
+     Retrieve a video
      
      - parameter videoId: (path) The unique identifier for the video you want details about. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -85,7 +85,7 @@ open class VideosAPI {
 
 
     /**
-     Show a video
+     Retrieve a video
      - GET /videos/{videoId}
      - This call provides the same information provided on video creation. For private videos, it will generate a unique token url. Use this to retrieve any details you need about a video, or set up a private viewing URL.
      - BASIC:
@@ -117,7 +117,7 @@ open class VideosAPI {
 
 
     /**
-     Show video status
+     Retrieve video status
      
      - parameter videoId: (path) The unique identifier for the video you want the status for. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -137,7 +137,7 @@ open class VideosAPI {
 
 
     /**
-     Show video status
+     Retrieve video status
      - GET /videos/{videoId}/status
      - This method provides upload status & encoding status to determine when the video is uploaded or ready to playback. Once encoding is completed, the response also lists the available stream qualities.
      - BASIC:
@@ -270,7 +270,10 @@ open class VideosAPI {
      - PATCH /videos/{videoId}
      - Updates the parameters associated with your video. The video you are updating is determined by the video ID you provide. 
 
+
+
 NOTE: If you are updating an array, you must provide the entire array as what you provide here overwrites what is in the system rather than appending to it.
+
 
      - BASIC:
        - type: http
@@ -327,9 +330,14 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      - PATCH /videos/{videoId}/thumbnail
      - Pick a thumbnail from the given time code. 
 
+
+
 If you'd like to upload an image for your thumbnail, use the dedicated [method](#uploadThumbnail). 
 
+
+
 There may be a short delay for the thumbnail to update.
+
 
      - BASIC:
        - type: http
@@ -703,13 +711,22 @@ There may be a short delay for the thumbnail to update.
      - POST /videos/{videoId}/source
      - To upload a video to the videoId you created. You can only upload your video to the videoId once.
 
+
+
 We offer 2 types of upload: 
+
 * Regular upload 
+
 * Progressive upload
+
 The latter allows you to split a video source into X chunks and send those chunks independently (concurrently or sequentially). The 2 main goals for our users are to
+
   * allow the upload of video sources > 200 MiB (200 MiB = the max. allowed file size for regular upload)
+
   * allow to send a video source "progressively", i.e., before before knowing the total size of the video.
+
   Once all chunks have been sent, they are reaggregated to one source file. The video source is considered as "completely sent" when the "last" chunk is sent (i.e., the chunk that "completes" the upload).
+
 
      - BASIC:
        - type: http
@@ -749,13 +766,22 @@ The latter allows you to split a video source into X chunks and send those chunk
      - POST /videos/{videoId}/source
      - To upload a video to the videoId you created. You can only upload your video to the videoId once.
 
+
+
 We offer 2 types of upload: 
+
 * Regular upload 
+
 * Progressive upload
+
 The latter allows you to split a video source into X chunks and send those chunks independently (concurrently or sequentially). The 2 main goals for our users are to
+
   * allow the upload of video sources > 200 MiB (200 MiB = the max. allowed file size for regular upload)
+
   * allow to send a video source "progressively", i.e., before before knowing the total size of the video.
+
   Once all chunks have been sent, they are reaggregated to one source file. The video source is considered as "completely sent" when the "last" chunk is sent (i.e., the chunk that "completes" the upload).
+
 
      - BASIC:
        - type: http
@@ -831,9 +857,15 @@ The latter allows you to split a video source into X chunks and send those chunk
      - POST /videos/{videoId}/thumbnail
      - The thumbnail is the poster that appears in the player window before video playback begins.
 
+
+
 This endpoint allows you to upload an image for the thumbnail.
 
+
+
 To select a still frame from the video using a time stamp, use the [dedicated method](#pickThumbnail) to pick a time in the video.
+
+
 
 Note: There may be a short delay before the new thumbnail is delivered to our CDN.
      - BASIC:

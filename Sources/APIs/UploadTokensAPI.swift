@@ -142,7 +142,7 @@ open class UploadTokensAPI {
 
 
     /**
-     Show upload token
+     Retrieve upload token
      
      - parameter uploadToken: (path) The unique identifier for the token you want information about. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -162,7 +162,7 @@ open class UploadTokensAPI {
 
 
     /**
-     Show upload token
+     Retrieve upload token
      - GET /upload-tokens/{uploadToken}
      - You can retrieve details about a specific upload token if you have the unique identifier for the upload token. Add it in the path of the endpoint. Details include time-to-live (ttl), when the token was created, and when it will expire.
      - BASIC:
