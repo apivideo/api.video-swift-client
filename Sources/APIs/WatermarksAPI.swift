@@ -13,6 +13,59 @@ import AnyCodable
 open class WatermarksAPI {
 
     /**
+     Upload a watermark
+     
+     - parameter file: (form) The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func upload(file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Watermark?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return uploadWithRequestBuilder(file: file).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Upload a watermark
+     - POST /watermarks
+     - Create a new watermark by uploading a `JPG` or a `PNG` image. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter file: (form) The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. 
+     - returns: RequestBuilder<Watermark> 
+     */
+    open class func uploadWithRequestBuilder(file: URL) -> RequestBuilder<Watermark> {
+        let localVariablePath = "/watermarks"
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableFormParams: [String: Any?] = [
+            "file": file.encodeToJSON(),
+        ]
+        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "multipart/form-data",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Watermark>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
      Delete a watermark
      
      - parameter watermarkId: (path) The watermark ID for the watermark you want to delete. 
@@ -122,59 +175,6 @@ open class WatermarksAPI {
         let localVariableRequestBuilder: RequestBuilder<WatermarksListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Upload a watermark
-     
-     - parameter file: (form) The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func upload(file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Watermark?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return uploadWithRequestBuilder(file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Upload a watermark
-     - POST /watermarks
-     - Create a new watermark by uploading a `JPG` or a `PNG` image. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter file: (form) The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. 
-     - returns: RequestBuilder<Watermark> 
-     */
-    open class func uploadWithRequestBuilder(file: URL) -> RequestBuilder<Watermark> {
-        let localVariablePath = "/watermarks"
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "file": file.encodeToJSON(),
-        ]
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Watermark>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 }

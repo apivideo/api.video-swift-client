@@ -13,139 +13,15 @@ import AnyCodable
 open class PlayerThemesAPI {
 
     /**
-     Delete a player
+     Create a player
      
-     - parameter playerId: (path) The unique identifier for the player you want to delete. 
+     - parameter playerThemeCreationPayload: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func delete(playerId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return deleteWithRequestBuilder(playerId: playerId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Delete a player
-     - DELETE /players/{playerId}
-     - Delete a player if you no longer need it. You can delete any player that you have the player ID for.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter playerId: (path) The unique identifier for the player you want to delete. 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func deleteWithRequestBuilder(playerId: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/players/{playerId}"
-        let playerIdPreEscape = "\(APIHelper.mapValueToPathItem(playerId))"
-        let playerIdPostEscape = playerIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{playerId}", with: playerIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Delete logo
-     
-     - parameter playerId: (path) The unique identifier for the player. 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func deleteLogo(playerId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return deleteLogoWithRequestBuilder(playerId: playerId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Delete logo
-     - DELETE /players/{playerId}/logo
-     - Delete the logo associated to a player.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter playerId: (path) The unique identifier for the player. 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func deleteLogoWithRequestBuilder(playerId: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/players/{playerId}/logo"
-        let playerIdPreEscape = "\(APIHelper.mapValueToPathItem(playerId))"
-        let playerIdPostEscape = playerIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{playerId}", with: playerIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     * enum for parameter sortBy
-     */
-    public enum SortBy_list: String, CaseIterable {
-        case name = "name"
-        case createdat = "createdAt"
-        case updatedat = "updatedAt"
-    }
-
-    /**
-     * enum for parameter sortOrder
-     */
-    public enum SortOrder_list: String, CaseIterable {
-        case asc = "asc"
-        case desc = "desc"
-    }
-
-    /**
-     List all player themes
-     
-     - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. (optional)
-     - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. (optional)
-     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
-     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerThemesListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return listWithRequestBuilder(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
+    open class func create(playerThemeCreationPayload: PlayerThemeCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerTheme?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return createWithRequestBuilder(playerThemeCreationPayload: playerThemeCreationPayload).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     completion(response.body, nil)
@@ -157,30 +33,21 @@ open class PlayerThemesAPI {
 
 
     /**
-     List all player themes
-     - GET /players
-     - Retrieve a list of all the player themes you created, as well as details about each one. Tutorials that use the [player endpoint](https://api.video/blog/endpoints/player).
+     Create a player
+     - POST /players
+     - Create a player for your video, and customise it.
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. (optional)
-     - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. (optional)
-     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
-     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
-     - returns: RequestBuilder<PlayerThemesListResponse> 
+     - parameter playerThemeCreationPayload: (body)  
+     - returns: RequestBuilder<PlayerTheme> 
      */
-    open class func listWithRequestBuilder(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<PlayerThemesListResponse> {
+    open class func createWithRequestBuilder(playerThemeCreationPayload: PlayerThemeCreationPayload) -> RequestBuilder<PlayerTheme> {
         let localVariablePath = "/players"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: playerThemeCreationPayload)
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "sortBy": sortBy?.encodeToJSON(),
-            "sortOrder": sortOrder?.encodeToJSON(),
-            "currentPage": currentPage?.encodeToJSON(),
-            "pageSize": pageSize?.encodeToJSON(),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
             :
@@ -188,9 +55,9 @@ open class PlayerThemesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PlayerThemesListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PlayerTheme>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 
@@ -301,15 +168,87 @@ open class PlayerThemesAPI {
 
 
     /**
-     Create a player
+     Delete a player
      
-     - parameter playerThemeCreationPayload: (body)  
+     - parameter playerId: (path) The unique identifier for the player you want to delete. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func create(playerThemeCreationPayload: PlayerThemeCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerTheme?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return createWithRequestBuilder(playerThemeCreationPayload: playerThemeCreationPayload).execute(apiResponseQueue) { result in
+    open class func delete(playerId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return deleteWithRequestBuilder(playerId: playerId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Delete a player
+     - DELETE /players/{playerId}
+     - Delete a player if you no longer need it. You can delete any player that you have the player ID for.
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter playerId: (path) The unique identifier for the player you want to delete. 
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteWithRequestBuilder(playerId: String) -> RequestBuilder<Void> {
+        var localVariablePath = "/players/{playerId}"
+        let playerIdPreEscape = "\(APIHelper.mapValueToPathItem(playerId))"
+        let playerIdPostEscape = playerIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{playerId}", with: playerIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     * enum for parameter sortBy
+     */
+    public enum SortBy_list: String, CaseIterable {
+        case name = "name"
+        case createdat = "createdAt"
+        case updatedat = "updatedAt"
+    }
+
+    /**
+     * enum for parameter sortOrder
+     */
+    public enum SortOrder_list: String, CaseIterable {
+        case asc = "asc"
+        case desc = "desc"
+    }
+
+    /**
+     List all player themes
+     
+     - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. (optional)
+     - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerThemesListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return listWithRequestBuilder(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     completion(response.body, nil)
@@ -321,21 +260,30 @@ open class PlayerThemesAPI {
 
 
     /**
-     Create a player
-     - POST /players
-     - Create a player for your video, and customise it.
+     List all player themes
+     - GET /players
+     - Retrieve a list of all the player themes you created, as well as details about each one. Tutorials that use the [player endpoint](https://api.video/blog/endpoints/player).
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter playerThemeCreationPayload: (body)  
-     - returns: RequestBuilder<PlayerTheme> 
+     - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. (optional)
+     - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - returns: RequestBuilder<PlayerThemesListResponse> 
      */
-    open class func createWithRequestBuilder(playerThemeCreationPayload: PlayerThemeCreationPayload) -> RequestBuilder<PlayerTheme> {
+    open class func listWithRequestBuilder(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<PlayerThemesListResponse> {
         let localVariablePath = "/players"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: playerThemeCreationPayload)
+        let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "sortBy": sortBy?.encodeToJSON(),
+            "sortOrder": sortOrder?.encodeToJSON(),
+            "currentPage": currentPage?.encodeToJSON(),
+            "pageSize": pageSize?.encodeToJSON(),
+        ])
 
         let localVariableNillableHeaders: [String: Any?] = [
             :
@@ -343,9 +291,9 @@ open class PlayerThemesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PlayerTheme>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PlayerThemesListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 
@@ -407,6 +355,58 @@ open class PlayerThemesAPI {
         let localVariableRequestBuilder: RequestBuilder<PlayerTheme>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     Delete logo
+     
+     - parameter playerId: (path) The unique identifier for the player. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func deleteLogo(playerId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return deleteLogoWithRequestBuilder(playerId: playerId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Delete logo
+     - DELETE /players/{playerId}/logo
+     - Delete the logo associated to a player.
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter playerId: (path) The unique identifier for the player. 
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteLogoWithRequestBuilder(playerId: String) -> RequestBuilder<Void> {
+        var localVariablePath = "/players/{playerId}/logo"
+        let playerIdPreEscape = "\(APIHelper.mapValueToPathItem(playerId))"
+        let playerIdPostEscape = playerIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{playerId}", with: playerIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 }

@@ -4,21 +4,21 @@ All URIs are relative to *https://ws.api.video*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete**](CaptionsAPI.md#deletevideosvideoidcaptionslanguage) | **DELETE** /videos/{videoId}/captions/{language} | Delete a caption
-[**list**](CaptionsAPI.md#getvideosvideoidcaptions) | **GET** /videos/{videoId}/captions | List video captions
+[**upload**](CaptionsAPI.md#postvideosvideoidcaptionslanguage) | **POST** /videos/{videoId}/captions/{language} | Upload a caption
 [**get**](CaptionsAPI.md#getvideosvideoidcaptionslanguage) | **GET** /videos/{videoId}/captions/{language} | Retrieve a caption
 [**update**](CaptionsAPI.md#patchvideosvideoidcaptionslanguage) | **PATCH** /videos/{videoId}/captions/{language} | Update a caption
-[**upload**](CaptionsAPI.md#postvideosvideoidcaptionslanguage) | **POST** /videos/{videoId}/captions/{language} | Upload a caption
+[**delete**](CaptionsAPI.md#deletevideosvideoidcaptionslanguage) | **DELETE** /videos/{videoId}/captions/{language} | Delete a caption
+[**list**](CaptionsAPI.md#getvideosvideoidcaptions) | **GET** /videos/{videoId}/captions | List video captions
 
 
-# **delete**
+# **upload**
 ```swift
-    open class func delete(videoId: String, language: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func upload(videoId: String, language: String, file: URL, completion: @escaping (_ data: Caption?, _ error: Error?) -> Void)
 ```
 
-Delete a caption
+Upload a caption
 
-Delete a caption in a specific language by providing the video ID for the video you want to delete the caption from and the language the caption is in.
+Upload a VTT file to add captions to your video.  Read our [captioning tutorial](https://api.video/blog/tutorials/adding-captions) for more details.
 
 
 ### Example
@@ -26,11 +26,12 @@ Delete a caption in a specific language by providing the video ID for the video 
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let videoId = "videoId_example" // String | The unique identifier for the video you want to delete a caption from.
-let language = "language_example" // String | A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation.
+let videoId = "videoId_example" // String | The unique identifier for the video you want to add a caption to.
+let language = "language_example" // String | A valid BCP 47 language representation.
+let file = URL(string: "https://example.com")! // URL | The video text track (VTT) you want to upload.
 
-// Delete a caption
-CaptionsAPI.delete(videoId: videoId, language: language) { (response, error) in
+// Upload a caption
+CaptionsAPI.upload(videoId: videoId, language: language, file: file) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -46,12 +47,13 @@ CaptionsAPI.delete(videoId: videoId, language: language) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **videoId** | **String** | The unique identifier for the video you want to delete a caption from. | 
- **language** | **String** | A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. | 
+ **videoId** | **String** | The unique identifier for the video you want to add a caption to. | 
+ **language** | **String** | A valid BCP 47 language representation. | 
+ **file** | **URL** | The video text track (VTT) you want to upload. | 
 
 ### Return type
 
-Void (empty response body)
+[**Caption**](Caption.md)
 
 ### Authorization
 
@@ -59,62 +61,7 @@ Void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **list**
-```swift
-    open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: CaptionsListResponse?, _ error: Error?) -> Void)
-```
-
-List video captions
-
-Retrieve a list of available captions for the videoId you provide.
-
-
-### Example
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import ApiVideoClient
-
-let videoId = "videoId_example" // String | The unique identifier for the video you want to retrieve a list of captions for.
-let currentPage = 987 // Int | Choose the number of search results to return per page. Minimum value: 1 (optional) (default to 1)
-let pageSize = 987 // Int | Results per page. Allowed values 1-100, default is 25. (optional) (default to 25)
-
-// List video captions
-CaptionsAPI.list(videoId: videoId, currentPage: currentPage, pageSize: pageSize) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **videoId** | **String** | The unique identifier for the video you want to retrieve a list of captions for. | 
- **currentPage** | **Int** | Choose the number of search results to return per page. Minimum value: 1 | [optional] [default to 1]
- **pageSize** | **Int** | Results per page. Allowed values 1-100, default is 25. | [optional] [default to 25]
-
-### Return type
-
-[**CaptionsListResponse**](CaptionsListResponse.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
+ - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -229,14 +176,14 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **upload**
+# **delete**
 ```swift
-    open class func upload(videoId: String, language: String, file: URL, completion: @escaping (_ data: Caption?, _ error: Error?) -> Void)
+    open class func delete(videoId: String, language: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
-Upload a caption
+Delete a caption
 
-Upload a VTT file to add captions to your video.  Read our [captioning tutorial](https://api.video/blog/tutorials/adding-captions) for more details.
+Delete a caption in a specific language by providing the video ID for the video you want to delete the caption from and the language the caption is in.
 
 
 ### Example
@@ -244,12 +191,11 @@ Upload a VTT file to add captions to your video.  Read our [captioning tutorial]
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let videoId = "videoId_example" // String | The unique identifier for the video you want to add a caption to.
-let language = "language_example" // String | A valid BCP 47 language representation.
-let file = URL(string: "https://example.com")! // URL | The video text track (VTT) you want to upload.
+let videoId = "videoId_example" // String | The unique identifier for the video you want to delete a caption from.
+let language = "language_example" // String | A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation.
 
-// Upload a caption
-CaptionsAPI.upload(videoId: videoId, language: language, file: file) { (response, error) in
+// Delete a caption
+CaptionsAPI.delete(videoId: videoId, language: language) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -265,13 +211,12 @@ CaptionsAPI.upload(videoId: videoId, language: language, file: file) { (response
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **videoId** | **String** | The unique identifier for the video you want to add a caption to. | 
- **language** | **String** | A valid BCP 47 language representation. | 
- **file** | **URL** | The video text track (VTT) you want to upload. | 
+ **videoId** | **String** | The unique identifier for the video you want to delete a caption from. | 
+ **language** | **String** | A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. | 
 
 ### Return type
 
-[**Caption**](Caption.md)
+Void (empty response body)
 
 ### Authorization
 
@@ -279,7 +224,62 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **list**
+```swift
+    open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: CaptionsListResponse?, _ error: Error?) -> Void)
+```
+
+List video captions
+
+Retrieve a list of available captions for the videoId you provide.
+
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ApiVideoClient
+
+let videoId = "videoId_example" // String | The unique identifier for the video you want to retrieve a list of captions for.
+let currentPage = 987 // Int | Choose the number of search results to return per page. Minimum value: 1 (optional) (default to 1)
+let pageSize = 987 // Int | Results per page. Allowed values 1-100, default is 25. (optional) (default to 25)
+
+// List video captions
+CaptionsAPI.list(videoId: videoId, currentPage: currentPage, pageSize: pageSize) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **videoId** | **String** | The unique identifier for the video you want to retrieve a list of captions for. | 
+ **currentPage** | **Int** | Choose the number of search results to return per page. Minimum value: 1 | [optional] [default to 1]
+ **pageSize** | **Int** | Results per page. Allowed values 1-100, default is 25. | [optional] [default to 25]
+
+### Return type
+
+[**CaptionsListResponse**](CaptionsListResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

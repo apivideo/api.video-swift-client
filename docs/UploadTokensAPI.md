@@ -4,11 +4,113 @@ All URIs are relative to *https://ws.api.video*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**createToken**](UploadTokensAPI.md#postuploadtokens) | **POST** /upload-tokens | Generate an upload token
+[**getToken**](UploadTokensAPI.md#getuploadtokensuploadtoken) | **GET** /upload-tokens/{uploadToken} | Retrieve upload token
 [**deleteToken**](UploadTokensAPI.md#deleteuploadtokensuploadtoken) | **DELETE** /upload-tokens/{uploadToken} | Delete an upload token
 [**list**](UploadTokensAPI.md#getuploadtokens) | **GET** /upload-tokens | List all active upload tokens.
-[**getToken**](UploadTokensAPI.md#getuploadtokensuploadtoken) | **GET** /upload-tokens/{uploadToken} | Retrieve upload token
-[**createToken**](UploadTokensAPI.md#postuploadtokens) | **POST** /upload-tokens | Generate an upload token
 
+
+# **createToken**
+```swift
+    open class func createToken(tokenCreationPayload: TokenCreationPayload, completion: @escaping (_ data: UploadToken?, _ error: Error?) -> Void)
+```
+
+Generate an upload token
+
+Use this endpoint to generate an upload token. You can use this token to authenticate video uploads while keeping your API key safe. Tutorials using [delegated upload](https://api.video/blog/endpoints/delegated-upload).
+
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ApiVideoClient
+
+let tokenCreationPayload = token-creation-payload(ttl: 123) // TokenCreationPayload | 
+
+// Generate an upload token
+UploadTokensAPI.createToken(tokenCreationPayload: tokenCreationPayload) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **tokenCreationPayload** | [**TokenCreationPayload**](TokenCreationPayload.md) |  | 
+
+### Return type
+
+[**UploadToken**](UploadToken.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getToken**
+```swift
+    open class func getToken(uploadToken: String, completion: @escaping (_ data: UploadToken?, _ error: Error?) -> Void)
+```
+
+Retrieve upload token
+
+You can retrieve details about a specific upload token if you have the unique identifier for the upload token. Add it in the path of the endpoint. Details include time-to-live (ttl), when the token was created, and when it will expire.
+
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ApiVideoClient
+
+let uploadToken = "uploadToken_example" // String | The unique identifier for the token you want information about.
+
+// Retrieve upload token
+UploadTokensAPI.getToken(uploadToken: uploadToken) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **uploadToken** | **String** | The unique identifier for the token you want information about. | 
+
+### Return type
+
+[**UploadToken**](UploadToken.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **deleteToken**
 ```swift
@@ -114,108 +216,6 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getToken**
-```swift
-    open class func getToken(uploadToken: String, completion: @escaping (_ data: UploadToken?, _ error: Error?) -> Void)
-```
-
-Retrieve upload token
-
-You can retrieve details about a specific upload token if you have the unique identifier for the upload token. Add it in the path of the endpoint. Details include time-to-live (ttl), when the token was created, and when it will expire.
-
-
-### Example
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import ApiVideoClient
-
-let uploadToken = "uploadToken_example" // String | The unique identifier for the token you want information about.
-
-// Retrieve upload token
-UploadTokensAPI.getToken(uploadToken: uploadToken) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **uploadToken** | **String** | The unique identifier for the token you want information about. | 
-
-### Return type
-
-[**UploadToken**](UploadToken.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **createToken**
-```swift
-    open class func createToken(tokenCreationPayload: TokenCreationPayload, completion: @escaping (_ data: UploadToken?, _ error: Error?) -> Void)
-```
-
-Generate an upload token
-
-Use this endpoint to generate an upload token. You can use this token to authenticate video uploads while keeping your API key safe. Tutorials using [delegated upload](https://api.video/blog/endpoints/delegated-upload).
-
-
-### Example
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import ApiVideoClient
-
-let tokenCreationPayload = token-creation-payload(ttl: 123) // TokenCreationPayload | 
-
-// Generate an upload token
-UploadTokensAPI.createToken(tokenCreationPayload: tokenCreationPayload) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tokenCreationPayload** | [**TokenCreationPayload**](TokenCreationPayload.md) |  | 
-
-### Return type
-
-[**UploadToken**](UploadToken.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

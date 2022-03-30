@@ -13,554 +13,6 @@ import AnyCodable
 open class VideosAPI {
 
     /**
-     Delete a video
-     
-     - parameter videoId: (path) The video ID for the video you want to delete. 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func delete(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return deleteWithRequestBuilder(videoId: videoId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Delete a video
-     - DELETE /videos/{videoId}
-     - If you do not need a video any longer, you can send a request to delete it. All you need is the videoId.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter videoId: (path) The video ID for the video you want to delete. 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func deleteWithRequestBuilder(videoId: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/videos/{videoId}"
-        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
-        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Retrieve a video
-     
-     - parameter videoId: (path) The unique identifier for the video you want details about. 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func get(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return getWithRequestBuilder(videoId: videoId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Retrieve a video
-     - GET /videos/{videoId}
-     - This call provides the same information provided on video creation. For private videos, it will generate a unique token url. Use this to retrieve any details you need about a video, or set up a private viewing URL.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter videoId: (path) The unique identifier for the video you want details about. 
-     - returns: RequestBuilder<Video> 
-     */
-    open class func getWithRequestBuilder(videoId: String) -> RequestBuilder<Video> {
-        var localVariablePath = "/videos/{videoId}"
-        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
-        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Retrieve video status
-     
-     - parameter videoId: (path) The unique identifier for the video you want the status for. 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func getStatus(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: VideoStatus?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return getStatusWithRequestBuilder(videoId: videoId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Retrieve video status
-     - GET /videos/{videoId}/status
-     - This method provides upload status & encoding status to determine when the video is uploaded or ready to playback. Once encoding is completed, the response also lists the available stream qualities.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter videoId: (path) The unique identifier for the video you want the status for. 
-     - returns: RequestBuilder<VideoStatus> 
-     */
-    open class func getStatusWithRequestBuilder(videoId: String) -> RequestBuilder<VideoStatus> {
-        var localVariablePath = "/videos/{videoId}/status"
-        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
-        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<VideoStatus>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     List all videos
-     
-     - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
-     - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
-     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) allows you to define a key that allows any value pair. (optional)
-     - parameter description: (query) If you described a video with a term or sentence, you can add it here to return videos containing this string. (optional)
-     - parameter liveStreamId: (query) If you know the ID for a live stream, you can retrieve the stream by adding the ID for it here. (optional)
-     - parameter sortBy: (query) Allowed: publishedAt, title. You can search by the time videos were published at, or by title. (optional)
-     - parameter sortOrder: (query) Allowed: asc, desc. asc is ascending and sorts from A to Z. desc is descending and sorts from Z to A. (optional)
-     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
-     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: VideosListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return listWithRequestBuilder(title: title, tags: tags, metadata: metadata, description: description, liveStreamId: liveStreamId, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     List all videos
-     - GET /videos
-     - This method returns a list of your videos (with all their details). With no parameters added, the API returns the first page of all videos. You can filter videos using the parameters described below.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
-     - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
-     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) allows you to define a key that allows any value pair. (optional)
-     - parameter description: (query) If you described a video with a term or sentence, you can add it here to return videos containing this string. (optional)
-     - parameter liveStreamId: (query) If you know the ID for a live stream, you can retrieve the stream by adding the ID for it here. (optional)
-     - parameter sortBy: (query) Allowed: publishedAt, title. You can search by the time videos were published at, or by title. (optional)
-     - parameter sortOrder: (query) Allowed: asc, desc. asc is ascending and sorts from A to Z. desc is descending and sorts from Z to A. (optional)
-     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
-     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
-     - returns: RequestBuilder<VideosListResponse> 
-     */
-    open class func listWithRequestBuilder(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<VideosListResponse> {
-        let localVariablePath = "/videos"
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "title": title?.encodeToJSON(),
-            "tags[]": tags?.encodeToJSON(),
-            "metadata": metadata?.encodeToJSON(),
-            "description": description?.encodeToJSON(),
-            "liveStreamId": liveStreamId?.encodeToJSON(),
-            "sortBy": sortBy?.encodeToJSON(),
-            "sortOrder": sortOrder?.encodeToJSON(),
-            "currentPage": currentPage?.encodeToJSON(),
-            "pageSize": pageSize?.encodeToJSON(),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<VideosListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Update a video
-     
-     - parameter videoId: (path) The video ID for the video you want to delete. 
-     - parameter videoUpdatePayload: (body)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func update(videoId: String, videoUpdatePayload: VideoUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return updateWithRequestBuilder(videoId: videoId, videoUpdatePayload: videoUpdatePayload).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Update a video
-     - PATCH /videos/{videoId}
-     - Updates the parameters associated with your video. The video you are updating is determined by the video ID you provide. 
-
-
-
-NOTE: If you are updating an array, you must provide the entire array as what you provide here overwrites what is in the system rather than appending to it.
-
-
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter videoId: (path) The video ID for the video you want to delete. 
-     - parameter videoUpdatePayload: (body)  
-     - returns: RequestBuilder<Video> 
-     */
-    open class func updateWithRequestBuilder(videoId: String, videoUpdatePayload: VideoUpdatePayload) -> RequestBuilder<Video> {
-        var localVariablePath = "/videos/{videoId}"
-        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
-        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: videoUpdatePayload)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Pick a thumbnail
-     
-     - parameter videoId: (path) Unique identifier of the video you want to add a thumbnail to, where you use a section of your video as the thumbnail. 
-     - parameter videoThumbnailPickPayload: (body)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func pickThumbnail(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return pickThumbnailWithRequestBuilder(videoId: videoId, videoThumbnailPickPayload: videoThumbnailPickPayload).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Pick a thumbnail
-     - PATCH /videos/{videoId}/thumbnail
-     - Pick a thumbnail from the given time code. 
-
-
-
-If you'd like to upload an image for your thumbnail, use the dedicated [method](#uploadThumbnail). 
-
-
-
-There may be a short delay for the thumbnail to update.
-
-
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter videoId: (path) Unique identifier of the video you want to add a thumbnail to, where you use a section of your video as the thumbnail. 
-     - parameter videoThumbnailPickPayload: (body)  
-     - returns: RequestBuilder<Video> 
-     */
-    open class func pickThumbnailWithRequestBuilder(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload) -> RequestBuilder<Video> {
-        var localVariablePath = "/videos/{videoId}/thumbnail"
-        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
-        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: videoThumbnailPickPayload)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Upload with an upload token
-     
-     - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
-     - parameter file: (form) The path to the video you want to upload. 
-     - parameter onProgressReady: progress handler to receive request progress.
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func uploadWithUploadToken(token: String, file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
-        let fileReader: FileChunksReader
-        do {
-            fileReader = try FileChunksReader(fileURL: file.encodeToJSON() as! URL)
-        } catch {
-            completion(nil, error)
-            return nil
-        }
-        if (fileReader.getTotalNumberOfChunks() == 1) {
-            return uploadWithUploadTokenWithRequestBuilder(token: token, file: file, onProgressReady: onProgressReady).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-        } else {
-            return uploadWithUploadToken(token: token, file: fileReader, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
-        }
-    }
-
-    /**
-     Upload with an upload token
-     
-     - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
-     - parameter file: (form) The reader that constains file chunks 
-     - parameter onProgressReady: progress handler to receive request progress.
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    private class func uploadWithUploadToken(token: String, file: ChunksReader, videoId: String? = nil, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
-        return uploadWithUploadTokenWithRequestBuilder(token: token, file: file, videoId: videoId, onProgressReady: onProgressReady).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                if (file.remainingNumberOfChunks == 0) {
-                    completion(response.body, nil)
-                } else {
-                    uploadWithUploadToken(token: token, file: file, videoId: response.body.videoId, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
-                }
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     * Create a progressive uploadWithUploadToken session
-     *
-     * - returns: a progressive uploadWithUploadToken session
-     */
-    open class func buildProgressiveUploadWithUploadTokenSession(token: String) -> ProgressiveUploadWithUploadTokenSession {
-        return ProgressiveUploadWithUploadTokenSession(token: token)
-    }
-   
-    open class ProgressiveUploadWithUploadTokenSession: ProgressiveUploadSessioning {
-        private var partId = 1
-        private var fileReader = FilePartsReader()
-        private var videoId: String? = nil
-        
-        private var token: String
-
-        public init(token: String) {
-            self.token = token
-        }
-        
-        public func uploadPart(file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return uploadPart(file: file, isLastPart: false, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
-        }
-        
-        public func uploadLastPart(file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return uploadPart(file: file, isLastPart: true, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
-        }
-        
-        private func uploadPart(file: URL, isLastPart: Bool, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            do {
-                try fileReader.append(fileURL: file, isLastPart: isLastPart)
-            } catch {
-                completion(nil, error)
-                return nil
-            }
-            return uploadWithUploadToken(token: self.token, file: fileReader, videoId: self.videoId, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: { video, error in
-                if let video = video {
-                    self.videoId = video.videoId
-                }
-                completion(video, error)
-            })
-        }
-    }
-
-
-
-    /**
-     Upload with an upload token
-     - POST /upload
-     - This method allows you to send a video using an upload token. Upload tokens are especially useful when the upload is done from the client side. If you want to upload a video from your server-side application, you'd better use the [standard upload method](#upload).
-     - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
-     - parameter file: (form) The path to the video you want to upload. 
-     - parameter onProgressReady: progress handler to receive request progress.
-     - returns: RequestBuilder<Video> 
-     */
-    open class func uploadWithUploadTokenWithRequestBuilder(token: String, file: URL, videoId: String? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
-        let localVariablePath = "/upload"
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        var localVariableFormParams: [String: Any?] = [
-            "file": file.encodeToJSON(),
-        ]
-        if (videoId != nil) {
-            localVariableFormParams["videoId"] = videoId
-        }
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "token": token.encodeToJSON(),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, onProgressReady: onProgressReady)
-    }
-
-      /**
-     Upload with an upload token
-     - POST /upload
-     - This method allows you to send a video using an upload token. Upload tokens are especially useful when the upload is done from the client side. If you want to upload a video from your server-side application, you'd better use the [standard upload method](#upload).
-     - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
-     - parameter file: (form) The path to the video you want to upload. 
-     - parameter onProgressReady: progress handler to receive request progress.
-     - returns: RequestBuilder<Video> 
-     */
-    private class func uploadWithUploadTokenWithRequestBuilder(token: String, file: ChunksReader, videoId: String? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
-        let localVariablePath = "/upload"
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let nextChunk = file.getNextChunk()
-        var localVariableFormParams: [String: Any?] = [
-            "file": nextChunk.chunk
-        ]
-        if (videoId != nil) {
-            localVariableFormParams["videoId"] = videoId
-        }
-
-        let chunkId = nextChunk.index
-        let totalNumberOfChunks: Int? = file.getTotalNumberOfChunks()
-
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "token": token.encodeToJSON(),
-        ])
-
-        var localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
-        ]
-        localVariableNillableHeaders["Content-Range"] = "part \(chunkId)/" +  (totalNumberOfChunks != nil ? "\(totalNumberOfChunks!)" : "*")
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, onProgressReady: { progress in
-            if let fileSize = file.fileSize {
-                let diff = progress.totalUnitCount - Int64(nextChunk.chunk.maxSize)
-                progress.totalUnitCount = fileSize
-                progress.completedUnitCount = Int64((chunkId - 1) * ApiVideoClient.getChunkSize()) + progress.completedUnitCount - diff
-            }
-            if let onProgressReady = onProgressReady {
-                onProgressReady(progress)
-            }
-        })
-    }
-
-    /**
      Create a video
      
      - parameter videoCreationPayload: (body) video to create 
@@ -832,6 +284,438 @@ The latter allows you to split a video source into X chunks and send those chunk
     }
 
     /**
+     Upload with an upload token
+     
+     - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
+     - parameter file: (form) The path to the video you want to upload. 
+     - parameter onProgressReady: progress handler to receive request progress.
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func uploadWithUploadToken(token: String, file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
+        let fileReader: FileChunksReader
+        do {
+            fileReader = try FileChunksReader(fileURL: file.encodeToJSON() as! URL)
+        } catch {
+            completion(nil, error)
+            return nil
+        }
+        if (fileReader.getTotalNumberOfChunks() == 1) {
+            return uploadWithUploadTokenWithRequestBuilder(token: token, file: file, onProgressReady: onProgressReady).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+        } else {
+            return uploadWithUploadToken(token: token, file: fileReader, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
+        }
+    }
+
+    /**
+     Upload with an upload token
+     
+     - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
+     - parameter file: (form) The reader that constains file chunks 
+     - parameter onProgressReady: progress handler to receive request progress.
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    private class func uploadWithUploadToken(token: String, file: ChunksReader, videoId: String? = nil, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
+        return uploadWithUploadTokenWithRequestBuilder(token: token, file: file, videoId: videoId, onProgressReady: onProgressReady).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                if (file.remainingNumberOfChunks == 0) {
+                    completion(response.body, nil)
+                } else {
+                    uploadWithUploadToken(token: token, file: file, videoId: response.body.videoId, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
+                }
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     * Create a progressive uploadWithUploadToken session
+     *
+     * - returns: a progressive uploadWithUploadToken session
+     */
+    open class func buildProgressiveUploadWithUploadTokenSession(token: String) -> ProgressiveUploadWithUploadTokenSession {
+        return ProgressiveUploadWithUploadTokenSession(token: token)
+    }
+   
+    open class ProgressiveUploadWithUploadTokenSession: ProgressiveUploadSessioning {
+        private var partId = 1
+        private var fileReader = FilePartsReader()
+        private var videoId: String? = nil
+        
+        private var token: String
+
+        public init(token: String) {
+            self.token = token
+        }
+        
+        public func uploadPart(file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return uploadPart(file: file, isLastPart: false, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
+        }
+        
+        public func uploadLastPart(file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return uploadPart(file: file, isLastPart: true, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
+        }
+        
+        private func uploadPart(file: URL, isLastPart: Bool, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            do {
+                try fileReader.append(fileURL: file, isLastPart: isLastPart)
+            } catch {
+                completion(nil, error)
+                return nil
+            }
+            return uploadWithUploadToken(token: self.token, file: fileReader, videoId: self.videoId, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: { video, error in
+                if let video = video {
+                    self.videoId = video.videoId
+                }
+                completion(video, error)
+            })
+        }
+    }
+
+
+
+    /**
+     Upload with an upload token
+     - POST /upload
+     - This method allows you to send a video using an upload token. Upload tokens are especially useful when the upload is done from the client side. If you want to upload a video from your server-side application, you'd better use the [standard upload method](#upload).
+     - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
+     - parameter file: (form) The path to the video you want to upload. 
+     - parameter onProgressReady: progress handler to receive request progress.
+     - returns: RequestBuilder<Video> 
+     */
+    open class func uploadWithUploadTokenWithRequestBuilder(token: String, file: URL, videoId: String? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
+        let localVariablePath = "/upload"
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        var localVariableFormParams: [String: Any?] = [
+            "file": file.encodeToJSON(),
+        ]
+        if (videoId != nil) {
+            localVariableFormParams["videoId"] = videoId
+        }
+        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "token": token.encodeToJSON(),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "multipart/form-data",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, onProgressReady: onProgressReady)
+    }
+
+      /**
+     Upload with an upload token
+     - POST /upload
+     - This method allows you to send a video using an upload token. Upload tokens are especially useful when the upload is done from the client side. If you want to upload a video from your server-side application, you'd better use the [standard upload method](#upload).
+     - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
+     - parameter file: (form) The path to the video you want to upload. 
+     - parameter onProgressReady: progress handler to receive request progress.
+     - returns: RequestBuilder<Video> 
+     */
+    private class func uploadWithUploadTokenWithRequestBuilder(token: String, file: ChunksReader, videoId: String? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
+        let localVariablePath = "/upload"
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let nextChunk = file.getNextChunk()
+        var localVariableFormParams: [String: Any?] = [
+            "file": nextChunk.chunk
+        ]
+        if (videoId != nil) {
+            localVariableFormParams["videoId"] = videoId
+        }
+
+        let chunkId = nextChunk.index
+        let totalNumberOfChunks: Int? = file.getTotalNumberOfChunks()
+
+        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "token": token.encodeToJSON(),
+        ])
+
+        var localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "multipart/form-data",
+        ]
+        localVariableNillableHeaders["Content-Range"] = "part \(chunkId)/" +  (totalNumberOfChunks != nil ? "\(totalNumberOfChunks!)" : "*")
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, onProgressReady: { progress in
+            if let fileSize = file.fileSize {
+                let diff = progress.totalUnitCount - Int64(nextChunk.chunk.maxSize)
+                progress.totalUnitCount = fileSize
+                progress.completedUnitCount = Int64((chunkId - 1) * ApiVideoClient.getChunkSize()) + progress.completedUnitCount - diff
+            }
+            if let onProgressReady = onProgressReady {
+                onProgressReady(progress)
+            }
+        })
+    }
+
+    /**
+     Retrieve a video
+     
+     - parameter videoId: (path) The unique identifier for the video you want details about. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func get(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return getWithRequestBuilder(videoId: videoId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Retrieve a video
+     - GET /videos/{videoId}
+     - This call provides the same information provided on video creation. For private videos, it will generate a unique token url. Use this to retrieve any details you need about a video, or set up a private viewing URL.
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter videoId: (path) The unique identifier for the video you want details about. 
+     - returns: RequestBuilder<Video> 
+     */
+    open class func getWithRequestBuilder(videoId: String) -> RequestBuilder<Video> {
+        var localVariablePath = "/videos/{videoId}"
+        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
+        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     Update a video
+     
+     - parameter videoId: (path) The video ID for the video you want to delete. 
+     - parameter videoUpdatePayload: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func update(videoId: String, videoUpdatePayload: VideoUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return updateWithRequestBuilder(videoId: videoId, videoUpdatePayload: videoUpdatePayload).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Update a video
+     - PATCH /videos/{videoId}
+     - Updates the parameters associated with your video. The video you are updating is determined by the video ID you provide. 
+
+
+
+NOTE: If you are updating an array, you must provide the entire array as what you provide here overwrites what is in the system rather than appending to it.
+
+
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter videoId: (path) The video ID for the video you want to delete. 
+     - parameter videoUpdatePayload: (body)  
+     - returns: RequestBuilder<Video> 
+     */
+    open class func updateWithRequestBuilder(videoId: String, videoUpdatePayload: VideoUpdatePayload) -> RequestBuilder<Video> {
+        var localVariablePath = "/videos/{videoId}"
+        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
+        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: videoUpdatePayload)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     Delete a video
+     
+     - parameter videoId: (path) The video ID for the video you want to delete. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func delete(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return deleteWithRequestBuilder(videoId: videoId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Delete a video
+     - DELETE /videos/{videoId}
+     - If you do not need a video any longer, you can send a request to delete it. All you need is the videoId.
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter videoId: (path) The video ID for the video you want to delete. 
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteWithRequestBuilder(videoId: String) -> RequestBuilder<Void> {
+        var localVariablePath = "/videos/{videoId}"
+        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
+        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     List all videos
+     
+     - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
+     - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
+     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) allows you to define a key that allows any value pair. (optional)
+     - parameter description: (query) If you described a video with a term or sentence, you can add it here to return videos containing this string. (optional)
+     - parameter liveStreamId: (query) If you know the ID for a live stream, you can retrieve the stream by adding the ID for it here. (optional)
+     - parameter sortBy: (query) Allowed: publishedAt, title. You can search by the time videos were published at, or by title. (optional)
+     - parameter sortOrder: (query) Allowed: asc, desc. asc is ascending and sorts from A to Z. desc is descending and sorts from Z to A. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: VideosListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return listWithRequestBuilder(title: title, tags: tags, metadata: metadata, description: description, liveStreamId: liveStreamId, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     List all videos
+     - GET /videos
+     - This method returns a list of your videos (with all their details). With no parameters added, the API returns the first page of all videos. You can filter videos using the parameters described below.
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
+     - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
+     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) allows you to define a key that allows any value pair. (optional)
+     - parameter description: (query) If you described a video with a term or sentence, you can add it here to return videos containing this string. (optional)
+     - parameter liveStreamId: (query) If you know the ID for a live stream, you can retrieve the stream by adding the ID for it here. (optional)
+     - parameter sortBy: (query) Allowed: publishedAt, title. You can search by the time videos were published at, or by title. (optional)
+     - parameter sortOrder: (query) Allowed: asc, desc. asc is ascending and sorts from A to Z. desc is descending and sorts from Z to A. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - returns: RequestBuilder<VideosListResponse> 
+     */
+    open class func listWithRequestBuilder(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<VideosListResponse> {
+        let localVariablePath = "/videos"
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "title": title?.encodeToJSON(),
+            "tags[]": tags?.encodeToJSON(),
+            "metadata": metadata?.encodeToJSON(),
+            "description": description?.encodeToJSON(),
+            "liveStreamId": liveStreamId?.encodeToJSON(),
+            "sortBy": sortBy?.encodeToJSON(),
+            "sortOrder": sortOrder?.encodeToJSON(),
+            "currentPage": currentPage?.encodeToJSON(),
+            "pageSize": pageSize?.encodeToJSON(),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<VideosListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
      Upload a thumbnail
      
      - parameter videoId: (path) Unique identifier of the chosen video  
@@ -898,6 +782,122 @@ Note: There may be a short delay before the new thumbnail is delivered to our CD
         let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     Pick a thumbnail
+     
+     - parameter videoId: (path) Unique identifier of the video you want to add a thumbnail to, where you use a section of your video as the thumbnail. 
+     - parameter videoThumbnailPickPayload: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func pickThumbnail(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return pickThumbnailWithRequestBuilder(videoId: videoId, videoThumbnailPickPayload: videoThumbnailPickPayload).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Pick a thumbnail
+     - PATCH /videos/{videoId}/thumbnail
+     - Pick a thumbnail from the given time code. 
+
+
+
+If you'd like to upload an image for your thumbnail, use the dedicated [method](#uploadThumbnail). 
+
+
+
+There may be a short delay for the thumbnail to update.
+
+
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter videoId: (path) Unique identifier of the video you want to add a thumbnail to, where you use a section of your video as the thumbnail. 
+     - parameter videoThumbnailPickPayload: (body)  
+     - returns: RequestBuilder<Video> 
+     */
+    open class func pickThumbnailWithRequestBuilder(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload) -> RequestBuilder<Video> {
+        var localVariablePath = "/videos/{videoId}/thumbnail"
+        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
+        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: videoThumbnailPickPayload)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     Retrieve video status
+     
+     - parameter videoId: (path) The unique identifier for the video you want the status for. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func getStatus(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: VideoStatus?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return getStatusWithRequestBuilder(videoId: videoId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Retrieve video status
+     - GET /videos/{videoId}/status
+     - This method provides upload status & encoding status to determine when the video is uploaded or ready to playback. Once encoding is completed, the response also lists the available stream qualities.
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter videoId: (path) The unique identifier for the video you want the status for. 
+     - returns: RequestBuilder<VideoStatus> 
+     */
+    open class func getStatusWithRequestBuilder(videoId: String) -> RequestBuilder<VideoStatus> {
+        var localVariablePath = "/videos/{videoId}/status"
+        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
+        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<VideoStatus>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 }

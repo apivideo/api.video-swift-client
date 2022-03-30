@@ -13,74 +13,17 @@ import AnyCodable
 open class CaptionsAPI {
 
     /**
-     Delete a caption
+     Upload a caption
      
-     - parameter videoId: (path) The unique identifier for the video you want to delete a caption from. 
-     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
+     - parameter videoId: (path) The unique identifier for the video you want to add a caption to. 
+     - parameter language: (path) A valid BCP 47 language representation. 
+     - parameter file: (form) The video text track (VTT) you want to upload. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func delete(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return deleteWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Delete a caption
-     - DELETE /videos/{videoId}/captions/{language}
-     - Delete a caption in a specific language by providing the video ID for the video you want to delete the caption from and the language the caption is in.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter videoId: (path) The unique identifier for the video you want to delete a caption from. 
-     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func deleteWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/videos/{videoId}/captions/{language}"
-        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
-        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
-        let languagePreEscape = "\(APIHelper.mapValueToPathItem(language))"
-        let languagePostEscape = languagePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{language}", with: languagePostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     List video captions
-     
-     - parameter videoId: (path) The unique identifier for the video you want to retrieve a list of captions for. 
-     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
-     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: CaptionsListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return listWithRequestBuilder(videoId: videoId, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
+    open class func upload(videoId: String, language: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Caption?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return uploadWithRequestBuilder(videoId: videoId, language: language, file: file).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     completion(response.body, nil)
@@ -92,40 +35,43 @@ open class CaptionsAPI {
 
 
     /**
-     List video captions
-     - GET /videos/{videoId}/captions
-     - Retrieve a list of available captions for the videoId you provide.
+     Upload a caption
+     - POST /videos/{videoId}/captions/{language}
+     - Upload a VTT file to add captions to your video.  Read our [captioning tutorial](https://api.video/blog/tutorials/adding-captions) for more details.
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter videoId: (path) The unique identifier for the video you want to retrieve a list of captions for. 
-     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
-     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
-     - returns: RequestBuilder<CaptionsListResponse> 
+     - parameter videoId: (path) The unique identifier for the video you want to add a caption to. 
+     - parameter language: (path) A valid BCP 47 language representation. 
+     - parameter file: (form) The video text track (VTT) you want to upload. 
+     - returns: RequestBuilder<Caption> 
      */
-    open class func listWithRequestBuilder(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<CaptionsListResponse> {
-        var localVariablePath = "/videos/{videoId}/captions"
+    open class func uploadWithRequestBuilder(videoId: String, language: String, file: URL) -> RequestBuilder<Caption> {
+        var localVariablePath = "/videos/{videoId}/captions/{language}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let languagePreEscape = "\(APIHelper.mapValueToPathItem(language))"
+        let languagePostEscape = languagePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{language}", with: languagePostEscape, options: .literal, range: nil)
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableFormParams: [String: Any?] = [
+            "file": file.encodeToJSON(),
+        ]
+        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "currentPage": currentPage?.encodeToJSON(),
-            "pageSize": pageSize?.encodeToJSON(),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "Content-Type": "multipart/form-data",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<CaptionsListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Caption>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 
@@ -248,17 +194,74 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
 
 
     /**
-     Upload a caption
+     Delete a caption
      
-     - parameter videoId: (path) The unique identifier for the video you want to add a caption to. 
-     - parameter language: (path) A valid BCP 47 language representation. 
-     - parameter file: (form) The video text track (VTT) you want to upload. 
+     - parameter videoId: (path) The unique identifier for the video you want to delete a caption from. 
+     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func upload(videoId: String, language: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Caption?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return uploadWithRequestBuilder(videoId: videoId, language: language, file: file).execute(apiResponseQueue) { result in
+    open class func delete(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return deleteWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Delete a caption
+     - DELETE /videos/{videoId}/captions/{language}
+     - Delete a caption in a specific language by providing the video ID for the video you want to delete the caption from and the language the caption is in.
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter videoId: (path) The unique identifier for the video you want to delete a caption from. 
+     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Void> {
+        var localVariablePath = "/videos/{videoId}/captions/{language}"
+        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
+        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let languagePreEscape = "\(APIHelper.mapValueToPathItem(language))"
+        let languagePostEscape = languagePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{language}", with: languagePostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     List video captions
+     
+     - parameter videoId: (path) The unique identifier for the video you want to retrieve a list of captions for. 
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: CaptionsListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return listWithRequestBuilder(videoId: videoId, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     completion(response.body, nil)
@@ -270,43 +273,40 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
 
 
     /**
-     Upload a caption
-     - POST /videos/{videoId}/captions/{language}
-     - Upload a VTT file to add captions to your video.  Read our [captioning tutorial](https://api.video/blog/tutorials/adding-captions) for more details.
+     List video captions
+     - GET /videos/{videoId}/captions
+     - Retrieve a list of available captions for the videoId you provide.
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter videoId: (path) The unique identifier for the video you want to add a caption to. 
-     - parameter language: (path) A valid BCP 47 language representation. 
-     - parameter file: (form) The video text track (VTT) you want to upload. 
-     - returns: RequestBuilder<Caption> 
+     - parameter videoId: (path) The unique identifier for the video you want to retrieve a list of captions for. 
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - returns: RequestBuilder<CaptionsListResponse> 
      */
-    open class func uploadWithRequestBuilder(videoId: String, language: String, file: URL) -> RequestBuilder<Caption> {
-        var localVariablePath = "/videos/{videoId}/captions/{language}"
+    open class func listWithRequestBuilder(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<CaptionsListResponse> {
+        var localVariablePath = "/videos/{videoId}/captions"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
-        let languagePreEscape = "\(APIHelper.mapValueToPathItem(language))"
-        let languagePostEscape = languagePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{language}", with: languagePostEscape, options: .literal, range: nil)
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "file": file.encodeToJSON(),
-        ]
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+        let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "currentPage": currentPage?.encodeToJSON(),
+            "pageSize": pageSize?.encodeToJSON(),
+        ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Caption>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptionsListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 }

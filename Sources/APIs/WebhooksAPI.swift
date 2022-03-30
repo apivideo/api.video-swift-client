@@ -13,18 +13,18 @@ import AnyCodable
 open class WebhooksAPI {
 
     /**
-     Delete a Webhook
+     Create Webhook
      
-     - parameter webhookId: (path) The webhook you wish to delete. 
+     - parameter webhooksCreationPayload: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func delete(webhookId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return deleteWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
+    open class func create(webhooksCreationPayload: WebhooksCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Webhook?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return createWithRequestBuilder(webhooksCreationPayload: webhooksCreationPayload).execute(apiResponseQueue) { result in
                 switch result {
-                case .success:
-                    completion((), nil)
+                case let .success(response):
+                    completion(response.body, nil)
                 case let .failure(error):
                     completion(nil, error)
                 }
@@ -33,22 +33,19 @@ open class WebhooksAPI {
 
 
     /**
-     Delete a Webhook
-     - DELETE /webhooks/{webhookId}
-     - This method will delete the indicated webhook.
+     Create Webhook
+     - POST /webhooks
+     - Webhooks can push notifications to your server, rather than polling api.video for changes. We currently offer four events:  * ```video.encoding.quality.completed``` Occurs when a new video is uploaded into your account, it will be encoded into several different HLS and mp4 qualities. When each version is encoded, your webhook will get a notification.  It will look like ```{ \"type\": \"video.encoding.quality.completed\", \"emittedAt\": \"2021-01-29T16:46:25.217+01:00\", \"videoId\": \"viXXXXXXXX\", \"encoding\": \"hls\", \"quality\": \"720p\"} ```. This request says that the 720p HLS encoding was completed. * ```live-stream.broadcast.started```  When a live stream begins broadcasting, the broadcasting parameter changes from false to true, and this webhook fires. * ```live-stream.broadcast.ended```  This event fires when the live stream has finished broadcasting, and the broadcasting parameter flips from false to true. * ```video.source.recorded```  This event occurs when a live stream is recorded and submitted for encoding.
      - BASIC:
        - type: http
        - name: bearerAuth
-     - parameter webhookId: (path) The webhook you wish to delete. 
-     - returns: RequestBuilder<Void> 
+     - parameter webhooksCreationPayload: (body)  
+     - returns: RequestBuilder<Webhook> 
      */
-    open class func deleteWithRequestBuilder(webhookId: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/webhooks/{webhookId}"
-        let webhookIdPreEscape = "\(APIHelper.mapValueToPathItem(webhookId))"
-        let webhookIdPostEscape = webhookIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{webhookId}", with: webhookIdPostEscape, options: .literal, range: nil)
+    open class func createWithRequestBuilder(webhooksCreationPayload: WebhooksCreationPayload) -> RequestBuilder<Webhook> {
+        let localVariablePath = "/webhooks"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: webhooksCreationPayload)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -58,9 +55,9 @@ open class WebhooksAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Webhook>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 
@@ -113,6 +110,58 @@ open class WebhooksAPI {
         let localVariableRequestBuilder: RequestBuilder<Webhook>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     Delete a Webhook
+     
+     - parameter webhookId: (path) The webhook you wish to delete. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func delete(webhookId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return deleteWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Delete a Webhook
+     - DELETE /webhooks/{webhookId}
+     - This method will delete the indicated webhook.
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter webhookId: (path) The webhook you wish to delete. 
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteWithRequestBuilder(webhookId: String) -> RequestBuilder<Void> {
+        var localVariablePath = "/webhooks/{webhookId}"
+        let webhookIdPreEscape = "\(APIHelper.mapValueToPathItem(webhookId))"
+        let webhookIdPostEscape = webhookIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{webhookId}", with: webhookIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 
@@ -173,55 +222,6 @@ You can filter what the webhook list that the API returns using the parameters d
         let localVariableRequestBuilder: RequestBuilder<WebhooksListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Create Webhook
-     
-     - parameter webhooksCreationPayload: (body)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func create(webhooksCreationPayload: WebhooksCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Webhook?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return createWithRequestBuilder(webhooksCreationPayload: webhooksCreationPayload).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Create Webhook
-     - POST /webhooks
-     - Webhooks can push notifications to your server, rather than polling api.video for changes. We currently offer four events:  * ```video.encoding.quality.completed``` Occurs when a new video is uploaded into your account, it will be encoded into several different HLS and mp4 qualities. When each version is encoded, your webhook will get a notification.  It will look like ```{ \"type\": \"video.encoding.quality.completed\", \"emittedAt\": \"2021-01-29T16:46:25.217+01:00\", \"videoId\": \"viXXXXXXXX\", \"encoding\": \"hls\", \"quality\": \"720p\"} ```. This request says that the 720p HLS encoding was completed. * ```live-stream.broadcast.started```  When a live stream begins broadcasting, the broadcasting parameter changes from false to true, and this webhook fires. * ```live-stream.broadcast.ended```  This event fires when the live stream has finished broadcasting, and the broadcasting parameter flips from false to true. * ```video.source.recorded```  This event occurs when a live stream is recorded and submitted for encoding.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter webhooksCreationPayload: (body)  
-     - returns: RequestBuilder<Webhook> 
-     */
-    open class func createWithRequestBuilder(webhooksCreationPayload: WebhooksCreationPayload) -> RequestBuilder<Webhook> {
-        let localVariablePath = "/webhooks"
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: webhooksCreationPayload)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Webhook>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 }
