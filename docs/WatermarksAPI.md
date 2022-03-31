@@ -4,10 +4,61 @@ All URIs are relative to *https://ws.api.video*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**upload**](WatermarksAPI.md#postwatermark) | **POST** /watermarks | Upload a watermark
 [**delete**](WatermarksAPI.md#deletewatermark) | **DELETE** /watermarks/{watermarkId} | Delete a watermark
 [**list**](WatermarksAPI.md#listwatermarks) | **GET** /watermarks | List all watermarks
-[**upload**](WatermarksAPI.md#postwatermark) | **POST** /watermarks | Upload a watermark
 
+
+# **upload**
+```swift
+    open class func upload(file: URL, completion: @escaping (_ data: Watermark?, _ error: Error?) -> Void)
+```
+
+Upload a watermark
+
+Create a new watermark by uploading a `JPG` or a `PNG` image. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
+
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ApiVideoClient
+
+let file = URL(string: "https://example.com")! // URL | The `.jpg` or `.png` image to be added as a watermark.
+
+// Upload a watermark
+WatermarksAPI.upload(file: file) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file** | **URL** | The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. | 
+
+### Return type
+
+[**Watermark**](Watermark.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete**
 ```swift
@@ -113,57 +164,6 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **upload**
-```swift
-    open class func upload(file: URL, completion: @escaping (_ data: Watermark?, _ error: Error?) -> Void)
-```
-
-Upload a watermark
-
-Create a new watermark by uploading a `JPG` or a `PNG` image. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
-
-
-### Example
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import ApiVideoClient
-
-let file = URL(string: "https://example.com")! // URL | The `.jpg` or `.png` image to be added as a watermark.
-
-// Upload a watermark
-WatermarksAPI.upload(file: file) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **file** | **URL** | The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. | 
-
-### Return type
-
-[**Watermark**](Watermark.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -102,11 +102,11 @@ CaptionsAPI
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete**](docs/CaptionsAPI.md#delete) | **DELETE** /videos/{videoId}/captions/{language} | Delete a caption
-[**list**](docs/CaptionsAPI.md#list) | **GET** /videos/{videoId}/captions | List video captions
+[**upload**](docs/CaptionsAPI.md#upload) | **POST** /videos/{videoId}/captions/{language} | Upload a caption
 [**get**](docs/CaptionsAPI.md#get) | **GET** /videos/{videoId}/captions/{language} | Retrieve a caption
 [**update**](docs/CaptionsAPI.md#update) | **PATCH** /videos/{videoId}/captions/{language} | Update a caption
-[**upload**](docs/CaptionsAPI.md#upload) | **POST** /videos/{videoId}/captions/{language} | Upload a caption
+[**delete**](docs/CaptionsAPI.md#delete) | **DELETE** /videos/{videoId}/captions/{language} | Delete a caption
+[**list**](docs/CaptionsAPI.md#list) | **GET** /videos/{videoId}/captions | List video captions
 
 
 ### ChaptersAPI
@@ -121,10 +121,10 @@ ChaptersAPI
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**upload**](docs/ChaptersAPI.md#upload) | **POST** /videos/{videoId}/chapters/{language} | Upload a chapter
+[**get**](docs/ChaptersAPI.md#get) | **GET** /videos/{videoId}/chapters/{language} | Retrieve a chapter
 [**delete**](docs/ChaptersAPI.md#delete) | **DELETE** /videos/{videoId}/chapters/{language} | Delete a chapter
 [**list**](docs/ChaptersAPI.md#list) | **GET** /videos/{videoId}/chapters | List video chapters
-[**get**](docs/ChaptersAPI.md#get) | **GET** /videos/{videoId}/chapters/{language} | Retrieve a chapter
-[**upload**](docs/ChaptersAPI.md#upload) | **POST** /videos/{videoId}/chapters/{language} | Upload a chapter
 
 
 ### LiveStreamsAPI
@@ -139,13 +139,13 @@ LiveStreamsAPI
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete**](docs/LiveStreamsAPI.md#delete) | **DELETE** /live-streams/{liveStreamId} | Delete a live stream
-[**deleteThumbnail**](docs/LiveStreamsAPI.md#deleteThumbnail) | **DELETE** /live-streams/{liveStreamId}/thumbnail | Delete a thumbnail
-[**list**](docs/LiveStreamsAPI.md#list) | **GET** /live-streams | List all live streams
+[**create**](docs/LiveStreamsAPI.md#create) | **POST** /live-streams | Create live stream
 [**get**](docs/LiveStreamsAPI.md#get) | **GET** /live-streams/{liveStreamId} | Retrieve live stream
 [**update**](docs/LiveStreamsAPI.md#update) | **PATCH** /live-streams/{liveStreamId} | Update a live stream
-[**create**](docs/LiveStreamsAPI.md#create) | **POST** /live-streams | Create live stream
+[**delete**](docs/LiveStreamsAPI.md#delete) | **DELETE** /live-streams/{liveStreamId} | Delete a live stream
+[**list**](docs/LiveStreamsAPI.md#list) | **GET** /live-streams | List all live streams
 [**uploadThumbnail**](docs/LiveStreamsAPI.md#uploadThumbnail) | **POST** /live-streams/{liveStreamId}/thumbnail | Upload a thumbnail
+[**deleteThumbnail**](docs/LiveStreamsAPI.md#deleteThumbnail) | **DELETE** /live-streams/{liveStreamId}/thumbnail | Delete a thumbnail
 
 
 ### PlayerThemesAPI
@@ -160,13 +160,13 @@ PlayerThemesAPI
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete**](docs/PlayerThemesAPI.md#delete) | **DELETE** /players/{playerId} | Delete a player
-[**deleteLogo**](docs/PlayerThemesAPI.md#deleteLogo) | **DELETE** /players/{playerId}/logo | Delete logo
-[**list**](docs/PlayerThemesAPI.md#list) | **GET** /players | List all player themes
+[**create**](docs/PlayerThemesAPI.md#create) | **POST** /players | Create a player
 [**get**](docs/PlayerThemesAPI.md#get) | **GET** /players/{playerId} | Retrieve a player
 [**update**](docs/PlayerThemesAPI.md#update) | **PATCH** /players/{playerId} | Update a player
-[**create**](docs/PlayerThemesAPI.md#create) | **POST** /players | Create a player
+[**delete**](docs/PlayerThemesAPI.md#delete) | **DELETE** /players/{playerId} | Delete a player
+[**list**](docs/PlayerThemesAPI.md#list) | **GET** /players | List all player themes
 [**uploadLogo**](docs/PlayerThemesAPI.md#uploadLogo) | **POST** /players/{playerId}/logo | Upload a logo
+[**deleteLogo**](docs/PlayerThemesAPI.md#deleteLogo) | **DELETE** /players/{playerId}/logo | Delete logo
 
 
 ### RawStatisticsAPI
@@ -198,10 +198,10 @@ UploadTokensAPI
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**createToken**](docs/UploadTokensAPI.md#createToken) | **POST** /upload-tokens | Generate an upload token
+[**getToken**](docs/UploadTokensAPI.md#getToken) | **GET** /upload-tokens/{uploadToken} | Retrieve upload token
 [**deleteToken**](docs/UploadTokensAPI.md#deleteToken) | **DELETE** /upload-tokens/{uploadToken} | Delete an upload token
 [**list**](docs/UploadTokensAPI.md#list) | **GET** /upload-tokens | List all active upload tokens.
-[**getToken**](docs/UploadTokensAPI.md#getToken) | **GET** /upload-tokens/{uploadToken} | Retrieve upload token
-[**createToken**](docs/UploadTokensAPI.md#createToken) | **POST** /upload-tokens | Generate an upload token
 
 
 ### VideosAPI
@@ -216,16 +216,16 @@ VideosAPI
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete**](docs/VideosAPI.md#delete) | **DELETE** /videos/{videoId} | Delete a video
-[**get**](docs/VideosAPI.md#get) | **GET** /videos/{videoId} | Retrieve a video
-[**getStatus**](docs/VideosAPI.md#getStatus) | **GET** /videos/{videoId}/status | Retrieve video status
-[**list**](docs/VideosAPI.md#list) | **GET** /videos | List all videos
-[**update**](docs/VideosAPI.md#update) | **PATCH** /videos/{videoId} | Update a video
-[**pickThumbnail**](docs/VideosAPI.md#pickThumbnail) | **PATCH** /videos/{videoId}/thumbnail | Pick a thumbnail
-[**uploadWithUploadToken**](docs/VideosAPI.md#uploadWithUploadToken) | **POST** /upload | Upload with an upload token
 [**create**](docs/VideosAPI.md#create) | **POST** /videos | Create a video
 [**upload**](docs/VideosAPI.md#upload) | **POST** /videos/{videoId}/source | Upload a video
+[**uploadWithUploadToken**](docs/VideosAPI.md#uploadWithUploadToken) | **POST** /upload | Upload with an upload token
+[**get**](docs/VideosAPI.md#get) | **GET** /videos/{videoId} | Retrieve a video
+[**update**](docs/VideosAPI.md#update) | **PATCH** /videos/{videoId} | Update a video
+[**delete**](docs/VideosAPI.md#delete) | **DELETE** /videos/{videoId} | Delete a video
+[**list**](docs/VideosAPI.md#list) | **GET** /videos | List all videos
 [**uploadThumbnail**](docs/VideosAPI.md#uploadThumbnail) | **POST** /videos/{videoId}/thumbnail | Upload a thumbnail
+[**pickThumbnail**](docs/VideosAPI.md#pickThumbnail) | **PATCH** /videos/{videoId}/thumbnail | Pick a thumbnail
+[**getStatus**](docs/VideosAPI.md#getStatus) | **GET** /videos/{videoId}/status | Retrieve video status
 
 
 ### WatermarksAPI
@@ -240,9 +240,9 @@ WatermarksAPI
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**upload**](docs/WatermarksAPI.md#upload) | **POST** /watermarks | Upload a watermark
 [**delete**](docs/WatermarksAPI.md#delete) | **DELETE** /watermarks/{watermarkId} | Delete a watermark
 [**list**](docs/WatermarksAPI.md#list) | **GET** /watermarks | List all watermarks
-[**upload**](docs/WatermarksAPI.md#upload) | **POST** /watermarks | Upload a watermark
 
 
 ### WebhooksAPI
@@ -257,10 +257,10 @@ WebhooksAPI
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete**](docs/WebhooksAPI.md#delete) | **DELETE** /webhooks/{webhookId} | Delete a Webhook
-[**get**](docs/WebhooksAPI.md#get) | **GET** /webhooks/{webhookId} | Retrieve Webhook details
-[**list**](docs/WebhooksAPI.md#list) | **GET** /webhooks | List all webhooks
 [**create**](docs/WebhooksAPI.md#create) | **POST** /webhooks | Create Webhook
+[**get**](docs/WebhooksAPI.md#get) | **GET** /webhooks/{webhookId} | Retrieve Webhook details
+[**delete**](docs/WebhooksAPI.md#delete) | **DELETE** /webhooks/{webhookId} | Delete a Webhook
+[**list**](docs/WebhooksAPI.md#list) | **GET** /webhooks | List all webhooks
 
 
 

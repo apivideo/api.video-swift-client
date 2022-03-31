@@ -13,6 +13,126 @@ import AnyCodable
 open class ChaptersAPI {
 
     /**
+     Upload a chapter
+     
+     - parameter videoId: (path) The unique identifier for the video you want to upload a chapter for. 
+     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
+     - parameter file: (form) The VTT file describing the chapters you want to upload. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func upload(videoId: String, language: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Chapter?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return uploadWithRequestBuilder(videoId: videoId, language: language, file: file).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Upload a chapter
+     - POST /videos/{videoId}/chapters/{language}
+     - Upload a VTT file to add chapters to your video. Chapters help break the video into sections. Read our [tutorial](https://api.video/blog/tutorials/adding-chapters-to-your-videos) for more details.
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter videoId: (path) The unique identifier for the video you want to upload a chapter for. 
+     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
+     - parameter file: (form) The VTT file describing the chapters you want to upload. 
+     - returns: RequestBuilder<Chapter> 
+     */
+    open class func uploadWithRequestBuilder(videoId: String, language: String, file: URL) -> RequestBuilder<Chapter> {
+        var localVariablePath = "/videos/{videoId}/chapters/{language}"
+        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
+        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let languagePreEscape = "\(APIHelper.mapValueToPathItem(language))"
+        let languagePostEscape = languagePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{language}", with: languagePostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableFormParams: [String: Any?] = [
+            "file": file.encodeToJSON(),
+        ]
+        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "multipart/form-data",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Chapter>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     Retrieve a chapter
+     
+     - parameter videoId: (path) The unique identifier for the video you want to show a chapter for. 
+     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func get(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Chapter?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return getWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Retrieve a chapter
+     - GET /videos/{videoId}/chapters/{language}
+     - Retrieve a chapter for a video in a specific language.  Chapters help your viewers find the sections of the video they are most interested in viewing. Tutorials that use the [chapters endpoint](https://api.video/blog/endpoints/chapters).
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter videoId: (path) The unique identifier for the video you want to show a chapter for. 
+     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
+     - returns: RequestBuilder<Chapter> 
+     */
+    open class func getWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Chapter> {
+        var localVariablePath = "/videos/{videoId}/chapters/{language}"
+        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
+        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let languagePreEscape = "\(APIHelper.mapValueToPathItem(language))"
+        let languagePostEscape = languagePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{language}", with: languagePostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Chapter>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
      Delete a chapter
      
      - parameter videoId: (path) The unique identifier for the video you want to delete a chapter from. 
@@ -126,126 +246,6 @@ open class ChaptersAPI {
         let localVariableRequestBuilder: RequestBuilder<ChaptersListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Retrieve a chapter
-     
-     - parameter videoId: (path) The unique identifier for the video you want to show a chapter for. 
-     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func get(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Chapter?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return getWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Retrieve a chapter
-     - GET /videos/{videoId}/chapters/{language}
-     - Retrieve a chapter for a video in a specific language.  Chapters help your viewers find the sections of the video they are most interested in viewing. Tutorials that use the [chapters endpoint](https://api.video/blog/endpoints/chapters).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter videoId: (path) The unique identifier for the video you want to show a chapter for. 
-     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
-     - returns: RequestBuilder<Chapter> 
-     */
-    open class func getWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Chapter> {
-        var localVariablePath = "/videos/{videoId}/chapters/{language}"
-        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
-        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
-        let languagePreEscape = "\(APIHelper.mapValueToPathItem(language))"
-        let languagePostEscape = languagePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{language}", with: languagePostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Chapter>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Upload a chapter
-     
-     - parameter videoId: (path) The unique identifier for the video you want to upload a chapter for. 
-     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
-     - parameter file: (form) The VTT file describing the chapters you want to upload. 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func upload(videoId: String, language: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Chapter?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return uploadWithRequestBuilder(videoId: videoId, language: language, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Upload a chapter
-     - POST /videos/{videoId}/chapters/{language}
-     - Upload a VTT file to add chapters to your video. Chapters help break the video into sections. Read our [tutorial](https://api.video/blog/tutorials/adding-chapters-to-your-videos) for more details.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter videoId: (path) The unique identifier for the video you want to upload a chapter for. 
-     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
-     - parameter file: (form) The VTT file describing the chapters you want to upload. 
-     - returns: RequestBuilder<Chapter> 
-     */
-    open class func uploadWithRequestBuilder(videoId: String, language: String, file: URL) -> RequestBuilder<Chapter> {
-        var localVariablePath = "/videos/{videoId}/chapters/{language}"
-        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
-        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
-        let languagePreEscape = "\(APIHelper.mapValueToPathItem(language))"
-        let languagePostEscape = languagePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{language}", with: languagePostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "file": file.encodeToJSON(),
-        ]
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Chapter>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 }

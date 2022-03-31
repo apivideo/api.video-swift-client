@@ -13,6 +13,107 @@ import AnyCodable
 open class UploadTokensAPI {
 
     /**
+     Generate an upload token
+     
+     - parameter tokenCreationPayload: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func createToken(tokenCreationPayload: TokenCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: UploadToken?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return createTokenWithRequestBuilder(tokenCreationPayload: tokenCreationPayload).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Generate an upload token
+     - POST /upload-tokens
+     - Use this endpoint to generate an upload token. You can use this token to authenticate video uploads while keeping your API key safe. Tutorials using [delegated upload](https://api.video/blog/endpoints/delegated-upload).
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter tokenCreationPayload: (body)  
+     - returns: RequestBuilder<UploadToken> 
+     */
+    open class func createTokenWithRequestBuilder(tokenCreationPayload: TokenCreationPayload) -> RequestBuilder<UploadToken> {
+        let localVariablePath = "/upload-tokens"
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tokenCreationPayload)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UploadToken>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     Retrieve upload token
+     
+     - parameter uploadToken: (path) The unique identifier for the token you want information about. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func getToken(uploadToken: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: UploadToken?, _ error: Error?) -> Void)) -> URLSessionTask? {
+            return getTokenWithRequestBuilder(uploadToken: uploadToken).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            }
+    }
+
+
+    /**
+     Retrieve upload token
+     - GET /upload-tokens/{uploadToken}
+     - You can retrieve details about a specific upload token if you have the unique identifier for the upload token. Add it in the path of the endpoint. Details include time-to-live (ttl), when the token was created, and when it will expire.
+     - BASIC:
+       - type: http
+       - name: bearerAuth
+     - parameter uploadToken: (path) The unique identifier for the token you want information about. 
+     - returns: RequestBuilder<UploadToken> 
+     */
+    open class func getTokenWithRequestBuilder(uploadToken: String) -> RequestBuilder<UploadToken> {
+        var localVariablePath = "/upload-tokens/{uploadToken}"
+        let uploadTokenPreEscape = "\(APIHelper.mapValueToPathItem(uploadToken))"
+        let uploadTokenPostEscape = uploadTokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{uploadToken}", with: uploadTokenPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UploadToken>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
      Delete an upload token
      
      - parameter uploadToken: (path) The unique identifier for the upload token you want to delete. Deleting a token will make it so the token can no longer be used for authentication. 
@@ -138,107 +239,6 @@ open class UploadTokensAPI {
         let localVariableRequestBuilder: RequestBuilder<TokenListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Retrieve upload token
-     
-     - parameter uploadToken: (path) The unique identifier for the token you want information about. 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func getToken(uploadToken: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: UploadToken?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return getTokenWithRequestBuilder(uploadToken: uploadToken).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Retrieve upload token
-     - GET /upload-tokens/{uploadToken}
-     - You can retrieve details about a specific upload token if you have the unique identifier for the upload token. Add it in the path of the endpoint. Details include time-to-live (ttl), when the token was created, and when it will expire.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter uploadToken: (path) The unique identifier for the token you want information about. 
-     - returns: RequestBuilder<UploadToken> 
-     */
-    open class func getTokenWithRequestBuilder(uploadToken: String) -> RequestBuilder<UploadToken> {
-        var localVariablePath = "/upload-tokens/{uploadToken}"
-        let uploadTokenPreEscape = "\(APIHelper.mapValueToPathItem(uploadToken))"
-        let uploadTokenPostEscape = uploadTokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{uploadToken}", with: uploadTokenPostEscape, options: .literal, range: nil)
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<UploadToken>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-
-    /**
-     Generate an upload token
-     
-     - parameter tokenCreationPayload: (body)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects.
-     */
-    @discardableResult
-    open class func createToken(tokenCreationPayload: TokenCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: UploadToken?, _ error: Error?) -> Void)) -> URLSessionTask? {
-            return createTokenWithRequestBuilder(tokenCreationPayload: tokenCreationPayload).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
-    }
-
-
-    /**
-     Generate an upload token
-     - POST /upload-tokens
-     - Use this endpoint to generate an upload token. You can use this token to authenticate video uploads while keeping your API key safe. Tutorials using [delegated upload](https://api.video/blog/endpoints/delegated-upload).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter tokenCreationPayload: (body)  
-     - returns: RequestBuilder<UploadToken> 
-     */
-    open class func createTokenWithRequestBuilder(tokenCreationPayload: TokenCreationPayload) -> RequestBuilder<UploadToken> {
-        let localVariablePath = "/upload-tokens"
-        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tokenCreationPayload)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<UploadToken>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 }
