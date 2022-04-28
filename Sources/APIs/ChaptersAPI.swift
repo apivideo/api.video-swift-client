@@ -38,9 +38,6 @@ open class ChaptersAPI {
      Upload a chapter
      - POST /videos/{videoId}/chapters/{language}
      - Upload a VTT file to add chapters to your video. Chapters help break the video into sections. Read our [tutorial](https://api.video/blog/tutorials/adding-chapters-to-your-videos) for more details.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) The unique identifier for the video you want to upload a chapter for. 
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
      - parameter file: (form) The VTT file describing the chapters you want to upload. 
@@ -100,9 +97,6 @@ open class ChaptersAPI {
      Retrieve a chapter
      - GET /videos/{videoId}/chapters/{language}
      - Retrieve a chapter for a video in a specific language.  Chapters help your viewers find the sections of the video they are most interested in viewing. Tutorials that use the [chapters endpoint](https://api.video/blog/endpoints/chapters).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) The unique identifier for the video you want to show a chapter for. 
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
      - returns: RequestBuilder<Chapter> 
@@ -157,9 +151,6 @@ open class ChaptersAPI {
      Delete a chapter
      - DELETE /videos/{videoId}/chapters/{language}
      - Delete a chapter in a specific language by providing the video ID for the video you want to delete the chapter from and the language the chapter is in.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) The unique identifier for the video you want to delete a chapter from. 
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
      - returns: RequestBuilder<Void> 
@@ -215,9 +206,6 @@ open class ChaptersAPI {
      List video chapters
      - GET /videos/{videoId}/chapters
      - Retrieve a list of all chapters for a specified video.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) The unique identifier for the video you want to retrieve a list of chapters for. 
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)

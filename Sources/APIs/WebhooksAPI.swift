@@ -36,9 +36,6 @@ open class WebhooksAPI {
      Create Webhook
      - POST /webhooks
      - Webhooks can push notifications to your server, rather than polling api.video for changes. We currently offer four events:  * ```video.encoding.quality.completed``` Occurs when a new video is uploaded into your account, it will be encoded into several different HLS and mp4 qualities. When each version is encoded, your webhook will get a notification.  It will look like ```{ \"type\": \"video.encoding.quality.completed\", \"emittedAt\": \"2021-01-29T16:46:25.217+01:00\", \"videoId\": \"viXXXXXXXX\", \"encoding\": \"hls\", \"quality\": \"720p\"} ```. This request says that the 720p HLS encoding was completed. * ```live-stream.broadcast.started```  When a live stream begins broadcasting, the broadcasting parameter changes from false to true, and this webhook fires. * ```live-stream.broadcast.ended```  This event fires when the live stream has finished broadcasting, and the broadcasting parameter flips from false to true. * ```video.source.recorded```  This event occurs when a live stream is recorded and submitted for encoding.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter webhooksCreationPayload: (body)  
      - returns: RequestBuilder<Webhook> 
      */
@@ -85,9 +82,6 @@ open class WebhooksAPI {
      Retrieve Webhook details
      - GET /webhooks/{webhookId}
      - This call provides the same JSON information provided on Webhook creation.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter webhookId: (path) The unique webhook you wish to retreive details on. 
      - returns: RequestBuilder<Webhook> 
      */
@@ -137,9 +131,6 @@ open class WebhooksAPI {
      Delete a Webhook
      - DELETE /webhooks/{webhookId}
      - This method will delete the indicated webhook.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter webhookId: (path) The webhook you wish to delete. 
      - returns: RequestBuilder<Void> 
      */
@@ -193,9 +184,6 @@ open class WebhooksAPI {
      - Thie method returns a list of your webhooks (with all their details). 
 
 You can filter what the webhook list that the API returns using the parameters described below.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter events: (query) The webhook event that you wish to filter on. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)

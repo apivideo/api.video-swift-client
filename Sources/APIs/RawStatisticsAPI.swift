@@ -38,9 +38,6 @@ open class RawStatisticsAPI {
     /**
      List live stream player sessions
      - GET /analytics/live-streams/{liveStreamId}
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter liveStreamId: (path) The unique identifier for the live stream you want to retrieve analytics for. 
      - parameter period: (query) Period must have one of the following formats:  - For a day : \&quot;2018-01-01\&quot;, - For a week: \&quot;2018-W01\&quot;,  - For a month: \&quot;2018-01\&quot; - For a year: \&quot;2018\&quot; For a range period:  -  Date range: \&quot;2018-01-01/2018-01-15\&quot;  (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
@@ -100,9 +97,6 @@ open class RawStatisticsAPI {
      List player session events
      - GET /analytics/sessions/{sessionId}/events
      - Useful to track and measure video's engagement.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter sessionId: (path) A unique identifier you can use to reference and track a session with. 
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
@@ -162,9 +156,6 @@ open class RawStatisticsAPI {
      List video player sessions
      - GET /analytics/videos/{videoId}
      - Retrieve all available user sessions for a specific video. Tutorials that use the [analytics endpoint](https://api.video/blog/endpoints/analytics).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) The unique identifier for the video you want to retrieve session information for. 
      - parameter period: (query) Period must have one of the following formats:  - For a day : 2018-01-01, - For a week: 2018-W01,  - For a month: 2018-01 - For a year: 2018 For a range period:  -  Date range: 2018-01-01/2018-01-15  (optional)
      - parameter metadata: (query) Metadata and [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) filter. Send an array of key value pairs you want to filter sessios with. (optional)
