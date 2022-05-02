@@ -36,9 +36,6 @@ open class LiveStreamsAPI {
      Create live stream
      - POST /live-streams
      - A live stream will give you the 'connection point' to RTMP your video stream to api.video.  It will also give you the details for viewers to watch the same livestream.   The public=false 'private livestream' is available as a BETA feature, and should be limited to livestreams of 3,000 viewers or fewer.  See our [Live Stream Tutorial](https://api.video/blog/tutorials/live-stream-tutorial) for a walkthrough of this API with OBS.  Your RTMP endpoint for the livestream is rtmp://broadcast.api.video/s/{streamKey} Tutorials that [create live streams](https://api.video/blog/endpoints/live-create).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter liveStreamCreationPayload: (body)  
      - returns: RequestBuilder<LiveStream> 
      */
@@ -85,9 +82,6 @@ open class LiveStreamsAPI {
      Retrieve live stream
      - GET /live-streams/{liveStreamId}
      - Supply a liveStreamId, and you'll get all the details for streaming into, and watching the livestream. Tutorials that use the [show livestream endpoint](https://api.video/blog/endpoints/live-stream-status).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter liveStreamId: (path) The unique ID for the live stream you want to watch. 
      - returns: RequestBuilder<LiveStream> 
      */
@@ -138,9 +132,6 @@ open class LiveStreamsAPI {
      Update a live stream
      - PATCH /live-streams/{liveStreamId}
      - Use this endpoint to update the player, or to turn recording on/off (saving a copy of the livestream).  NOTE: If the livestream is actively streaming, changing the recording status will only affect the NEXT stream.     The public=false \"private livestream\" is available as a BETA feature, and should be limited to livestreams of 3,000 viewers or fewer.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter liveStreamId: (path) The unique ID for the live stream that you want to update information for such as player details, or whether you want the recording on or off. 
      - parameter liveStreamUpdatePayload: (body)  
      - returns: RequestBuilder<LiveStream> 
@@ -191,9 +182,6 @@ open class LiveStreamsAPI {
      Delete a live stream
      - DELETE /live-streams/{liveStreamId}
      - If you do not need a live stream any longer, you can send a request to delete it. All you need is the liveStreamId.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter liveStreamId: (path) The unique ID for the live stream that you want to remove. 
      - returns: RequestBuilder<Void> 
      */
@@ -256,9 +244,6 @@ open class LiveStreamsAPI {
      List all live streams
      - GET /live-streams
      - With no parameters added to the url, this will return all livestreams. Query by name or key to limit the list.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter streamKey: (query) The unique stream key that allows you to stream videos. (optional)
      - parameter name: (query) You can filter live streams by their name or a part of their name. (optional)
      - parameter sortBy: (query) Allowed: createdAt, publishedAt, name. createdAt - the time a livestream was created using the specified streamKey. publishedAt - the time a livestream was published using the specified streamKey. name - the name of the livestream. If you choose one of the time based options, the time is presented in ISO-8601 format. (optional)
@@ -319,9 +304,6 @@ open class LiveStreamsAPI {
      Upload a thumbnail
      - POST /live-streams/{liveStreamId}/thumbnail
      - Upload an image to use as a backdrop for your livestream. Tutorials that [update live stream thumbnails](https://api.video/blog/endpoints/live-upload-a-thumbnail).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter liveStreamId: (path) The unique ID for the live stream you want to upload. 
      - parameter file: (form) The image to be added as a thumbnail. The mime type should be image/jpeg, image/png or image/webp. The max allowed size is 8 MiB. 
      - returns: RequestBuilder<LiveStream> 
@@ -376,9 +358,6 @@ open class LiveStreamsAPI {
      Delete a thumbnail
      - DELETE /live-streams/{liveStreamId}/thumbnail
      - Send the unique identifier for a live stream to delete its thumbnail.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter liveStreamId: (path) The unique identifier of the live stream whose thumbnail you want to delete. 
      - returns: RequestBuilder<LiveStream> 
      */

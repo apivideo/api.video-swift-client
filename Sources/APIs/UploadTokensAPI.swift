@@ -36,9 +36,6 @@ open class UploadTokensAPI {
      Generate an upload token
      - POST /upload-tokens
      - Use this endpoint to generate an upload token. You can use this token to authenticate video uploads while keeping your API key safe. Tutorials using [delegated upload](https://api.video/blog/endpoints/delegated-upload).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter tokenCreationPayload: (body)  
      - returns: RequestBuilder<UploadToken> 
      */
@@ -85,9 +82,6 @@ open class UploadTokensAPI {
      Retrieve upload token
      - GET /upload-tokens/{uploadToken}
      - You can retrieve details about a specific upload token if you have the unique identifier for the upload token. Add it in the path of the endpoint. Details include time-to-live (ttl), when the token was created, and when it will expire.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter uploadToken: (path) The unique identifier for the token you want information about. 
      - returns: RequestBuilder<UploadToken> 
      */
@@ -137,9 +131,6 @@ open class UploadTokensAPI {
      Delete an upload token
      - DELETE /upload-tokens/{uploadToken}
      - Delete an existing upload token. This is especially useful for tokens you may have created that do not expire.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter uploadToken: (path) The unique identifier for the upload token you want to delete. Deleting a token will make it so the token can no longer be used for authentication. 
      - returns: RequestBuilder<Void> 
      */
@@ -208,9 +199,6 @@ open class UploadTokensAPI {
      List all active upload tokens.
      - GET /upload-tokens
      - A delegated token is used to allow secure uploads without exposing your API key. Use this endpoint to retrieve a list of all currently active delegated tokens. Tutorials using [delegated upload](https://api.video/blog/endpoints/delegated-upload).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ISO-8601 format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending is 0-9 or A-Z. Descending is 9-0 or Z-A. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)

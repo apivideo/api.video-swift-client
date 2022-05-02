@@ -36,9 +36,6 @@ open class VideosAPI {
      Create a video
      - POST /videos
      - We have tutorials on: * [Creating and uploading videos](https://api.video/blog/tutorials/video-upload-tutorial) * [Uploading large videos](https://api.video/blog/tutorials/video-upload-tutorial-large-videos) * [Using tags with videos](https://api.video/blog/tutorials/video-tagging-best-practices) * [Private videos](https://api.video/blog/tutorials/tutorial-private-videos) * [Using Dynamic Metadata](https://api.video/blog/tutorials/dynamic-metadata)  * Full list of [tutorials](https://api.video/blog/endpoints/video-create) that demonstrate this endpoint. 
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoCreationPayload: (body) video to create 
      - returns: RequestBuilder<Video> 
      */
@@ -180,9 +177,6 @@ The latter allows you to split a video source into X chunks and send those chunk
   Once all chunks have been sent, they are reaggregated to one source file. The video source is considered as "completely sent" when the "last" chunk is sent (i.e., the chunk that "completes" the upload).
 
 
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) Enter the videoId you want to use to upload your video. 
      - parameter file: (form) The path to the video you would like to upload. The path must be local. If you want to use a video from an online source, you must use the \\\&quot;/videos\\\&quot; endpoint and add the \\\&quot;source\\\&quot; parameter when you create a new video. 
      - parameter onProgressReady: progress handler to receive request progress.
@@ -235,9 +229,6 @@ The latter allows you to split a video source into X chunks and send those chunk
   Once all chunks have been sent, they are reaggregated to one source file. The video source is considered as "completely sent" when the "last" chunk is sent (i.e., the chunk that "completes" the upload).
 
 
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) Enter the videoId you want to use to upload your video. 
      - parameter file: (form) The path to the video you would like to upload. The path must be local. If you want to use a video from an online source, you must use the \\\&quot;/videos\\\&quot; endpoint and add the \\\&quot;source\\\&quot; parameter when you create a new video. 
      - parameter onProgressReady: progress handler to receive request progress.
@@ -499,9 +490,6 @@ The latter allows you to split a video source into X chunks and send those chunk
      Retrieve a video
      - GET /videos/{videoId}
      - This call provides the same information provided on video creation. For private videos, it will generate a unique token url. Use this to retrieve any details you need about a video, or set up a private viewing URL.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) The unique identifier for the video you want details about. 
      - returns: RequestBuilder<Video> 
      */
@@ -558,9 +546,6 @@ The latter allows you to split a video source into X chunks and send those chunk
 NOTE: If you are updating an array, you must provide the entire array as what you provide here overwrites what is in the system rather than appending to it.
 
 
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) The video ID for the video you want to delete. 
      - parameter videoUpdatePayload: (body)  
      - returns: RequestBuilder<Video> 
@@ -611,9 +596,6 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      Delete a video
      - DELETE /videos/{videoId}
      - If you do not need a video any longer, you can send a request to delete it. All you need is the videoId.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) The video ID for the video you want to delete. 
      - returns: RequestBuilder<Void> 
      */
@@ -671,9 +653,6 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      List all videos
      - GET /videos
      - This method returns a list of your videos (with all their details). With no parameters added, the API returns the first page of all videos. You can filter videos using the parameters described below.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
      - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
      - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) allows you to define a key that allows any value pair. (optional)
@@ -752,9 +731,6 @@ To select a still frame from the video using a time stamp, use the [dedicated me
 
 
 Note: There may be a short delay before the new thumbnail is delivered to our CDN.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) Unique identifier of the chosen video  
      - parameter file: (form) The image to be added as a thumbnail. The mime type should be image/jpeg, image/png or image/webp. The max allowed size is 8 MiB. 
      - returns: RequestBuilder<Video> 
@@ -820,9 +796,6 @@ If you'd like to upload an image for your thumbnail, use the dedicated [method](
 There may be a short delay for the thumbnail to update.
 
 
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) Unique identifier of the video you want to add a thumbnail to, where you use a section of your video as the thumbnail. 
      - parameter videoThumbnailPickPayload: (body)  
      - returns: RequestBuilder<Video> 
@@ -873,9 +846,6 @@ There may be a short delay for the thumbnail to update.
      Retrieve video status
      - GET /videos/{videoId}/status
      - This method provides upload status & encoding status to determine when the video is uploaded or ready to playback. Once encoding is completed, the response also lists the available stream qualities.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter videoId: (path) The unique identifier for the video you want the status for. 
      - returns: RequestBuilder<VideoStatus> 
      */

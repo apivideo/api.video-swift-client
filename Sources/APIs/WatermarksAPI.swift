@@ -36,9 +36,6 @@ open class WatermarksAPI {
      Upload a watermark
      - POST /watermarks
      - Create a new watermark by uploading a `JPG` or a `PNG` image. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter file: (form) The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. 
      - returns: RequestBuilder<Watermark> 
      */
@@ -89,9 +86,6 @@ open class WatermarksAPI {
      Delete a watermark
      - DELETE /watermarks/{watermarkId}
      - Delete a watermark. A watermark is a static image, directly burnt-into a video.
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter watermarkId: (path) The watermark ID for the watermark you want to delete. 
      - returns: RequestBuilder<Void> 
      */
@@ -144,9 +138,6 @@ open class WatermarksAPI {
      List all watermarks
      - GET /watermarks
      - List all watermarks. A watermark is a static image, directly burnt into a video. After you have created your watermark, you can define its placement and aspect when you [create a video](https://docs.api.video/reference/post-video).
-     - BASIC:
-       - type: http
-       - name: bearerAuth
      - parameter sortBy: (query) Allowed: createdAt. You can search by the time watermark were created at. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. asc is ascending and sorts from A to Z. desc is descending and sorts from Z to A. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
