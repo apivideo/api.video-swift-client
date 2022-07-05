@@ -6,16 +6,14 @@
 
 import Foundation
 enum ApiVideoClientError: Error {
-    case invalidApplicationName
-    case invalidApplicationVersion
-    case missingApplicationName
+    case invalidName
+    case invalidVersion
 }
 
 public class ApiVideoClient {
-
     public static var apiKey: String? = nil
     public static var basePath = "https://ws.api.video"
-    internal  static var customHeaders:[String: String] = ["AV-Origin-Client": "ios:1.0.4"]
+    internal static var customHeaders:[String: String] = ["AV-Origin-Client": "ios:1.0.5"]
     private static var chunkSize: Int = 50 * 1024 * 1024
     internal static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
     internal static var credential = ApiVideoCredential()
@@ -35,36 +33,44 @@ public class ApiVideoClient {
         return ApiVideoClient.chunkSize
     }
 
-
-    public static func setApplicationName(applicationName: String, applicationVersion: String?) throws {
-        if(applicationName.isEmpty) {
-            if(applicationVersion != nil && !applicationVersion!.isEmpty) {
-                throw ApiVideoClientError.missingApplicationName
-            }
-            ApiVideoClient.customHeaders["AV-Origin-App"] = nil
-            return
-        }
-
-        let pattern = #"^[\w\-]{1,50}$"#
+    static func isValid(pattern: String, field: String) -> Bool {
         let regex = try! NSRegularExpression(pattern: pattern, options: .anchorsMatchLines)
-        let stringRange = NSRange(location: 0, length: applicationName.utf16.count)
-        let matches = regex.matches(in: applicationName, range: stringRange)
+        let stringRange = NSRange(location: 0, length: field.utf16.count)
+        let matches = regex.matches(in: field, range: stringRange)
         if(matches.isEmpty) {
-            throw ApiVideoClientError.invalidApplicationName
+            return false
+        } else {
+            return true
         }
+    }
 
-        if(applicationVersion != nil && !applicationVersion!.isEmpty) {
-            let pattern2 = #"^[\w\-]{1,50}$"#
-            let regex2 = try! NSRegularExpression(pattern: pattern2, options: .anchorsMatchLines)
-            let stringRange2 = NSRange(location: 0, length: applicationVersion!.utf16.count)
-            let matches2 = regex2.matches(in: applicationVersion!, range: stringRange2)
-            if(matches2.isEmpty) {
-                throw ApiVideoClientError.invalidApplicationVersion
-            }
-            ApiVideoClient.customHeaders["AV-Origin-App"] = applicationName + ":" + applicationVersion!
-            return
+    static func isValidVersion(version: String) -> Bool {
+        let pattern = #"^\d{1,3}(\.\d{1,3}(\.\d{1,3})?)?$"#
+        return isValid(pattern: pattern, field: version)
+    }
+
+    static func isValidName(name: String) -> Bool {
+        let pattern = #"^[\w\-]{1,50}$"#
+        return isValid(pattern: pattern, field: name)
+    }
+
+    static func setName(key: String, name: String, version: String) throws {
+        if(!isValidName(name: name)) {
+            throw ApiVideoClientError.invalidName
         }
-        ApiVideoClient.customHeaders["AV-Origin-App"] = applicationName
+ 
+        if(!isValidVersion(version: version)) {
+            throw ApiVideoClientError.invalidVersion
+        }
+        ApiVideoClient.customHeaders[key] = name + ":" + version
+    }
+
+    public static func setSdkName(name: String, version: String) throws {
+        try setName(key: "AV-Origin-Sdk", name: name, version: version)
+    }
+
+    public static func setApplicationName(name: String, version: String) throws {
+        try setName(key: "AV-Origin-App", name: name, version: version)
     }
 
 }
