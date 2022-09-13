@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 # **listLiveStreamSessions**
 ```swift
-    open class func listLiveStreamSessions(liveStreamId: String, period: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: RawStatisticsListLiveStreamAnalyticsResponse?, _ error: Error?) -> Void)
+    open class func listLiveStreamSessions(liveStreamId: String, period: String, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: RawStatisticsListLiveStreamAnalyticsResponse?, _ error: Error?) -> Void)
 ```
 
 List live stream player sessions
@@ -23,7 +23,7 @@ List live stream player sessions
 import ApiVideoClient
 
 let liveStreamId = "liveStreamId_example" // String | The unique identifier for the live stream you want to retrieve analytics for.
-let period = "period_example" // String | Period must have one of the following formats:  - For a day : \"2018-01-01\", - For a week: \"2018-W01\",  - For a month: \"2018-01\" - For a year: \"2018\" For a range period:  -  Date range: \"2018-01-01/2018-01-15\"  (optional)
+let period = "period_example" // String | Period must have one of the following formats:  - For a day : \"2018-01-01\", - For a week: \"2018-W01\",  - For a month: \"2018-01\" - For a year: \"2018\" For a range period:  -  Date range: \"2018-01-01/2018-01-15\" 
 let currentPage = 987 // Int | Choose the number of search results to return per page. Minimum value: 1 (optional) (default to 1)
 let pageSize = 987 // Int | Results per page. Allowed values 1-100, default is 25. (optional) (default to 25)
 
@@ -45,7 +45,7 @@ RawStatisticsAPI.listLiveStreamSessions(liveStreamId: liveStreamId, period: peri
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **liveStreamId** | **String** | The unique identifier for the live stream you want to retrieve analytics for. | 
- **period** | **String** | Period must have one of the following formats:  - For a day : \&quot;2018-01-01\&quot;, - For a week: \&quot;2018-W01\&quot;,  - For a month: \&quot;2018-01\&quot; - For a year: \&quot;2018\&quot; For a range period:  -  Date range: \&quot;2018-01-01/2018-01-15\&quot;  | [optional] 
+ **period** | **String** | Period must have one of the following formats:  - For a day : \&quot;2018-01-01\&quot;, - For a week: \&quot;2018-W01\&quot;,  - For a month: \&quot;2018-01\&quot; - For a year: \&quot;2018\&quot; For a range period:  -  Date range: \&quot;2018-01-01/2018-01-15\&quot;  | 
  **currentPage** | **Int** | Choose the number of search results to return per page. Minimum value: 1 | [optional] [default to 1]
  **pageSize** | **Int** | Results per page. Allowed values 1-100, default is 25. | [optional] [default to 25]
 
@@ -121,7 +121,7 @@ Name | Type | Description  | Notes
 
 # **listVideoSessions**
 ```swift
-    open class func listVideoSessions(videoId: String, period: String? = nil, metadata: [String: String]? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: RawStatisticsListSessionsResponse?, _ error: Error?) -> Void)
+    open class func listVideoSessions(videoId: String, period: String, metadata: [String: String]? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: RawStatisticsListSessionsResponse?, _ error: Error?) -> Void)
 ```
 
 List video player sessions
@@ -135,7 +135,7 @@ Retrieve all available user sessions for a specific video. Tutorials that use th
 import ApiVideoClient
 
 let videoId = "videoId_example" // String | The unique identifier for the video you want to retrieve session information for.
-let period = "period_example" // String | Period must have one of the following formats:  - For a day : 2018-01-01, - For a week: 2018-W01,  - For a month: 2018-01 - For a year: 2018 For a range period:  -  Date range: 2018-01-01/2018-01-15  (optional)
+let period = "period_example" // String | Period must have one of the following formats:  - For a day : 2018-01-01, - For a week: 2018-W01,  - For a month: 2018-01 - For a year: 2018 For a range period:  -  Date range: 2018-01-01/2018-01-15 
 let metadata = "TODO" // [String: String] | Metadata and [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) filter. Send an array of key value pairs you want to filter sessios with. (optional)
 let currentPage = 987 // Int | Choose the number of search results to return per page. Minimum value: 1 (optional) (default to 1)
 let pageSize = 987 // Int | Results per page. Allowed values 1-100, default is 25. (optional) (default to 25)
@@ -158,7 +158,7 @@ RawStatisticsAPI.listVideoSessions(videoId: videoId, period: period, metadata: m
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **videoId** | **String** | The unique identifier for the video you want to retrieve session information for. | 
- **period** | **String** | Period must have one of the following formats:  - For a day : 2018-01-01, - For a week: 2018-W01,  - For a month: 2018-01 - For a year: 2018 For a range period:  -  Date range: 2018-01-01/2018-01-15  | [optional] 
+ **period** | **String** | Period must have one of the following formats:  - For a day : 2018-01-01, - For a week: 2018-W01,  - For a month: 2018-01 - For a year: 2018 For a range period:  -  Date range: 2018-01-01/2018-01-15  | 
  **metadata** | [**[String: String]**](String.md) | Metadata and [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) filter. Send an array of key value pairs you want to filter sessios with. | [optional] 
  **currentPage** | **Int** | Choose the number of search results to return per page. Minimum value: 1 | [optional] [default to 1]
  **pageSize** | **Int** | Results per page. Allowed values 1-100, default is 25. | [optional] [default to 25]
