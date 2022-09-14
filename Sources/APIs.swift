@@ -13,7 +13,7 @@ enum ApiVideoClientError: Error {
 public class ApiVideoClient {
     public static var apiKey: String? = nil
     public static var basePath = "https://ws.api.video"
-    internal static var customHeaders:[String: String] = ["AV-Origin-Client": "ios:1.0.5"]
+    internal static var customHeaders:[String: String] = ["AV-Origin-Client": "ios:1.0.6"]
     private static var chunkSize: Int = 50 * 1024 * 1024
     internal static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
     internal static var credential = ApiVideoCredential()
