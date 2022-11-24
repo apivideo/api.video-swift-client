@@ -191,8 +191,12 @@ class UploaderViewController: UIViewController, UIImagePickerControllerDelegate,
         imagePickerController.dismiss(animated: true, completion: nil)
     }
     
+
+    private var numOfUpload = 100
+    
     func upload(url: URL) {
-        VideosAPI.create(videoCreationPayload: VideoCreationPayload(title: "my video")) { video, error in
+        print("uploading \(numOfUpload)")
+        VideosAPI.create(videoCreationPayload: VideoCreationPayload(title: "my video \(numOfUpload)")) { video, error in
             if let video = video {
                 VideosAPI.upload(
                     videoId: video.videoId,
@@ -201,9 +205,11 @@ class UploaderViewController: UIViewController, UIImagePickerControllerDelegate,
                         print("Progress: \(progress)")
                     }) { video, error in
                         if video != nil {
-                        self.thumbnailImageView.image = nil
-                    }
-                    if let error = error {
+                            if (self.numOfUpload > 0) {
+                                self.upload(url: url)
+                            }
+                            self.numOfUpload -= 1
+                        } else if let error = error {
                         print("Upload error: \(error)")
                     }
                 }
