@@ -20,10 +20,10 @@ class FileChunksReader: ChunksReader {
     private var chunks: [ChunkInputStream]
     private var index = 1
 
-    public init(fileURL: URL) throws {
-        let fileChunksBuilder = try FileChunksBuilder(fileURL: fileURL)
-        self.fileSize = fileChunksBuilder.fileSize
-        self.chunks = fileChunksBuilder.build()
+    public init(file: URL) throws {
+        let chunkInputStreamBuilder = try ChunkInputStreamBuilder(file: file)
+        self.fileSize = try file.fileSize
+        self.chunks = chunkInputStreamBuilder.build()
         self.totalNumberOfChunks = self.chunks.count
     }
 
@@ -77,6 +77,6 @@ class FilePartsReader: ChunksReader {
         
         self.isLastPart = isLastPart
         let fileSize = try Int64(fileURL.resourceValues(forKeys: [URLResourceKey.fileSizeKey]).fileSize!)
-        chunks.append(ChunkInputStream(fileURL: fileURL, maxSize: Int(fileSize)))
+        chunks.append(ChunkInputStream(file: fileURL, capacity: Int(fileSize)))
     }
 }

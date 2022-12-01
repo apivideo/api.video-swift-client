@@ -5,10 +5,6 @@
 //
 
 import Foundation
-enum ApiVideoClientError: Error {
-    case invalidName
-    case invalidVersion
-}
 
 public class ApiVideoClient {
     public static var apiKey: String? = nil
@@ -18,6 +14,7 @@ public class ApiVideoClient {
     internal static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
     internal static var credential = ApiVideoCredential()
     public static var apiResponseQueue: DispatchQueue = .main
+    public static var timeout: TimeInterval = 60
 
     public static func setChunkSize(chunkSize: Int) throws {
         if (chunkSize > 128 * 1024 * 1024) {
@@ -56,11 +53,11 @@ public class ApiVideoClient {
 
     static func setName(key: String, name: String, version: String) throws {
         if(!isValidName(name: name)) {
-            throw ApiVideoClientError.invalidName
+            throw ParameterError.invalidName
         }
  
         if(!isValidVersion(version: version)) {
-            throw ApiVideoClientError.invalidVersion
+            throw ParameterError.invalidVersion
         }
         ApiVideoClient.customHeaders[key] = name + ":" + version
     }
@@ -80,6 +77,7 @@ open class RequestBuilder<T> {
     public let parameters: [String: Any]?
     public let method: String
     public let URLString: String
+    public let requestTask: RequestTask = RequestTask()
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     public let onProgressReady: ((Progress) -> Void)?
@@ -101,8 +99,8 @@ open class RequestBuilder<T> {
     }
 
     @discardableResult
-    open func execute(_ apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> URLSessionTask? {
-        return nil
+    open func execute(_ apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+        return requestTask
     }
 
     public func addHeader(name: String, value: String) -> Self {

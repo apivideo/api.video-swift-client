@@ -5,17 +5,17 @@ import Foundation
 
 class ChunkInputStream: InputStream {
     private let inputStream: InputStream
-    private let offset: UInt64
-    let maxSize: Int
+    private let offset: Int64
+    let capacity: Int
     private var remainingBytes: Int = 0
-    let fileURL: URL
+    let file: URL
     
-    public init(fileURL: URL, offset: UInt64 = 0, maxSize: Int) {
-        self.inputStream = InputStream(url: fileURL)!
+    public init(file: URL, offset: Int64 = 0, capacity: Int) {
+        self.inputStream = InputStream(url: file)!
         self.offset = offset
-        self.maxSize = maxSize
-        self.remainingBytes = maxSize;
-        self.fileURL = fileURL
+        self.capacity = capacity
+        self.remainingBytes = capacity;
+        self.file = file
         
         super.init()
     }

@@ -22,7 +22,7 @@ open class ChaptersAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func upload(videoId: String, language: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Chapter?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func upload(videoId: String, language: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Chapter?, _ error: Error?) -> Void)) -> RequestTask {
             return uploadWithRequestBuilder(videoId: videoId, language: language, file: file).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -81,7 +81,7 @@ open class ChaptersAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func get(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Chapter?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func get(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Chapter?, _ error: Error?) -> Void)) -> RequestTask {
             return getWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -135,7 +135,7 @@ open class ChaptersAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func delete(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func delete(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
             return deleteWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
@@ -190,7 +190,7 @@ open class ChaptersAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: ChaptersListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: ChaptersListResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listWithRequestBuilder(videoId: videoId, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):

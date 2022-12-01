@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol JSONEncodable {
     func encodeToJSON() -> Any
@@ -17,6 +18,10 @@ public enum ErrorResponse: Error {
 public enum ParameterError: Error {
     case outOfRange
     case IO
+    case emptyRequest
+    case fileSizeNotAvailable
+    case invalidName
+    case invalidVersion
 }
 
 public enum DownloadException: Error {
@@ -55,5 +60,39 @@ open class Response<T> {
             }
         }
         self.init(statusCode: response.statusCode, header: header, body: body)
+    }
+}
+
+public class RequestTask {
+    private var lock = NSRecursiveLock()
+    private var request: Request?
+
+    internal func set(request: Request) {
+        lock.lock()
+        defer {
+            lock.unlock()
+        }
+        self.request = request
+    }
+
+    var state: Request.State {
+        request?.state ?? .initialized
+    }
+
+    var uploadProgress: Progress {
+        request?.uploadProgress ?? Progress(totalUnitCount: 0)
+    }
+
+    var downloadProgress: Progress {
+        request?.downloadProgress  ?? Progress(totalUnitCount: 0)
+    }
+
+    public func cancel() {
+        lock.lock()
+        defer {
+            lock.unlock()
+        }
+        request?.cancel()
+        request = nil
     }
 }

@@ -20,7 +20,7 @@ open class WatermarksAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func upload(file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Watermark?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func upload(file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Watermark?, _ error: Error?) -> Void)) -> RequestTask {
             return uploadWithRequestBuilder(file: file).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -70,7 +70,7 @@ open class WatermarksAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func delete(watermarkId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func delete(watermarkId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
             return deleteWithRequestBuilder(watermarkId: watermarkId).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
@@ -122,7 +122,7 @@ open class WatermarksAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func list(sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: WatermarksListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func list(sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: WatermarksListResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listWithRequestBuilder(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
