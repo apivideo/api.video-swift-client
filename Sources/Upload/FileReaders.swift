@@ -8,7 +8,7 @@ protocol ChunksReader {
     var remainingNumberOfChunks: Int { get }
     var fileSize: Int64? { get }
     func getTotalNumberOfChunks() -> Int?
-    func getNextChunk() -> (index: Int, chunk: ChunkInputStream)
+    func getNextChunk() -> (index: Int, chunk: FileChunkInputStream)
 }
 
 /**
@@ -17,7 +17,7 @@ protocol ChunksReader {
 class FileChunksReader: ChunksReader {
     private let totalNumberOfChunks: Int
     let fileSize: Int64?
-    private var chunks: [ChunkInputStream]
+    private var chunks: [FileChunkInputStream]
     private var index = 1
 
     public init(file: URL) throws {
@@ -35,7 +35,7 @@ class FileChunksReader: ChunksReader {
         return totalNumberOfChunks
     }
     
-    func getNextChunk() -> (index: Int, chunk: ChunkInputStream) {
+    func getNextChunk() -> (index: Int, chunk: FileChunkInputStream) {
         let tuple = (index, chunks.removeFirst())
         index += 1
         return tuple
@@ -48,7 +48,7 @@ class FileChunksReader: ChunksReader {
 class FilePartsReader: ChunksReader {
     let fileSize: Int64? = nil
     private let totalNumberOfChunks: Int = 0
-    private var chunks: [ChunkInputStream] = []
+    private var chunks: [FileChunkInputStream] = []
     private var index = 1
     private var isLastPart = false
  
@@ -64,7 +64,7 @@ class FilePartsReader: ChunksReader {
         }
     }
     
-    func getNextChunk() -> (index: Int, chunk: ChunkInputStream) {
+    func getNextChunk() -> (index: Int, chunk: FileChunkInputStream) {
         let tuple = (index, chunks.removeFirst())
         index += 1
         return tuple
@@ -77,6 +77,6 @@ class FilePartsReader: ChunksReader {
         
         self.isLastPart = isLastPart
         let fileSize = try Int64(fileURL.resourceValues(forKeys: [URLResourceKey.fileSizeKey]).fileSize!)
-        chunks.append(ChunkInputStream(file: fileURL, capacity: Int(fileSize)))
+        chunks.append(FileChunkInputStream(file: fileURL, capacity: Int(fileSize)))
     }
 }

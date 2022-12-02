@@ -3,12 +3,12 @@ import Alamofire
 
 
 public class ChunkInputStreamRequestTask<T>: ChunkRequestTask<T> {
-    private let chunkInputStreams: [ChunkInputStream]
+    private let chunkInputStreams: [FileChunkInputStream]
     internal let numOfChunks: Int
     private var chunkId: Int = 0
 
     internal init(fileSize: Int64,
-                  chunkInputStreams: [ChunkInputStream],
+                  chunkInputStreams: [FileChunkInputStream],
                   onProgressReady: ((Progress) -> Void)? = nil,
                   apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue,
                   completion: @escaping (_ data: T?, _ error: Error?) -> Void) throws {
@@ -23,11 +23,11 @@ public class ChunkInputStreamRequestTask<T>: ChunkRequestTask<T> {
         executeRequestBuilder(firstRequestBuilder)
     }
 
-    internal func createNextRequestBuilder(chunkInputStream: ChunkInputStream, chunkId: Int) -> RequestBuilder<T>? {
+    internal func createNextRequestBuilder(chunkInputStream: FileChunkInputStream, chunkId: Int) -> RequestBuilder<T>? {
         preconditionFailure("This method must be overridden")
     }
 
-    private func getNextChunkInputStream() -> (ChunkInputStream, Int)? {
+    private func getNextChunkInputStream() -> (FileChunkInputStream, Int)? {
         if chunkId < numOfChunks {
             let chunkInputStream = chunkInputStreams[chunkId]
             chunkId += 1
@@ -59,11 +59,11 @@ public class VideoChunkInputStreamRequestTask: ChunkInputStreamRequestTask<Video
         try super.init(fileSize: file.fileSize, chunkInputStreams: chunkInputStreams, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
     }
 
-    internal override func createNextRequestBuilder(chunkInputStream: ChunkInputStream, chunkId: Int) -> RequestBuilder<Video>? {
+    internal override func createNextRequestBuilder(chunkInputStream: FileChunkInputStream, chunkId: Int) -> RequestBuilder<Video>? {
         uploadWithRequestBuilder(chunkInputStream: chunkInputStream, chunkId: chunkId)
     }
 
-    private func uploadWithRequestBuilder(chunkInputStream: ChunkInputStream, chunkId: Int) -> RequestBuilder<Video> {
+    private func uploadWithRequestBuilder(chunkInputStream: FileChunkInputStream, chunkId: Int) -> RequestBuilder<Video> {
         VideosAPI.uploadWithRequestBuilder(videoId: videoId, chunkInputStream: chunkInputStream, chunkId: chunkId, numOfChunks: numOfChunks, onProgressReady: { progress in
             self.progressReadyHook(progress: progress)
         })
@@ -85,7 +85,7 @@ public class VideoWithUploadTokenChunkRequestTask: ChunkInputStreamRequestTask<V
         try super.init(fileSize: file.fileSize, chunkInputStreams: chunkInputStreams, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
     }
 
-    internal override func createNextRequestBuilder(chunkInputStream: ChunkInputStream, chunkId: Int) -> RequestBuilder<Video>? {
+    internal override func createNextRequestBuilder(chunkInputStream: FileChunkInputStream, chunkId: Int) -> RequestBuilder<Video>? {
         uploadWithUploadTokenWithRequestBuilder(chunkInputStream: chunkInputStream, chunkId: chunkId)
     }
 
@@ -93,7 +93,7 @@ public class VideoWithUploadTokenChunkRequestTask: ChunkInputStreamRequestTask<V
         videoId = data.videoId
     }
 
-    private func uploadWithUploadTokenWithRequestBuilder(chunkInputStream: ChunkInputStream, chunkId: Int) -> RequestBuilder<Video> {
+    private func uploadWithUploadTokenWithRequestBuilder(chunkInputStream: FileChunkInputStream, chunkId: Int) -> RequestBuilder<Video> {
         VideosAPI.uploadWithUploadTokenWithRequestBuilder(token: token, file: chunkInputStream, videoId: videoId, chunkId: chunkId, numOfChunks: numOfChunks, onProgressReady: { progress in
             self.progressReadyHook(progress: progress)
         })

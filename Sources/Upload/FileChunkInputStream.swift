@@ -3,7 +3,7 @@
 
 import Foundation
 
-class ChunkInputStream: InputStream {
+class FileChunkInputStream: InputStream {
     private let inputStream: InputStream
     private let offset: Int64
     let capacity: Int

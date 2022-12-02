@@ -7,7 +7,7 @@ import ApiVideoClient
 
 internal class UploadTestCase: XCTestCase {
     internal var videoId: String? = nil
-    
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         try XCTSkipIf(Parameters.apiKey == "INTEGRATION_TESTS_API_KEY", "Can't get API key")
@@ -20,15 +20,16 @@ internal class UploadTestCase: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        
+
         if let videoId = videoId {
-            VideosAPI.delete(videoId: videoId) { data, error in }
+            VideosAPI.delete(videoId: videoId) { data, error in
+            }
         }
     }
-    
+
     internal func createVideo() {
         let expectation = XCTestExpectation(description: "Create a video")
-        
+
         VideosAPI.create(videoCreationPayload: VideoCreationPayload(title: "[iOS-API-client-tests] upload with chunk")) { video, error in
             XCTAssertNil(error, "Failed to create a video due to \(String(describing: error))")
             XCTAssertNotNil(video, "Failed to create a video")
@@ -37,20 +38,24 @@ internal class UploadTestCase: XCTestCase {
             }
             expectation.fulfill()
         }
-        
+
         wait(for: [expectation], timeout: 5)
     }
-    
+
     internal func uploadVideo(file: URL, timeout: TimeInterval = 30) {
         let expectation = XCTestExpectation(description: "Upload a video")
         var observedProgress: Progress? = nil
 
-        VideosAPI.upload(videoId: self.videoId!, file: file, onProgressReady: { progress in
-            observedProgress = progress
-        }) { video, error in
-            XCTAssertNotNil(video, "Failed to upload a video")
-            XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
-            expectation.fulfill()
+        do {
+            try VideosAPI.upload(videoId: self.videoId!, file: file, onProgressReady: { progress in
+                observedProgress = progress
+            }) { video, error in
+                XCTAssertNotNil(video, "Failed to upload a video")
+                XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
+                expectation.fulfill()
+            }
+        } catch {
+            XCTFail("Failed to upload a video due to \(error)")
         }
 
         wait(for: [expectation], timeout: timeout)
@@ -79,50 +84,83 @@ class UploadChunkTests: UploadTestCase {
 
 class ProgressiveUploadTests: UploadTestCase {
     private var progressiveUploadSession: VideosAPI.ProgressiveUploadSession? = nil
-    
-    internal func uploadPart(file: URL, timeout: TimeInterval = 60, isLastPart: Bool = false) {
+    public var apiResponseQueue = DispatchQueue(label: "test", attributes: .concurrent)
+    public let classExpectation = XCTestExpectation(description: "Upload a video")
+    private var requestTaskList: [RequestTask] = []
+
+    @available(iOS 13.0.0, *)
+    internal func uploadPart(file: URL, timeout: TimeInterval = 180, isLastPart: Bool = false) {
         let expectation = XCTestExpectation(description: "Upload a video")
         var observedProgress: Progress? = nil
-        
-        if (isLastPart) {
-            progressiveUploadSession!.uploadLastPart(file: file, onProgressReady: { progress in
-                observedProgress = progress
-            }) { video, error in
-                XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
-                XCTAssertNotNil(video, "Failed to upload a video")
-                expectation.fulfill()
+        var requestTask: RequestTask? = nil
+        do {
+            if (isLastPart) {
+                requestTask = try progressiveUploadSession!.uploadLastPart(file: file, onProgressReady: { progress in
+                    print(progress)
+                    observedProgress = progress
+                }) { video, error in
+                    XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
+                    XCTAssertNotNil(video, "Failed to upload a video")
+                    expectation.fulfill()
+                    self.classExpectation.fulfill()
+                }
+            } else {
+                requestTask = try progressiveUploadSession!.uploadPart(file: file, onProgressReady: { progress in
+                    print(progress)
+                    observedProgress = progress
+                }) { video, error in
+                    XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
+                    XCTAssertNotNil(video, "Failed to upload a video")
+                    expectation.fulfill()
+                    self.classExpectation.fulfill()
+                }
             }
-        } else {
-            progressiveUploadSession!.uploadPart(file: file, onProgressReady: { progress in
-                observedProgress = progress
-            }) { video, error in
-                XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
-                XCTAssertNotNil(video, "Failed to upload a video")
-                expectation.fulfill()
-            }
+            requestTaskList.append(requestTask!)
+        } catch {
+            XCTFail("Failed to upload a video due to \(error)")
         }
-        
+
         wait(for: [expectation], timeout: timeout)
-        
-  
+
+
         XCTAssertNotNil(observedProgress, "Failed to get progress")
         XCTAssertEqual(1.0, observedProgress?.fractionCompleted)
     }
-    
+
+    @available(iOS 13.0, *)
     func testUpload() {
         createVideo()
+        classExpectation.expectedFulfillmentCount = 3
+        ApiVideoClient.timeout = 180
+        progressiveUploadSession = VideosAPI.ProgressiveUploadSession(videoId: self.videoId!)
+
+        apiResponseQueue.async {
+            print("in task 1")
+            self.uploadPart(file: SharedResources.v10m_parta!)
+            print("out task 1")
+        }
+        sleep(2)
+        apiResponseQueue.async {
+            print("in task 2")
+            self.uploadPart(file: SharedResources.v10m_partb!)
+            print("out task 2")
+        }
+        sleep(2)
+        apiResponseQueue.async {
+            self.requestTaskList.first?.cancel()
+            print("in task 3")
+            self.uploadPart(file: SharedResources.v10m_partc!, isLastPart: true)
+            print("out task 3")
+        }
         
-        progressiveUploadSession = VideosAPI.buildProgressiveUploadSession(videoId: self.videoId!)
-        uploadPart(file: SharedResources.v10m_parta!)
-        uploadPart(file: SharedResources.v10m_partb!)
-        uploadPart(file: SharedResources.v10m_partc!, isLastPart: true)
+        wait(for: [classExpectation], timeout: 180)
     }
 }
 
 
 internal class UploadWithTokenTestCase: XCTestCase {
     internal var token: String? = nil
-    
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         try XCTSkipIf(Parameters.apiKey == "INTEGRATION_TESTS_API_KEY", "Can't get API key")
@@ -134,15 +172,16 @@ internal class UploadWithTokenTestCase: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        
+
         if let token = self.token {
-            UploadTokensAPI.deleteToken(uploadToken: token) { data, error in }
+            UploadTokensAPI.deleteToken(uploadToken: token) { data, error in
+            }
         }
     }
-    
+
     internal func createUploadToken() {
         let expectation = XCTestExpectation(description: "Create an upload token")
-        
+
         UploadTokensAPI.createToken(tokenCreationPayload: TokenCreationPayload(ttl: 120)) { uploadToken, error in
             XCTAssertNil(error, "Failed to create a an upload token due to \(String(describing: error))")
             XCTAssertNotNil(uploadToken, "Failed to create an upload token")
@@ -151,22 +190,25 @@ internal class UploadWithTokenTestCase: XCTestCase {
             }
             expectation.fulfill()
         }
-        
+
         wait(for: [expectation], timeout: 5)
     }
-    
+
     internal func uploadVideo(file: URL, timeout: TimeInterval = 30) {
         let expectation = XCTestExpectation(description: "Upload a video")
         var observedProgress: Progress? = nil
 
-        VideosAPI.uploadWithUploadToken(token: self.token!, file: file, onProgressReady: { progress in
-            observedProgress = progress
-        }) { video, error in
-            XCTAssertNotNil(video, "Failed to upload a video")
-            XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
-            expectation.fulfill()
+        do {
+            try VideosAPI.uploadWithUploadToken(token: self.token!, file: file, onProgressReady: { progress in
+                observedProgress = progress
+            }) { video, error in
+                XCTAssertNotNil(video, "Failed to upload a video")
+                XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
+                expectation.fulfill()
+            }
+        } catch {
+            XCTFail("Failed to upload a video due to \(error)")
         }
-
         wait(for: [expectation], timeout: timeout)
 
         XCTAssertNotNil(observedProgress, "Failed to get progress")
@@ -193,39 +235,42 @@ class UploadWithTokenChunkTests: UploadWithTokenTestCase {
 
 class ProgressiveUploadWithTokenTests: UploadWithTokenTestCase {
     private var progressiveUploadSession: VideosAPI.ProgressiveUploadWithUploadTokenSession? = nil
-    
+
     internal func uploadPart(file: URL, timeout: TimeInterval = 60, isLastPart: Bool = false) {
         let expectation = XCTestExpectation(description: "Upload a video")
         var observedProgress: Progress? = nil
-        
-        if (isLastPart) {
-            progressiveUploadSession!.uploadLastPart(file: file, onProgressReady: { progress in
-                observedProgress = progress
-            }) { video, error in
-                XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
-                XCTAssertNotNil(video, "Failed to upload a video")
-                expectation.fulfill()
+
+        do {
+            if (isLastPart) {
+                try progressiveUploadSession!.uploadLastPart(file: file, onProgressReady: { progress in
+                    observedProgress = progress
+                }) { video, error in
+                    XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
+                    XCTAssertNotNil(video, "Failed to upload a video")
+                    expectation.fulfill()
+                }
+            } else {
+                try progressiveUploadSession!.uploadPart(file: file, onProgressReady: { progress in
+                    observedProgress = progress
+                }) { video, error in
+                    XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
+                    XCTAssertNotNil(video, "Failed to upload a video")
+                    expectation.fulfill()
+                }
             }
-        } else {
-            progressiveUploadSession!.uploadPart(file: file, onProgressReady: { progress in
-                observedProgress = progress
-            }) { video, error in
-                XCTAssertNil(error, "Failed to upload a video due to \(String(describing: error))")
-                XCTAssertNotNil(video, "Failed to upload a video")
-                expectation.fulfill()
-            }
+        } catch {
+            XCTFail("Failed to upload a video due to \(error)")
         }
-        
         wait(for: [expectation], timeout: timeout)
-        
-  
+
+
         XCTAssertNotNil(observedProgress, "Failed to get progress")
         XCTAssertEqual(1.0, observedProgress?.fractionCompleted)
     }
-    
+
     func testUpload() {
         createUploadToken()
-        
+
         progressiveUploadSession = VideosAPI.buildProgressiveUploadWithUploadTokenSession(token: self.token!)
         uploadPart(file: SharedResources.v10m_parta!)
         uploadPart(file: SharedResources.v10m_partb!)

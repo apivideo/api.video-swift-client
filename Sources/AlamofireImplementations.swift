@@ -128,7 +128,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 let upload = manager.upload(multipartFormData: { mpForm in
                     for (k, v) in self.parameters! {
                         switch v {
-                        case let chunkInputStream as ChunkInputStream:
+                        case let chunkInputStream as FileChunkInputStream:
                             let fileURL = chunkInputStream.file
                             let headers = self.contentHeaders(withName: k, fileName: fileURL.lastPathComponent, mimeType: "video/quicktime")
                             mpForm.append(chunkInputStream, withLength: UInt64(chunkInputStream.capacity), headers: headers)
