@@ -197,8 +197,7 @@ class UploaderViewController: UIViewController, UIImagePickerControllerDelegate,
         VideosAPI.create(videoCreationPayload: VideoCreationPayload(title: "my video")) { video, error in
             if let video = video {
                 do {
-                    try VideosAPI.upload(
-                            videoId: video.videoId,
+                    try VideosAPI.uploadWithUploadToken(token: "to6UcY3pkE44RQq5CJFz6qVQ",
                             file: url,
                             onProgressReady: { progress in
                                 print("Progress: \(progress)")

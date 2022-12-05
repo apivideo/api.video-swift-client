@@ -74,13 +74,13 @@ public class ApiVideoClient {
 
 open class RequestBuilder<T> {
     var headers: [String: String]
-    public let parameters: [String: Any]?
+    public var parameters: [String: Any]?
     public let method: String
     public let URLString: String
     public let requestTask: RequestTask = RequestTask()
 
     /// Optional block to obtain a reference to the request's progress instance when available.
-    public let onProgressReady: ((Progress) -> Void)?
+    public var onProgressReady: ((Progress) -> Void)?
 
     required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], onProgressReady: ((Progress) -> Void)? = nil) {
         self.method = method

@@ -70,7 +70,7 @@ open class VideosAPI {
     @discardableResult
     open class func upload(videoId: String, file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) throws -> RequestTask {
         if (try file.isMultiChunk) {
-            return try VideoChunkInputStreamRequestTask(videoId: videoId, file: file, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
+            return try UploadChunkRequestTaskQueue(videoId: videoId, file: file, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
         } else {
             // File is small enough to upload in one chunk
             return uploadWithRequestBuilder(videoId: videoId, file: file, onProgressReady: onProgressReady).execute(apiResponseQueue) { result in
@@ -93,15 +93,13 @@ open class VideosAPI {
         return ProgressiveUploadSession(videoId: videoId)
     }
 
-    open class ProgressiveUploadSession: ProgressiveUploadSessioning {
+    public class ProgressiveUploadSession: RequestTaskQueue<Video>, ProgressiveUploadSessioning {
         private var partId = 1
         private let videoId: String
-        private let executeQueue: DispatchQueue
-        private let lock = NSLock()
-        private let requestBuilders: [RequestBuilder<Video>] = []
+
         public init(videoId: String) {
             self.videoId = videoId
-            executeQueue = DispatchQueue(label: "video.api.ProgressiveUploadQueue.\(videoId)")
+            super.init(queueLabel: videoId)
         }
 
         public func uploadPart(file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
@@ -120,24 +118,8 @@ open class VideosAPI {
                 numOfParts = partId
             }
             let requestBuilder = uploadWithRequestBuilder(videoId: videoId, file: file, chunkId: chunkId, numOfChunks: numOfParts, onProgressReady: onProgressReady)
-            executeQueue.async {
-                self.lock.lock()
-                requestBuilder.execute(apiResponseQueue) { result in
-                    self.lock.unlock()
-                    switch result {
-                    case let .success(response):
-                        completion(response.body, nil)
-                    case let .failure(error):
-                        completion(nil, error)
-                    }
-                }
-            }
-            requestBuilders.append(requestBuilder)
+            execute(requestBuilder, apiResponseQueue: apiResponseQueue, completion: completion)
             return requestBuilder.requestTask
-        }
-
-        func cancel() {
-           requestBuilders.forEach { $0.requestTask.cancel() }
         }
     }
 
@@ -264,7 +246,7 @@ The latter allows you to split a video source into X chunks and send those chunk
     @discardableResult
     open class func uploadWithUploadToken(token: String, file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) throws -> RequestTask {
         if (try file.isMultiChunk) {
-            return try VideoWithUploadTokenChunkRequestTask(token: token, file: file, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
+            return try UploadChunkRequestTaskQueue(token: token, file: file, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
         } else {
             return uploadWithUploadTokenWithRequestBuilder(token: token, file: file, onProgressReady: onProgressReady).execute(apiResponseQueue) { result in
                 switch result {
@@ -377,6 +359,15 @@ The latter allows you to split a video source into X chunks and send those chunk
         let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, onProgressReady: onProgressReady)
+    }
+
+    open class func uploadAddVideoIdParameterWithRequestBuilder(requestBuilder: RequestBuilder<Video>, videoId: String) {
+        guard let parameters = requestBuilder.parameters else {
+            return
+        }
+        if (!parameters.keys.contains("videoId")) {
+            requestBuilder.parameters!["videoId"] = videoId
+        }
     }
 
     internal class func uploadWithUploadTokenWithRequestBuilder(token: String, file: FileChunkInputStream, videoId: String? = nil, chunkId: Int?, numOfChunks: Int?, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
