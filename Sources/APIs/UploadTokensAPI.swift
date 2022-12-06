@@ -20,7 +20,7 @@ open class UploadTokensAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func createToken(tokenCreationPayload: TokenCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: UploadToken?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func createToken(tokenCreationPayload: TokenCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: UploadToken?, _ error: Error?) -> Void)) -> RequestTask {
             return createTokenWithRequestBuilder(tokenCreationPayload: tokenCreationPayload).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -66,7 +66,7 @@ open class UploadTokensAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func getToken(uploadToken: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: UploadToken?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func getToken(uploadToken: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: UploadToken?, _ error: Error?) -> Void)) -> RequestTask {
             return getTokenWithRequestBuilder(uploadToken: uploadToken).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -115,7 +115,7 @@ open class UploadTokensAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func deleteToken(uploadToken: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func deleteToken(uploadToken: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
             return deleteTokenWithRequestBuilder(uploadToken: uploadToken).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
@@ -183,7 +183,7 @@ open class UploadTokensAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: TokenListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: TokenListResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listWithRequestBuilder(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):

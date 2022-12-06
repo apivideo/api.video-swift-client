@@ -20,7 +20,7 @@ open class WebhooksAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func create(webhooksCreationPayload: WebhooksCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Webhook?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func create(webhooksCreationPayload: WebhooksCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Webhook?, _ error: Error?) -> Void)) -> RequestTask {
             return createWithRequestBuilder(webhooksCreationPayload: webhooksCreationPayload).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -66,7 +66,7 @@ open class WebhooksAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func get(webhookId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Webhook?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func get(webhookId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Webhook?, _ error: Error?) -> Void)) -> RequestTask {
             return getWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -115,7 +115,7 @@ open class WebhooksAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func delete(webhookId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func delete(webhookId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
             return deleteWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
@@ -166,7 +166,7 @@ open class WebhooksAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func list(events: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: WebhooksListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func list(events: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: WebhooksListResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listWithRequestBuilder(events: events, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
