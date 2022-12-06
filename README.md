@@ -42,14 +42,14 @@ api.video's iOS  streamlines the coding process. Chunking files is handled for y
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-ios-client" ~> 1.0.6
+github "apivideo/api.video-ios-client" ~> 1.1.0
 ```
 
 Run `carthage update`
 
 ### CocoaPods
 
-Add `pod 'ApiVideoClient', '1.0.6'` in your `Podfile`
+Add `pod 'ApiVideoClient', '1.1.0'` in your `Podfile`
 
 Run `pod install`
 
@@ -67,14 +67,18 @@ import ApiVideoClient
 
     VideosAPI.create(videoCreationPayload: VideoCreationPayload(title: "my video")) { video, error in
     if let video = video {
-        VideosAPI.upload(videoId: video.videoId,
-                         file: url) { video, error in
-            if let video = video {
-                // Manage upload success here
+        do {
+            try VideosAPI.upload(videoId: video.videoId,
+                             file: url) { video, error in
+                if let video = video {
+                    // Manage upload success here
+                }
+                if let error = error {
+                    // Manage upload error here
+                }
             }
-            if let error = error {
-                // Manage upload error here
-            }
+        } catch {
+            // Manage error on file here
         }
     }
     if let error = error {

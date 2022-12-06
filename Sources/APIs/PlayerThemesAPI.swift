@@ -20,7 +20,7 @@ open class PlayerThemesAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func create(playerThemeCreationPayload: PlayerThemeCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerTheme?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func create(playerThemeCreationPayload: PlayerThemeCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerTheme?, _ error: Error?) -> Void)) -> RequestTask {
             return createWithRequestBuilder(playerThemeCreationPayload: playerThemeCreationPayload).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -66,7 +66,7 @@ open class PlayerThemesAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func get(playerId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerTheme?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func get(playerId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerTheme?, _ error: Error?) -> Void)) -> RequestTask {
             return getWithRequestBuilder(playerId: playerId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -116,7 +116,7 @@ open class PlayerThemesAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func update(playerId: String, playerThemeUpdatePayload: PlayerThemeUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerTheme?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func update(playerId: String, playerThemeUpdatePayload: PlayerThemeUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerTheme?, _ error: Error?) -> Void)) -> RequestTask {
             return updateWithRequestBuilder(playerId: playerId, playerThemeUpdatePayload: playerThemeUpdatePayload).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -166,7 +166,7 @@ open class PlayerThemesAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func delete(playerId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func delete(playerId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
             return deleteWithRequestBuilder(playerId: playerId).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
@@ -235,7 +235,7 @@ open class PlayerThemesAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerThemesListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerThemesListResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listWithRequestBuilder(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -292,7 +292,7 @@ open class PlayerThemesAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func uploadLogo(playerId: String, file: URL, link: String? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerTheme?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func uploadLogo(playerId: String, file: URL, link: String? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: PlayerTheme?, _ error: Error?) -> Void)) -> RequestTask {
             return uploadLogoWithRequestBuilder(playerId: playerId, file: file, link: link).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -348,7 +348,7 @@ open class PlayerThemesAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func deleteLogo(playerId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func deleteLogo(playerId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
             return deleteLogoWithRequestBuilder(playerId: playerId).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:

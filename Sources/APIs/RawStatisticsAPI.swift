@@ -23,7 +23,7 @@ open class RawStatisticsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func listLiveStreamSessions(liveStreamId: String, period: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: RawStatisticsListLiveStreamAnalyticsResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func listLiveStreamSessions(liveStreamId: String, period: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: RawStatisticsListLiveStreamAnalyticsResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listLiveStreamSessionsWithRequestBuilder(liveStreamId: liveStreamId, period: period, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -81,7 +81,7 @@ open class RawStatisticsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func listSessionEvents(sessionId: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: RawStatisticsListPlayerSessionEventsResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func listSessionEvents(sessionId: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: RawStatisticsListPlayerSessionEventsResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listSessionEventsWithRequestBuilder(sessionId: sessionId, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -140,7 +140,7 @@ open class RawStatisticsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func listVideoSessions(videoId: String, period: String, metadata: [String: String]? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: RawStatisticsListSessionsResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func listVideoSessions(videoId: String, period: String, metadata: [String: String]? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: RawStatisticsListSessionsResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listVideoSessionsWithRequestBuilder(videoId: videoId, period: period, metadata: metadata, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):

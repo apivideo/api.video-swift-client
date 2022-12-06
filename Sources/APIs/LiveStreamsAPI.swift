@@ -20,7 +20,7 @@ open class LiveStreamsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func create(liveStreamCreationPayload: LiveStreamCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStream?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func create(liveStreamCreationPayload: LiveStreamCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStream?, _ error: Error?) -> Void)) -> RequestTask {
             return createWithRequestBuilder(liveStreamCreationPayload: liveStreamCreationPayload).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -66,7 +66,7 @@ open class LiveStreamsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func get(liveStreamId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStream?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func get(liveStreamId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStream?, _ error: Error?) -> Void)) -> RequestTask {
             return getWithRequestBuilder(liveStreamId: liveStreamId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -116,7 +116,7 @@ open class LiveStreamsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func update(liveStreamId: String, liveStreamUpdatePayload: LiveStreamUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStream?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func update(liveStreamId: String, liveStreamUpdatePayload: LiveStreamUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStream?, _ error: Error?) -> Void)) -> RequestTask {
             return updateWithRequestBuilder(liveStreamId: liveStreamId, liveStreamUpdatePayload: liveStreamUpdatePayload).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -166,7 +166,7 @@ open class LiveStreamsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func delete(liveStreamId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func delete(liveStreamId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
             return deleteWithRequestBuilder(liveStreamId: liveStreamId).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
@@ -228,7 +228,7 @@ open class LiveStreamsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func list(streamKey: String? = nil, name: String? = nil, sortBy: String? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStreamListResponse?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func list(streamKey: String? = nil, name: String? = nil, sortBy: String? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStreamListResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listWithRequestBuilder(streamKey: streamKey, name: name, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -288,7 +288,7 @@ open class LiveStreamsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func uploadThumbnail(liveStreamId: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStream?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func uploadThumbnail(liveStreamId: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStream?, _ error: Error?) -> Void)) -> RequestTask {
             return uploadThumbnailWithRequestBuilder(liveStreamId: liveStreamId, file: file).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -342,7 +342,7 @@ open class LiveStreamsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func deleteThumbnail(liveStreamId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStream?, _ error: Error?) -> Void)) -> URLSessionTask? {
+    open class func deleteThumbnail(liveStreamId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStream?, _ error: Error?) -> Void)) -> RequestTask {
             return deleteThumbnailWithRequestBuilder(liveStreamId: liveStreamId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
