@@ -86,7 +86,7 @@ open class VideosAPI {
     /**
      * Create a progressive upload session
      *
-     * - returns: a progressive upload session
+     - returns: a progressive upload session
      */
     public class func buildProgressiveUploadSession(videoId: String) -> ProgressiveUploadSession {
         ProgressiveUploadSession(videoId: videoId)
@@ -101,6 +101,7 @@ open class VideosAPI {
             self.videoId = videoId
             super.init(queueLabel: videoId)
         }
+
         
         public func uploadPart(file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
             let chunkId = partId
@@ -128,11 +129,12 @@ open class VideosAPI {
                 numOfChunks = partId
             }
             let requestBuilder = uploadWithRequestBuilder(videoId: videoId, file: file, chunkId: partId, numOfChunks: numOfChunks, onProgressReady: onProgressReady)
-            execute(requestBuilder, apiResponseQueue: apiResponseQueue, completion: completion)
+            execute(requestBuilder, apiResponseQueue: apiResponseQueue) { data, error in
+                completion(data, error)
+            }
             return requestBuilder.requestTask
         }
     }
-
 
 
     /**
@@ -279,7 +281,7 @@ The latter allows you to split a video source into X chunks and send those chunk
     /**
      * Create a progressive uploadWithUploadToken session
      *
-     * - returns: a progressive uploadWithUploadToken session
+     - returns: a progressive uploadWithUploadToken session
      */
     public class func buildProgressiveUploadWithUploadTokenSession(token: String) -> ProgressiveUploadWithUploadTokenSession {
         ProgressiveUploadWithUploadTokenSession(token: token)
@@ -294,6 +296,12 @@ The latter allows you to split a video source into X chunks and send those chunk
         public init(token: String) {
             self.token = token
             super.init(queueLabel: token)
+        }
+
+        override func willExecuteRequestBuilder(requestBuilder: RequestBuilder<Video>) -> Void {
+            if let videoId = videoId {
+                uploadAddVideoIdParameterWithRequestBuilder(requestBuilder: requestBuilder, videoId: videoId)
+            }
         }
         
         public func uploadPart(file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
@@ -322,11 +330,28 @@ The latter allows you to split a video source into X chunks and send those chunk
                 numOfChunks = partId
             }
             let requestBuilder = uploadWithUploadTokenWithRequestBuilder(token: token, file: file, videoId: videoId, chunkId: partId, numOfChunks: numOfChunks, onProgressReady: onProgressReady)
-            execute(requestBuilder, apiResponseQueue: apiResponseQueue, completion: completion)
+            execute(requestBuilder, apiResponseQueue: apiResponseQueue) { data, error in
+                if let data = data {
+                    self.videoId = data.videoId
+                }
+                completion(data, error)
+            }
             return requestBuilder.requestTask
         }
     }
-
+    /**
+     * Add a videoId to the request builder if it does not exist already.
+     - parameter requestBuilder: the request builder
+     - parameter videoId: the videoId to add to the request
+     */
+    internal class func uploadAddVideoIdParameterWithRequestBuilder(requestBuilder: RequestBuilder<Video>, videoId: String) {
+        guard let parameters = requestBuilder.parameters else {
+            return
+        }
+        if (!parameters.keys.contains("videoId")) {
+            requestBuilder.parameters!["videoId"] = videoId
+        }
+    }
 
 
     /**
