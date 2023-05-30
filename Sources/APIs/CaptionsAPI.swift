@@ -37,7 +37,7 @@ open class CaptionsAPI {
     /**
      Upload a caption
      - POST /videos/{videoId}/captions/{language}
-     - Upload a VTT file to add captions to your video.  Read our [captioning tutorial](https://api.video/blog/tutorials/adding-captions) for more details.
+     - Upload a VTT file to add captions to your video. More information can be found [here](https://docs.api.video/reference/captions)
      - parameter videoId: (path) The unique identifier for the video you want to add a caption to. 
      - parameter language: (path) A valid BCP 47 language representation. 
      - parameter file: (form) The video text track (VTT) you want to upload. 
@@ -208,7 +208,7 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
     /**
      Delete a caption
      - DELETE /videos/{videoId}/captions/{language}
-     - Delete a caption in a specific language by providing the video ID for the video you want to delete the caption from and the language the caption is in.
+     - Delete a caption in a specific language by by video id.
      - parameter videoId: (path) The unique identifier for the video you want to delete a caption from. 
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
      - returns: RequestBuilder<Void> 
@@ -263,7 +263,7 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
     /**
      List video captions
      - GET /videos/{videoId}/captions
-     - Retrieve a list of available captions for the videoId you provide.
+     - Retrieve a list of available captions by video id.
      - parameter videoId: (path) The unique identifier for the video you want to retrieve a list of captions for. 
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)

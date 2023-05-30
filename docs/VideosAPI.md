@@ -4,16 +4,16 @@ All URIs are relative to *https://ws.api.video*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create**](VideosAPI.md#postvideo) | **POST** /videos | Create a video
+[**create**](VideosAPI.md#postvideo) | **POST** /videos | Create a video object
 [**upload**](VideosAPI.md#postvideosvideoidsource) | **POST** /videos/{videoId}/source | Upload a video
-[**uploadWithUploadToken**](VideosAPI.md#postupload) | **POST** /upload | Upload with an upload token
-[**get**](VideosAPI.md#getvideo) | **GET** /videos/{videoId} | Retrieve a video
-[**update**](VideosAPI.md#patchvideo) | **PATCH** /videos/{videoId} | Update a video
-[**delete**](VideosAPI.md#deletevideo) | **DELETE** /videos/{videoId} | Delete a video
-[**list**](VideosAPI.md#listvideos) | **GET** /videos | List all videos
+[**uploadWithUploadToken**](VideosAPI.md#postupload) | **POST** /upload | Upload with an delegated upload token
+[**get**](VideosAPI.md#getvideo) | **GET** /videos/{videoId} | Retrieve a video object
+[**update**](VideosAPI.md#patchvideo) | **PATCH** /videos/{videoId} | Update a video object
+[**delete**](VideosAPI.md#deletevideo) | **DELETE** /videos/{videoId} | Delete a video object
+[**list**](VideosAPI.md#listvideos) | **GET** /videos | List all video objects
 [**uploadThumbnail**](VideosAPI.md#postvideosvideoidthumbnail) | **POST** /videos/{videoId}/thumbnail | Upload a thumbnail
-[**pickThumbnail**](VideosAPI.md#patchvideosvideoidthumbnail) | **PATCH** /videos/{videoId}/thumbnail | Pick a thumbnail
-[**getStatus**](VideosAPI.md#getvideostatus) | **GET** /videos/{videoId}/status | Retrieve video status
+[**pickThumbnail**](VideosAPI.md#patchvideosvideoidthumbnail) | **PATCH** /videos/{videoId}/thumbnail | Set a thumbnail
+[**getStatus**](VideosAPI.md#getvideostatus) | **GET** /videos/{videoId}/status | Retrieve video status and details
 
 
 # **create**
@@ -21,9 +21,9 @@ Method | HTTP request | Description
     open class func create(videoCreationPayload: VideoCreationPayload, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
 ```
 
-Create a video
+Create a video object
 
-We have tutorials on: * [Creating and uploading videos](https://api.video/blog/tutorials/video-upload-tutorial) * [Uploading large videos](https://api.video/blog/tutorials/video-upload-tutorial-large-videos) * [Using tags with videos](https://api.video/blog/tutorials/video-tagging-best-practices) * [Private videos](https://api.video/blog/tutorials/tutorial-private-videos) * [Using Dynamic Metadata](https://api.video/blog/tutorials/dynamic-metadata)  * Full list of [tutorials](https://api.video/blog/endpoints/video-create) that demonstrate this endpoint. 
+Creates a video object. More information on video objects can be found [here](https://docs.api.video/reference/videos-1). 
 
 
 ### Example
@@ -33,7 +33,7 @@ import ApiVideoClient
 
 let videoCreationPayload = video-creation-payload(title: "title_example", description: "description_example", source: "source_example", _public: true, panoramic: false, mp4Support: true, playerId: "playerId_example", tags: ["tags_example"], metadata: [metadata(key: "key_example", value: "value_example")], clip: video-clip(startTimecode: "startTimecode_example", endTimecode: "endTimecode_example"), watermark: video-watermark(id: "id_example", top: "top_example", _left: "_left_example", bottom: "bottom_example", _right: "_right_example", width: "width_example", height: "height_example", opacity: "opacity_example")) // VideoCreationPayload | video to create
 
-// Create a video
+// Create a video object
 VideosAPI.create(videoCreationPayload: videoCreationPayload) { (response, error) in
     guard error == nil else {
         print(error)
@@ -143,7 +143,7 @@ Name | Type | Description  | Notes
     open class func uploadWithUploadToken(token: String, file: URL, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
 ```
 
-Upload with an upload token
+Upload with an delegated upload token
 
 This method allows you to send a video using an upload token. Upload tokens are especially useful when the upload is done from the client side. If you want to upload a video from your server-side application, you'd better use the [standard upload method](#upload).
 
@@ -156,7 +156,7 @@ import ApiVideoClient
 let token = "token_example" // String | The unique identifier for the token you want to use to upload a video.
 let file = URL(string: "https://example.com")! // URL | The path to the video you want to upload.
 
-// Upload with an upload token
+// Upload with an delegated upload token
 VideosAPI.uploadWithUploadToken(token: token, file: file) { (response, error) in
     guard error == nil else {
         print(error)
@@ -196,7 +196,7 @@ No authorization required
     open class func get(videoId: String, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
 ```
 
-Retrieve a video
+Retrieve a video object
 
 This call provides the same information provided on video creation. For private videos, it will generate a unique token url. Use this to retrieve any details you need about a video, or set up a private viewing URL.
 
@@ -208,7 +208,7 @@ import ApiVideoClient
 
 let videoId = "videoId_example" // String | The unique identifier for the video you want details about.
 
-// Retrieve a video
+// Retrieve a video object
 VideosAPI.get(videoId: videoId) { (response, error) in
     guard error == nil else {
         print(error)
@@ -247,9 +247,9 @@ Name | Type | Description  | Notes
     open class func update(videoId: String, videoUpdatePayload: VideoUpdatePayload, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
 ```
 
-Update a video
+Update a video object
 
-Updates the parameters associated with your video. The video you are updating is determined by the video ID you provide. 
+Updates the parameters associated with a video ID. The video object you are updating is determined by the video ID you provide. 
 
 
 
@@ -263,10 +263,10 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let videoId = "videoId_example" // String | The video ID for the video you want to delete.
+let videoId = "videoId_example" // String | The video ID for the video you want to update.
 let videoUpdatePayload = video-update-payload(playerId: NullableString(value: "pl4k0jvEUuaTdRAEjQ4Jfrgz"), title: "title_example", description: "description_example", _public: true, panoramic: false, mp4Support: true, tags: ["tags_example"], metadata: [metadata(key: "key_example", value: "value_example")]) // VideoUpdatePayload | 
 
-// Update a video
+// Update a video object
 VideosAPI.update(videoId: videoId, videoUpdatePayload: videoUpdatePayload) { (response, error) in
     guard error == nil else {
         print(error)
@@ -283,7 +283,7 @@ VideosAPI.update(videoId: videoId, videoUpdatePayload: videoUpdatePayload) { (re
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **videoId** | **String** | The video ID for the video you want to delete. | 
+ **videoId** | **String** | The video ID for the video you want to update. | 
  **videoUpdatePayload** | [**VideoUpdatePayload**](VideoUpdatePayload.md) |  | 
 
 ### Return type
@@ -306,7 +306,7 @@ Name | Type | Description  | Notes
     open class func delete(videoId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
-Delete a video
+Delete a video object
 
 If you do not need a video any longer, you can send a request to delete it. All you need is the videoId.
 
@@ -318,7 +318,7 @@ import ApiVideoClient
 
 let videoId = "videoId_example" // String | The video ID for the video you want to delete.
 
-// Delete a video
+// Delete a video object
 VideosAPI.delete(videoId: videoId) { (response, error) in
     guard error == nil else {
         print(error)
@@ -357,7 +357,7 @@ Void (empty response body)
     open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: VideosListResponse?, _ error: Error?) -> Void)
 ```
 
-List all videos
+List all video objects
 
 This method returns a list of your videos (with all their details). With no parameters added, the API returns the first page of all videos. You can filter videos using the parameters described below.
 
@@ -377,7 +377,7 @@ let sortOrder = "sortOrder_example" // String | Allowed: asc, desc. asc is ascen
 let currentPage = 987 // Int | Choose the number of search results to return per page. Minimum value: 1 (optional) (default to 1)
 let pageSize = 987 // Int | Results per page. Allowed values 1-100, default is 25. (optional) (default to 25)
 
-// List all videos
+// List all video objects
 VideosAPI.list(title: title, tags: tags, metadata: metadata, description: description, liveStreamId: liveStreamId, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize) { (response, error) in
     guard error == nil else {
         print(error)
@@ -489,7 +489,7 @@ Name | Type | Description  | Notes
     open class func pickThumbnail(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
 ```
 
-Pick a thumbnail
+Set a thumbnail
 
 Pick a thumbnail from the given time code. 
 
@@ -512,7 +512,7 @@ import ApiVideoClient
 let videoId = "videoId_example" // String | Unique identifier of the video you want to add a thumbnail to, where you use a section of your video as the thumbnail.
 let videoThumbnailPickPayload = video-thumbnail-pick-payload(timecode: "timecode_example") // VideoThumbnailPickPayload | 
 
-// Pick a thumbnail
+// Set a thumbnail
 VideosAPI.pickThumbnail(videoId: videoId, videoThumbnailPickPayload: videoThumbnailPickPayload) { (response, error) in
     guard error == nil else {
         print(error)
@@ -552,7 +552,7 @@ Name | Type | Description  | Notes
     open class func getStatus(videoId: String, completion: @escaping (_ data: VideoStatus?, _ error: Error?) -> Void)
 ```
 
-Retrieve video status
+Retrieve video status and details
 
 This method provides upload status & encoding status to determine when the video is uploaded or ready to playback. Once encoding is completed, the response also lists the available stream qualities.
 
@@ -564,7 +564,7 @@ import ApiVideoClient
 
 let videoId = "videoId_example" // String | The unique identifier for the video you want the status for.
 
-// Retrieve video status
+// Retrieve video status and details
 VideosAPI.getStatus(videoId: videoId) { (response, error) in
     guard error == nil else {
         print(error)

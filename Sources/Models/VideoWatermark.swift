@@ -22,9 +22,9 @@ public struct VideoWatermark: Codable, Hashable {
     public var bottom: String?
     /** Distance expressed in px or % between the right-border of the video and the watermark-image. */
     public var _right: String?
-    /** Width of the watermark-image relative to the video if expressed in %. Otherwise a fixed width. NOTE: To keep intrinsic watermark-image width use initial */
+    /** Width of the watermark-image relative to the video if expressed in %. Otherwise a fixed width. NOTE: To keep intrinsic watermark-image width use `initial`. */
     public var width: String?
-    /** Width of the watermark-image relative to the video if expressed in %. Otherwise a fixed height. NOTE: To keep intrinsic watermark-image height use initial */
+    /** Height of the watermark-image relative to the video if expressed in %. Otherwise a fixed height. NOTE: To keep intrinsic watermark-image height use `initial`. */
     public var height: String?
     /** Opacity expressed in % only to specify the degree of the watermark-image transparency with the video. */
     public var opacity: String?

@@ -96,7 +96,7 @@ open class ChaptersAPI {
     /**
      Retrieve a chapter
      - GET /videos/{videoId}/chapters/{language}
-     - Retrieve a chapter for a video in a specific language.  Chapters help your viewers find the sections of the video they are most interested in viewing. Tutorials that use the [chapters endpoint](https://api.video/blog/endpoints/chapters).
+     - Retrieve a chapter for by video id in a specific language. 
      - parameter videoId: (path) The unique identifier for the video you want to show a chapter for. 
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
      - returns: RequestBuilder<Chapter> 
@@ -205,7 +205,7 @@ open class ChaptersAPI {
     /**
      List video chapters
      - GET /videos/{videoId}/chapters
-     - Retrieve a list of all chapters for a specified video.
+     - Retrieve a list of all chapters for by video id.
      - parameter videoId: (path) The unique identifier for the video you want to retrieve a list of chapters for. 
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
