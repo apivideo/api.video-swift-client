@@ -13,7 +13,7 @@ import AnyCodable
 open class VideosAPI {
 
     /**
-     Create a video
+     Create a video object
      
      - parameter videoCreationPayload: (body) video to create 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -33,9 +33,9 @@ open class VideosAPI {
 
 
     /**
-     Create a video
+     Create a video object
      - POST /videos
-     - We have tutorials on: * [Creating and uploading videos](https://api.video/blog/tutorials/video-upload-tutorial) * [Uploading large videos](https://api.video/blog/tutorials/video-upload-tutorial-large-videos) * [Using tags with videos](https://api.video/blog/tutorials/video-tagging-best-practices) * [Private videos](https://api.video/blog/tutorials/tutorial-private-videos) * [Using Dynamic Metadata](https://api.video/blog/tutorials/dynamic-metadata)  * Full list of [tutorials](https://api.video/blog/endpoints/video-create) that demonstrate this endpoint. 
+     - Creates a video object. More information on video objects can be found [here](https://docs.api.video/reference/videos-1). 
      - parameter videoCreationPayload: (body) video to create 
      - returns: RequestBuilder<Video> 
      */
@@ -254,7 +254,7 @@ The latter allows you to split a video source into X chunks and send those chunk
     }
 
     /**
-     Upload with an upload token
+     Upload with an delegated upload token
      
      - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
      - parameter file: (form) The path to the video you want to upload. 
@@ -358,7 +358,7 @@ The latter allows you to split a video source into X chunks and send those chunk
 
 
     /**
-     Upload with an upload token
+     Upload with an delegated upload token
      - POST /upload
      - This method allows you to send a video using an upload token. Upload tokens are especially useful when the upload is done from the client side. If you want to upload a video from your server-side application, you'd better use the [standard upload method](#upload).
      - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
@@ -401,7 +401,7 @@ The latter allows you to split a video source into X chunks and send those chunk
     }
 
       /**
-     Upload with an upload token
+     Upload with an delegated upload token
      - POST /upload
      - This method allows you to send a video using an upload token. Upload tokens are especially useful when the upload is done from the client side. If you want to upload a video from your server-side application, you'd better use the [standard upload method](#upload).
      - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
@@ -444,7 +444,7 @@ The latter allows you to split a video source into X chunks and send those chunk
     }
 
     /**
-     Retrieve a video
+     Retrieve a video object
      
      - parameter videoId: (path) The unique identifier for the video you want details about. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -464,7 +464,7 @@ The latter allows you to split a video source into X chunks and send those chunk
 
 
     /**
-     Retrieve a video
+     Retrieve a video object
      - GET /videos/{videoId}
      - This call provides the same information provided on video creation. For private videos, it will generate a unique token url. Use this to retrieve any details you need about a video, or set up a private viewing URL.
      - parameter videoId: (path) The unique identifier for the video you want details about. 
@@ -493,9 +493,9 @@ The latter allows you to split a video source into X chunks and send those chunk
 
 
     /**
-     Update a video
+     Update a video object
      
-     - parameter videoId: (path) The video ID for the video you want to delete. 
+     - parameter videoId: (path) The video ID for the video you want to update. 
      - parameter videoUpdatePayload: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects.
@@ -514,16 +514,16 @@ The latter allows you to split a video source into X chunks and send those chunk
 
 
     /**
-     Update a video
+     Update a video object
      - PATCH /videos/{videoId}
-     - Updates the parameters associated with your video. The video you are updating is determined by the video ID you provide. 
+     - Updates the parameters associated with a video ID. The video object you are updating is determined by the video ID you provide. 
 
 
 
 NOTE: If you are updating an array, you must provide the entire array as what you provide here overwrites what is in the system rather than appending to it.
 
 
-     - parameter videoId: (path) The video ID for the video you want to delete. 
+     - parameter videoId: (path) The video ID for the video you want to update. 
      - parameter videoUpdatePayload: (body)  
      - returns: RequestBuilder<Video> 
      */
@@ -550,7 +550,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
 
 
     /**
-     Delete a video
+     Delete a video object
      
      - parameter videoId: (path) The video ID for the video you want to delete. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -570,7 +570,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
 
 
     /**
-     Delete a video
+     Delete a video object
      - DELETE /videos/{videoId}
      - If you do not need a video any longer, you can send a request to delete it. All you need is the videoId.
      - parameter videoId: (path) The video ID for the video you want to delete. 
@@ -599,7 +599,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
 
 
     /**
-     List all videos
+     List all video objects
      
      - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
      - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
@@ -627,7 +627,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
 
 
     /**
-     List all videos
+     List all video objects
      - GET /videos
      - This method returns a list of your videos (with all their details). With no parameters added, the API returns the first page of all videos. You can filter videos using the parameters described below.
      - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
@@ -739,7 +739,7 @@ Note: There may be a short delay before the new thumbnail is delivered to our CD
 
 
     /**
-     Pick a thumbnail
+     Set a thumbnail
      
      - parameter videoId: (path) Unique identifier of the video you want to add a thumbnail to, where you use a section of your video as the thumbnail. 
      - parameter videoThumbnailPickPayload: (body)  
@@ -760,7 +760,7 @@ Note: There may be a short delay before the new thumbnail is delivered to our CD
 
 
     /**
-     Pick a thumbnail
+     Set a thumbnail
      - PATCH /videos/{videoId}/thumbnail
      - Pick a thumbnail from the given time code. 
 
@@ -800,7 +800,7 @@ There may be a short delay for the thumbnail to update.
 
 
     /**
-     Retrieve video status
+     Retrieve video status and details
      
      - parameter videoId: (path) The unique identifier for the video you want the status for. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -820,7 +820,7 @@ There may be a short delay for the thumbnail to update.
 
 
     /**
-     Retrieve video status
+     Retrieve video status and details
      - GET /videos/{videoId}/status
      - This method provides upload status & encoding status to determine when the video is uploaded or ready to playback. Once encoding is completed, the response also lists the available stream qualities.
      - parameter videoId: (path) The unique identifier for the video you want the status for. 

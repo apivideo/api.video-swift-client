@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 Upload a caption
 
-Upload a VTT file to add captions to your video.  Read our [captioning tutorial](https://api.video/blog/tutorials/adding-captions) for more details.
+Upload a VTT file to add captions to your video. More information can be found [here](https://docs.api.video/reference/captions)
 
 
 ### Example
@@ -183,7 +183,7 @@ Name | Type | Description  | Notes
 
 Delete a caption
 
-Delete a caption in a specific language by providing the video ID for the video you want to delete the caption from and the language the caption is in.
+Delete a caption in a specific language by by video id.
 
 
 ### Example
@@ -236,7 +236,7 @@ Void (empty response body)
 
 List video captions
 
-Retrieve a list of available captions for the videoId you provide.
+Retrieve a list of available captions by video id.
 
 
 ### Example

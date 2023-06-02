@@ -81,7 +81,7 @@ open class PlayerThemesAPI {
     /**
      Retrieve a player
      - GET /players/{playerId}
-     - Use a player ID to retrieve details about the player and display it for viewers.
+     - Retreive a player theme by player id.
      - parameter playerId: (path) The unique identifier for the player you want to retrieve.  
      - returns: RequestBuilder<PlayerTheme> 
      */
@@ -250,7 +250,7 @@ open class PlayerThemesAPI {
     /**
      List all player themes
      - GET /players
-     - Retrieve a list of all the player themes you created, as well as details about each one. Tutorials that use the [player endpoint](https://api.video/blog/endpoints/player).
+     - Retrieve a list of all the player themes you created, as well as details about each one.
      - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
@@ -307,7 +307,7 @@ open class PlayerThemesAPI {
     /**
      Upload a logo
      - POST /players/{playerId}/logo
-     - The uploaded image maximum size should be 200x100 and its weight should be 100KB.  It will be scaled down to 30px height and converted to PNG to be displayed in the player.
+     - Upload an image logo for a player.
      - parameter playerId: (path) The unique identifier for the player. 
      - parameter file: (form) The name of the file you want to use for your logo. 
      - parameter link: (form) A public link that you want to advertise in your player. For example, you could add a link to your company. When a viewer clicks on your logo, they will be taken to this address. (optional)

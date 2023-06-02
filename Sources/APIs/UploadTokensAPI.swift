@@ -35,7 +35,7 @@ open class UploadTokensAPI {
     /**
      Generate an upload token
      - POST /upload-tokens
-     - Use this endpoint to generate an upload token. You can use this token to authenticate video uploads while keeping your API key safe. Tutorials using [delegated upload](https://api.video/blog/endpoints/delegated-upload).
+     - Generates an upload token that can be used to replace the API Key. More information can be found [here](https://docs.api.video/reference/upload-tokens)
      - parameter tokenCreationPayload: (body)  
      - returns: RequestBuilder<UploadToken> 
      */
@@ -81,7 +81,7 @@ open class UploadTokensAPI {
     /**
      Retrieve upload token
      - GET /upload-tokens/{uploadToken}
-     - You can retrieve details about a specific upload token if you have the unique identifier for the upload token. Add it in the path of the endpoint. Details include time-to-live (ttl), when the token was created, and when it will expire.
+     - Retrieve details about a specific upload token by id.
      - parameter uploadToken: (path) The unique identifier for the token you want information about. 
      - returns: RequestBuilder<UploadToken> 
      */
@@ -173,7 +173,7 @@ open class UploadTokensAPI {
     }
 
     /**
-     List all active upload tokens.
+     List all active upload tokens
      
      - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ISO-8601 format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending is 0-9 or A-Z. Descending is 9-0 or Z-A. (optional)
@@ -196,9 +196,9 @@ open class UploadTokensAPI {
 
 
     /**
-     List all active upload tokens.
+     List all active upload tokens
      - GET /upload-tokens
-     - A delegated token is used to allow secure uploads without exposing your API key. Use this endpoint to retrieve a list of all currently active delegated tokens. Tutorials using [delegated upload](https://api.video/blog/endpoints/delegated-upload).
+     - Retrieve a list of all currently active delegated tokens.
      - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ISO-8601 format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending is 0-9 or A-Z. Descending is 9-0 or Z-A. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
