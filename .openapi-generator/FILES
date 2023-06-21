@@ -6,6 +6,7 @@ README.md
 Sources/APIHelper.swift
 Sources/APIs.swift
 Sources/APIs/AdvancedAuthenticationAPI.swift
+Sources/APIs/AnalyticsAPI.swift
 Sources/APIs/CaptionsAPI.swift
 Sources/APIs/ChaptersAPI.swift
 Sources/APIs/LiveStreamsAPI.swift
@@ -26,6 +27,9 @@ Sources/JSONEncodingHelper.swift
 Sources/Models.swift
 Sources/Models/AccessToken.swift
 Sources/Models/AdditionalBadRequestErrors.swift
+Sources/Models/AnalyticsData.swift
+Sources/Models/AnalyticsPlays400Error.swift
+Sources/Models/AnalyticsPlaysResponse.swift
 Sources/Models/AuthenticatePayload.swift
 Sources/Models/BadRequest.swift
 Sources/Models/BytesRange.swift
@@ -103,6 +107,10 @@ Sources/Upload/UploadChunkRequestTaskQueue.swift
 docs/AccessToken.md
 docs/AdditionalBadRequestErrors.md
 docs/AdvancedAuthenticationAPI.md
+docs/AnalyticsAPI.md
+docs/AnalyticsData.md
+docs/AnalyticsPlays400Error.md
+docs/AnalyticsPlaysResponse.md
 docs/AuthenticatePayload.md
 docs/BadRequest.md
 docs/BytesRange.md

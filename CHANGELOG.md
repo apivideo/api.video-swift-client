@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.2.0] - 2023-06-19
+- Introducing new analytics endpoints
+
 ## [1.1.1] - 2022-12-09
 - Fix on upload by chunk and progressive upload.
 - Add test on progressive upload.

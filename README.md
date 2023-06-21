@@ -14,6 +14,7 @@
   - [Code sample](#code-sample)
 - [Documentation](#documentation)
   - [API Endpoints](#api-endpoints)
+    - [AnalyticsAPI](#AnalyticsAPI)
     - [CaptionsAPI](#CaptionsAPI)
     - [ChaptersAPI](#ChaptersAPI)
     - [LiveStreamsAPI](#LiveStreamsAPI)
@@ -42,14 +43,14 @@ api.video's iOS  streamlines the coding process. Chunking files is handled for y
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-ios-client" ~> 1.1.1
+github "apivideo/api.video-ios-client" ~> 1.2.0
 ```
 
 Run `carthage update`
 
 ### CocoaPods
 
-Add `pod 'ApiVideoClient', '1.1.1'` in your `Podfile`
+Add `pod 'ApiVideoClient', '1.2.0'` in your `Podfile`
 
 Run `pod install`
 
@@ -92,6 +93,22 @@ import ApiVideoClient
 ## API Endpoints
 
 All URIs are relative to *https://ws.api.video*
+
+
+### AnalyticsAPI
+
+#### Retrieve an instance of AnalyticsAPI:
+
+```swift
+AnalyticsAPI
+```
+
+#### Endpoints
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**getLiveStreamsPlays**](docs/AnalyticsAPI.md#getLiveStreamsPlays) | **GET** /analytics/live-streams/plays | Get play events for live stream
+[**getVideosPlays**](docs/AnalyticsAPI.md#getVideosPlays) | **GET** /analytics/videos/plays | Get play events for video
 
 
 ### CaptionsAPI
@@ -272,6 +289,9 @@ Method | HTTP request | Description
 
  - [AccessToken](docs/AccessToken.md)
  - [AdditionalBadRequestErrors](docs/AdditionalBadRequestErrors.md)
+ - [AnalyticsData](docs/AnalyticsData.md)
+ - [AnalyticsPlays400Error](docs/AnalyticsPlays400Error.md)
+ - [AnalyticsPlaysResponse](docs/AnalyticsPlaysResponse.md)
  - [AuthenticatePayload](docs/AuthenticatePayload.md)
  - [BadRequest](docs/BadRequest.md)
  - [BytesRange](docs/BytesRange.md)
