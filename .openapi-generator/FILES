@@ -6,6 +6,7 @@ README.md
 Sources/APIHelper.swift
 Sources/APIs.swift
 Sources/APIs/AdvancedAuthenticationAPI.swift
+Sources/APIs/AdvancedAuthenticationnAPI.swift
 Sources/APIs/AnalyticsAPI.swift
 Sources/APIs/CaptionsAPI.swift
 Sources/APIs/ChaptersAPI.swift
@@ -107,6 +108,7 @@ Sources/Upload/UploadChunkRequestTaskQueue.swift
 docs/AccessToken.md
 docs/AdditionalBadRequestErrors.md
 docs/AdvancedAuthenticationAPI.md
+docs/AdvancedAuthenticationnAPI.md
 docs/AnalyticsAPI.md
 docs/AnalyticsData.md
 docs/AnalyticsPlays400Error.md
