@@ -27,12 +27,14 @@ public struct LiveStream: Codable, Hashable {
     public var playerId: String?
     /** Whether or not you are broadcasting the live video you recorded for others to see. True means you are broadcasting to viewers, false means you are not. */
     public var broadcasting: Bool?
+    /** Returns the list of RTMP restream destinations. */
+    public var restreams: [RestreamsResponseObject]
     /** When the player was created, presented in ISO-8601 format. */
     public var createdAt: Date?
     /** When the player was last updated, presented in ISO-8601 format. */
     public var updatedAt: Date?
 
-    public init(liveStreamId: String, name: String? = nil, streamKey: String? = nil, record: Bool? = nil, _public: Bool? = nil, assets: LiveStreamAssets? = nil, playerId: String? = nil, broadcasting: Bool? = nil, createdAt: Date? = nil, updatedAt: Date? = nil) {
+    public init(liveStreamId: String, name: String? = nil, streamKey: String? = nil, record: Bool? = nil, _public: Bool? = nil, assets: LiveStreamAssets? = nil, playerId: String? = nil, broadcasting: Bool? = nil, restreams: [RestreamsResponseObject], createdAt: Date? = nil, updatedAt: Date? = nil) {
         self.liveStreamId = liveStreamId
         self.name = name
         self.streamKey = streamKey
@@ -41,6 +43,7 @@ public struct LiveStream: Codable, Hashable {
         self.assets = assets
         self.playerId = playerId
         self.broadcasting = broadcasting
+        self.restreams = restreams
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -54,6 +57,7 @@ public struct LiveStream: Codable, Hashable {
         case assets
         case playerId
         case broadcasting
+        case restreams
         case createdAt
         case updatedAt
     }
@@ -70,6 +74,7 @@ public struct LiveStream: Codable, Hashable {
         try container.encodeIfPresent(assets, forKey: .assets)
         try container.encodeIfPresent(playerId, forKey: .playerId)
         try container.encodeIfPresent(broadcasting, forKey: .broadcasting)
+        try container.encode(restreams, forKey: .restreams)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
     }

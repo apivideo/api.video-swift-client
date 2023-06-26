@@ -67,6 +67,8 @@ Sources/Models/RawStatisticsListLiveStreamAnalyticsResponse.swift
 Sources/Models/RawStatisticsListPlayerSessionEventsResponse.swift
 Sources/Models/RawStatisticsListSessionsResponse.swift
 Sources/Models/RefreshTokenPayload.swift
+Sources/Models/RestreamsRequestObject.swift
+Sources/Models/RestreamsResponseObject.swift
 Sources/Models/TokenCreationPayload.swift
 Sources/Models/TokenListResponse.swift
 Sources/Models/UploadToken.swift
@@ -151,6 +153,8 @@ docs/RawStatisticsListLiveStreamAnalyticsResponse.md
 docs/RawStatisticsListPlayerSessionEventsResponse.md
 docs/RawStatisticsListSessionsResponse.md
 docs/RefreshTokenPayload.md
+docs/RestreamsRequestObject.md
+docs/RestreamsResponseObject.md
 docs/TokenCreationPayload.md
 docs/TokenListResponse.md
 docs/UploadToken.md

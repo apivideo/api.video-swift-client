@@ -43,14 +43,14 @@ api.video's iOS  streamlines the coding process. Chunking files is handled for y
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-ios-client" ~> 1.2.0
+github "apivideo/api.video-ios-client" ~> 1.3.0
 ```
 
 Run `carthage update`
 
 ### CocoaPods
 
-Add `pod 'ApiVideoClient', '1.2.0'` in your `Podfile`
+Add `pod 'ApiVideoClient', '1.3.0'` in your `Podfile`
 
 Run `pod install`
 
@@ -327,6 +327,8 @@ Method | HTTP request | Description
  - [RawStatisticsListPlayerSessionEventsResponse](docs/RawStatisticsListPlayerSessionEventsResponse.md)
  - [RawStatisticsListSessionsResponse](docs/RawStatisticsListSessionsResponse.md)
  - [RefreshTokenPayload](docs/RefreshTokenPayload.md)
+ - [RestreamsRequestObject](docs/RestreamsRequestObject.md)
+ - [RestreamsResponseObject](docs/RestreamsResponseObject.md)
  - [TokenCreationPayload](docs/TokenCreationPayload.md)
  - [TokenListResponse](docs/TokenListResponse.md)
  - [UploadToken](docs/UploadToken.md)

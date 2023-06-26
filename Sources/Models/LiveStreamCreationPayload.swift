@@ -20,12 +20,15 @@ public struct LiveStreamCreationPayload: Codable, Hashable {
     public var _public: Bool?
     /** The unique identifier for the player. */
     public var playerId: String?
+    /** Use this parameter to add, edit, or remove RTMP services where you want to restream a live stream. The list can only contain up to 5 destinations. */
+    public var restreams: [RestreamsRequestObject]?
 
-    public init(name: String, record: Bool? = false, _public: Bool? = nil, playerId: String? = nil) {
+    public init(name: String, record: Bool? = false, _public: Bool? = nil, playerId: String? = nil, restreams: [RestreamsRequestObject]? = nil) {
         self.name = name
         self.record = record
         self._public = _public
         self.playerId = playerId
+        self.restreams = restreams
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -33,6 +36,7 @@ public struct LiveStreamCreationPayload: Codable, Hashable {
         case record
         case _public = "public"
         case playerId
+        case restreams
     }
 
     // Encodable protocol methods
@@ -43,6 +47,7 @@ public struct LiveStreamCreationPayload: Codable, Hashable {
         try container.encodeIfPresent(record, forKey: .record)
         try container.encodeIfPresent(_public, forKey: ._public)
         try container.encodeIfPresent(playerId, forKey: .playerId)
+        try container.encodeIfPresent(restreams, forKey: .restreams)
     }
 }
 

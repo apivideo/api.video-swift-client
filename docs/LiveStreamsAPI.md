@@ -28,7 +28,7 @@ Creates a livestream object.
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let liveStreamCreationPayload = live-stream-creation-payload(name: "name_example", record: true, _public: false, playerId: "playerId_example") // LiveStreamCreationPayload | 
+let liveStreamCreationPayload = live-stream-creation-payload(name: "name_example", record: true, _public: false, playerId: "playerId_example", restreams: [restreams-request-object(name: "name_example", serverUrl: "serverUrl_example", streamKey: "streamKey_example")]) // LiveStreamCreationPayload | 
 
 // Create live stream
 LiveStreamsAPI.create(liveStreamCreationPayload: liveStreamCreationPayload) { (response, error) in
@@ -131,7 +131,7 @@ Updates the livestream object.
 import ApiVideoClient
 
 let liveStreamId = "liveStreamId_example" // String | The unique ID for the live stream that you want to update information for such as player details, or whether you want the recording on or off.
-let liveStreamUpdatePayload = live-stream-update-payload(name: "name_example", _public: false, record: true, playerId: "playerId_example") // LiveStreamUpdatePayload | 
+let liveStreamUpdatePayload = live-stream-update-payload(name: "name_example", _public: false, record: true, playerId: "playerId_example", restreams: [restreams-request-object(name: "name_example", serverUrl: "serverUrl_example", streamKey: "streamKey_example")]) // LiveStreamUpdatePayload | 
 
 // Update a live stream
 LiveStreamsAPI.update(liveStreamId: liveStreamId, liveStreamUpdatePayload: liveStreamUpdatePayload) { (response, error) in
