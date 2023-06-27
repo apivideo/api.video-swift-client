@@ -52,6 +52,7 @@ Sources/Models/LiveStreamSessionReferrer.swift
 Sources/Models/LiveStreamSessionSession.swift
 Sources/Models/LiveStreamUpdatePayload.swift
 Sources/Models/Metadata.swift
+Sources/Models/Model403ErrorSchema.swift
 Sources/Models/NotFound.swift
 Sources/Models/NullableString.swift
 Sources/Models/Pagination.swift
@@ -135,6 +136,7 @@ docs/LiveStreamSessionSession.md
 docs/LiveStreamUpdatePayload.md
 docs/LiveStreamsAPI.md
 docs/Metadata.md
+docs/Model403ErrorSchema.md
 docs/NotFound.md
 docs/Pagination.md
 docs/PaginationLink.md
