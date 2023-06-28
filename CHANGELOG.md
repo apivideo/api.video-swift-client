@@ -1,7 +1,8 @@
 # Changelog
 All changes to this project will be documented in this file.
 
-## [1.2.0] - 2023-06-19
+## [1.2.0] - 2023-06-28
+- Introducing live streams restream feature
 - Introducing new analytics endpoints
 
 ## [1.1.1] - 2022-12-09
