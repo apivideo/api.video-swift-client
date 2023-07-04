@@ -138,7 +138,7 @@ import ApiVideoClient
 
 let videoId = "videoId_example" // String | The unique identifier for the video you want to have automatic captions for.
 let language = "language_example" // String | A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation.
-let captionsUpdatePayload = captions-update-payload(_default: false) // CaptionsUpdatePayload | 
+let captionsUpdatePayload = CaptionsUpdatePayload(_default: false) // CaptionsUpdatePayload | 
 
 // Update a caption
 CaptionsAPI.update(videoId: videoId, language: language, captionsUpdatePayload: captionsUpdatePayload) { (response, error) in

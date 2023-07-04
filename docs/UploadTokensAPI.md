@@ -25,7 +25,7 @@ Generates an upload token that can be used to replace the API Key. More informat
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let tokenCreationPayload = token-creation-payload(ttl: 123) // TokenCreationPayload | 
+let tokenCreationPayload = TokenCreationPayload(ttl: 123) // TokenCreationPayload | 
 
 // Generate an upload token
 UploadTokensAPI.createToken(tokenCreationPayload: tokenCreationPayload) { (response, error) in
