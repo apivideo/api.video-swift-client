@@ -25,7 +25,7 @@ Webhooks can push notifications to your server, rather than polling api.video fo
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let webhooksCreationPayload = webhooks-creation-payload(events: ["events_example"], url: "url_example") // WebhooksCreationPayload | 
+let webhooksCreationPayload = WebhooksCreationPayload(events: ["events_example"], url: "url_example") // WebhooksCreationPayload | 
 
 // Create Webhook
 WebhooksAPI.create(webhooksCreationPayload: webhooksCreationPayload) { (response, error) in

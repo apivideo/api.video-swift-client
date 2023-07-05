@@ -31,7 +31,7 @@ Creates a video object. More information on video objects can be found [here](ht
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let videoCreationPayload = video-creation-payload(title: "title_example", description: "description_example", source: "source_example", _public: true, panoramic: false, mp4Support: true, playerId: "playerId_example", tags: ["tags_example"], metadata: [metadata(key: "key_example", value: "value_example")], clip: video-clip(startTimecode: "startTimecode_example", endTimecode: "endTimecode_example"), watermark: video-watermark(id: "id_example", top: "top_example", _left: "_left_example", bottom: "bottom_example", _right: "_right_example", width: "width_example", height: "height_example", opacity: "opacity_example")) // VideoCreationPayload | video to create
+let videoCreationPayload = VideoCreationPayload(title: "title_example", description: "description_example", source: "source_example", _public: true, panoramic: false, mp4Support: true, playerId: "playerId_example", tags: ["tags_example"], metadata: [Metadata(key: "key_example", value: "value_example")], clip: VideoClip(startTimecode: "startTimecode_example", endTimecode: "endTimecode_example"), watermark: VideoWatermark(id: "id_example", top: "top_example", _left: "_left_example", bottom: "bottom_example", _right: "_right_example", width: "width_example", height: "height_example", opacity: "opacity_example")) // VideoCreationPayload | video to create
 
 // Create a video object
 VideosAPI.create(videoCreationPayload: videoCreationPayload) { (response, error) in
@@ -264,7 +264,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
 import ApiVideoClient
 
 let videoId = "videoId_example" // String | The video ID for the video you want to update.
-let videoUpdatePayload = video-update-payload(playerId: NullableString(value: "pl4k0jvEUuaTdRAEjQ4Jfrgz"), title: "title_example", description: "description_example", _public: true, panoramic: false, mp4Support: true, tags: ["tags_example"], metadata: [metadata(key: "key_example", value: "value_example")]) // VideoUpdatePayload | 
+let videoUpdatePayload = VideoUpdatePayload(playerId: NullableString(value: "pl4k0jvEUuaTdRAEjQ4Jfrgz"), title: "title_example", description: "description_example", _public: true, panoramic: false, mp4Support: true, tags: ["tags_example"], metadata: [Metadata(key: "key_example", value: "value_example")]) // VideoUpdatePayload | 
 
 // Update a video object
 VideosAPI.update(videoId: videoId, videoUpdatePayload: videoUpdatePayload) { (response, error) in
@@ -510,7 +510,7 @@ There may be a short delay for the thumbnail to update.
 import ApiVideoClient
 
 let videoId = "videoId_example" // String | Unique identifier of the video you want to add a thumbnail to, where you use a section of your video as the thumbnail.
-let videoThumbnailPickPayload = video-thumbnail-pick-payload(timecode: "timecode_example") // VideoThumbnailPickPayload | 
+let videoThumbnailPickPayload = VideoThumbnailPickPayload(timecode: "timecode_example") // VideoThumbnailPickPayload | 
 
 // Set a thumbnail
 VideosAPI.pickThumbnail(videoId: videoId, videoThumbnailPickPayload: videoThumbnailPickPayload) { (response, error) in
