@@ -354,7 +354,7 @@ Void (empty response body)
 
 # **list**
 ```swift
-    open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: VideosListResponse?, _ error: Error?) -> Void)
+    open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: VideosListResponse?, _ error: Error?) -> Void)
 ```
 
 List all video objects
@@ -370,10 +370,10 @@ import ApiVideoClient
 let title = "title_example" // String | The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
 let tags = ["inner_example"] // [String] | A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
 let metadata = "TODO" // [String: String] | Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) allows you to define a key that allows any value pair. (optional)
-let description = "description_example" // String | If you described a video with a term or sentence, you can add it here to return videos containing this string. (optional)
-let liveStreamId = "liveStreamId_example" // String | If you know the ID for a live stream, you can retrieve the stream by adding the ID for it here. (optional)
-let sortBy = "sortBy_example" // String | Allowed: publishedAt, title. You can search by the time videos were published at, or by title. (optional)
-let sortOrder = "sortOrder_example" // String | Allowed: asc, desc. asc is ascending and sorts from A to Z. desc is descending and sorts from Z to A. (optional)
+let description = "description_example" // String | Retrieve video objects by `description`. (optional)
+let liveStreamId = "liveStreamId_example" // String | Retrieve video objects that were recorded from a live stream by `liveStreamId`. (optional)
+let sortBy = "sortBy_example" // String | Use this parameter to sort videos by the their created time, published time, updated time, or by title. (optional)
+let sortOrder = "sortOrder_example" // String | Use this parameter to sort results. `asc` is ascending and sorts from A to Z. `desc` is descending and sorts from Z to A. (optional)
 let currentPage = 987 // Int | Choose the number of search results to return per page. Minimum value: 1 (optional) (default to 1)
 let pageSize = 987 // Int | Results per page. Allowed values 1-100, default is 25. (optional) (default to 25)
 
@@ -397,10 +397,10 @@ Name | Type | Description  | Notes
  **title** | **String** | The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. | [optional] 
  **tags** | [**[String]**](String.md) | A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. | [optional] 
  **metadata** | [**[String: String]**](String.md) | Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata) allows you to define a key that allows any value pair. | [optional] 
- **description** | **String** | If you described a video with a term or sentence, you can add it here to return videos containing this string. | [optional] 
- **liveStreamId** | **String** | If you know the ID for a live stream, you can retrieve the stream by adding the ID for it here. | [optional] 
- **sortBy** | **String** | Allowed: publishedAt, title. You can search by the time videos were published at, or by title. | [optional] 
- **sortOrder** | **String** | Allowed: asc, desc. asc is ascending and sorts from A to Z. desc is descending and sorts from Z to A. | [optional] 
+ **description** | **String** | Retrieve video objects by &#x60;description&#x60;. | [optional] 
+ **liveStreamId** | **String** | Retrieve video objects that were recorded from a live stream by &#x60;liveStreamId&#x60;. | [optional] 
+ **sortBy** | **String** | Use this parameter to sort videos by the their created time, published time, updated time, or by title. | [optional] 
+ **sortOrder** | **String** | Use this parameter to sort results. &#x60;asc&#x60; is ascending and sorts from A to Z. &#x60;desc&#x60; is descending and sorts from Z to A. | [optional] 
  **currentPage** | **Int** | Choose the number of search results to return per page. Minimum value: 1 | [optional] [default to 1]
  **pageSize** | **Int** | Results per page. Allowed values 1-100, default is 25. | [optional] [default to 25]
 
