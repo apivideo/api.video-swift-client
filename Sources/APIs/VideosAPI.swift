@@ -284,7 +284,7 @@ The latter allows you to split a video source into X chunks and send those chunk
      - returns: a progressive uploadWithUploadToken session
      */
     public class func buildProgressiveUploadWithUploadTokenSession(token: String, videoId: String? = nil) -> ProgressiveUploadWithUploadTokenSession {
-        ProgressiveUploadWithUploadTokenSession(token: token)
+        ProgressiveUploadWithUploadTokenSession(token: token, videoId: videoId)
     }
    
     public class ProgressiveUploadWithUploadTokenSession: RequestTaskQueue<Video>, ProgressiveUploadSessionProtocol {
@@ -601,7 +601,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
     /**
      * enum for parameter sortBy
      */
-    public enum SortBy_list: String, CaseIterable {
+    public enum SortByList: String, CaseIterable {
         case title = "title"
         case createdat = "createdAt"
         case publishedat = "publishedAt"
@@ -611,7 +611,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
     /**
      * enum for parameter sortOrder
      */
-    public enum SortOrder_list: String, CaseIterable {
+    public enum SortOrderList: String, CaseIterable {
         case asc = "asc"
         case desc = "desc"
     }
@@ -632,7 +632,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: VideosListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: VideosListResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listWithRequestBuilder(title: title, tags: tags, metadata: metadata, description: description, liveStreamId: liveStreamId, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -659,7 +659,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<VideosListResponse> 
      */
-    open class func listWithRequestBuilder(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<VideosListResponse> {
+    open class func listWithRequestBuilder(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<VideosListResponse> {
         let localVariablePath = "/videos"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
