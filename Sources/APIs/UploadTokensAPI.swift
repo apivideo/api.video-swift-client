@@ -159,7 +159,7 @@ open class UploadTokensAPI {
     /**
      * enum for parameter sortBy
      */
-    public enum SortBy_list: String, CaseIterable {
+    public enum SortByList: String, CaseIterable {
         case createdat = "createdAt"
         case ttl = "ttl"
     }
@@ -167,7 +167,7 @@ open class UploadTokensAPI {
     /**
      * enum for parameter sortOrder
      */
-    public enum SortOrder_list: String, CaseIterable {
+    public enum SortOrderList: String, CaseIterable {
         case asc = "asc"
         case desc = "desc"
     }
@@ -183,7 +183,7 @@ open class UploadTokensAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: TokenListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func list(sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: TokenListResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listWithRequestBuilder(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -205,7 +205,7 @@ open class UploadTokensAPI {
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<TokenListResponse> 
      */
-    open class func listWithRequestBuilder(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<TokenListResponse> {
+    open class func listWithRequestBuilder(sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<TokenListResponse> {
         let localVariablePath = "/upload-tokens"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil

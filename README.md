@@ -43,14 +43,14 @@ api.video's iOS  streamlines the coding process. Chunking files is handled for y
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-ios-client" ~> 1.2.0
+github "apivideo/api.video-ios-client" ~> 1.2.1
 ```
 
 Run `carthage update`
 
 ### CocoaPods
 
-Add `pod 'ApiVideoClient', '1.2.0'` in your `Podfile`
+Add `pod 'ApiVideoClient', '1.2.1'` in your `Podfile`
 
 Run `pod install`
 

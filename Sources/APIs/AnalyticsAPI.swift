@@ -15,7 +15,7 @@ open class AnalyticsAPI {
     /**
      * enum for parameter dimension
      */
-    public enum Dimension_getLiveStreamsPlays: String, CaseIterable {
+    public enum DimensionGetLiveStreamsPlays: String, CaseIterable {
         case livestreamid = "liveStreamId"
         case emittedat = "emittedAt"
         case country = "country"
@@ -37,7 +37,7 @@ open class AnalyticsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func getLiveStreamsPlays(from: Date, dimension: Dimension_getLiveStreamsPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: AnalyticsPlaysResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func getLiveStreamsPlays(from: Date, dimension: DimensionGetLiveStreamsPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: AnalyticsPlaysResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return getLiveStreamsPlaysWithRequestBuilder(from: from, dimension: dimension, to: to, filter: filter, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -61,7 +61,7 @@ open class AnalyticsAPI {
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<AnalyticsPlaysResponse> 
      */
-    open class func getLiveStreamsPlaysWithRequestBuilder(from: Date, dimension: Dimension_getLiveStreamsPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<AnalyticsPlaysResponse> {
+    open class func getLiveStreamsPlaysWithRequestBuilder(from: Date, dimension: DimensionGetLiveStreamsPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<AnalyticsPlaysResponse> {
         let localVariablePath = "/analytics/live-streams/plays"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -91,7 +91,7 @@ open class AnalyticsAPI {
     /**
      * enum for parameter dimension
      */
-    public enum Dimension_getVideosPlays: String, CaseIterable {
+    public enum DimensionGetVideosPlays: String, CaseIterable {
         case videoid = "videoId"
         case emittedat = "emittedAt"
         case country = "country"
@@ -113,7 +113,7 @@ open class AnalyticsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func getVideosPlays(from: Date, dimension: Dimension_getVideosPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: AnalyticsPlaysResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func getVideosPlays(from: Date, dimension: DimensionGetVideosPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: AnalyticsPlaysResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return getVideosPlaysWithRequestBuilder(from: from, dimension: dimension, to: to, filter: filter, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -137,7 +137,7 @@ open class AnalyticsAPI {
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<AnalyticsPlaysResponse> 
      */
-    open class func getVideosPlaysWithRequestBuilder(from: Date, dimension: Dimension_getVideosPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<AnalyticsPlaysResponse> {
+    open class func getVideosPlaysWithRequestBuilder(from: Date, dimension: DimensionGetVideosPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<AnalyticsPlaysResponse> {
         let localVariablePath = "/analytics/videos/plays"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
