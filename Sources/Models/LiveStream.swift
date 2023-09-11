@@ -18,8 +18,6 @@ public struct LiveStream: Codable, Hashable {
     public var name: String?
     /** The unique, private stream key that you use to begin streaming. */
     public var streamKey: String?
-    /** Whether you are recording or not. */
-    public var record: Bool?
     /** Whether your video can be viewed by everyone, or requires authentication to see it. A setting of false will require a unique token for each view. Learn more about the Private Video feature [here](https://docs.api.video/docs/private-videos). */
     public var _public: Bool?
     public var assets: LiveStreamAssets?
@@ -34,11 +32,10 @@ public struct LiveStream: Codable, Hashable {
     /** When the player was last updated, presented in ISO-8601 format. */
     public var updatedAt: Date?
 
-    public init(liveStreamId: String, name: String? = nil, streamKey: String? = nil, record: Bool? = nil, _public: Bool? = nil, assets: LiveStreamAssets? = nil, playerId: String? = nil, broadcasting: Bool? = nil, restreams: [RestreamsResponseObject], createdAt: Date? = nil, updatedAt: Date? = nil) {
+    public init(liveStreamId: String, name: String? = nil, streamKey: String? = nil, _public: Bool? = nil, assets: LiveStreamAssets? = nil, playerId: String? = nil, broadcasting: Bool? = nil, restreams: [RestreamsResponseObject], createdAt: Date? = nil, updatedAt: Date? = nil) {
         self.liveStreamId = liveStreamId
         self.name = name
         self.streamKey = streamKey
-        self.record = record
         self._public = _public
         self.assets = assets
         self.playerId = playerId
@@ -52,7 +49,6 @@ public struct LiveStream: Codable, Hashable {
         case liveStreamId
         case name
         case streamKey
-        case record
         case _public = "public"
         case assets
         case playerId
@@ -69,7 +65,6 @@ public struct LiveStream: Codable, Hashable {
         try container.encode(liveStreamId, forKey: .liveStreamId)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(streamKey, forKey: .streamKey)
-        try container.encodeIfPresent(record, forKey: .record)
         try container.encodeIfPresent(_public, forKey: ._public)
         try container.encodeIfPresent(assets, forKey: .assets)
         try container.encodeIfPresent(playerId, forKey: .playerId)

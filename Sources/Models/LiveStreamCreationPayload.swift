@@ -14,8 +14,6 @@ public struct LiveStreamCreationPayload: Codable, Hashable {
 
     /** Add a name for your live stream here. */
     public var name: String
-    /** Whether you are recording or not. True for record, false for not record. */
-    public var record: Bool? = false
     /** Whether your video can be viewed by everyone, or requires authentication to see it. A setting of false will require a unique token for each view. Learn more about the Private Video feature [here](https://docs.api.video/docs/private-videos). */
     public var _public: Bool?
     /** The unique identifier for the player. */
@@ -23,9 +21,8 @@ public struct LiveStreamCreationPayload: Codable, Hashable {
     /** Use this parameter to add, edit, or remove RTMP services where you want to restream a live stream. The list can only contain up to 5 destinations. */
     public var restreams: [RestreamsRequestObject]?
 
-    public init(name: String, record: Bool? = false, _public: Bool? = nil, playerId: String? = nil, restreams: [RestreamsRequestObject]? = nil) {
+    public init(name: String, _public: Bool? = nil, playerId: String? = nil, restreams: [RestreamsRequestObject]? = nil) {
         self.name = name
-        self.record = record
         self._public = _public
         self.playerId = playerId
         self.restreams = restreams
@@ -33,7 +30,6 @@ public struct LiveStreamCreationPayload: Codable, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
-        case record
         case _public = "public"
         case playerId
         case restreams
@@ -44,7 +40,6 @@ public struct LiveStreamCreationPayload: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(record, forKey: .record)
         try container.encodeIfPresent(_public, forKey: ._public)
         try container.encodeIfPresent(playerId, forKey: .playerId)
         try container.encodeIfPresent(restreams, forKey: .restreams)

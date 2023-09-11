@@ -28,7 +28,7 @@ Creates a livestream object.
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let liveStreamCreationPayload = LiveStreamCreationPayload(name: "name_example", record: true, _public: false, playerId: "playerId_example", restreams: [RestreamsRequestObject(name: "name_example", serverUrl: "serverUrl_example", streamKey: "streamKey_example")]) // LiveStreamCreationPayload | 
+let liveStreamCreationPayload = LiveStreamCreationPayload(name: "name_example", _public: false, playerId: "playerId_example", restreams: [RestreamsRequestObject(name: "name_example", serverUrl: "serverUrl_example", streamKey: "streamKey_example")]) // LiveStreamCreationPayload | 
 
 // Create live stream
 LiveStreamsAPI.create(liveStreamCreationPayload: liveStreamCreationPayload) { (response, error) in
@@ -130,8 +130,8 @@ Updates the livestream object.
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let liveStreamId = "liveStreamId_example" // String | The unique ID for the live stream that you want to update information for such as player details, or whether you want the recording on or off.
-let liveStreamUpdatePayload = LiveStreamUpdatePayload(name: "name_example", _public: false, record: true, playerId: "playerId_example", restreams: [RestreamsRequestObject(name: "name_example", serverUrl: "serverUrl_example", streamKey: "streamKey_example")]) // LiveStreamUpdatePayload | 
+let liveStreamId = "liveStreamId_example" // String | The unique ID for the live stream that you want to update information for such as player details.
+let liveStreamUpdatePayload = LiveStreamUpdatePayload(name: "name_example", _public: false, playerId: "playerId_example", restreams: [RestreamsRequestObject(name: "name_example", serverUrl: "serverUrl_example", streamKey: "streamKey_example")]) // LiveStreamUpdatePayload | 
 
 // Update a live stream
 LiveStreamsAPI.update(liveStreamId: liveStreamId, liveStreamUpdatePayload: liveStreamUpdatePayload) { (response, error) in
@@ -150,7 +150,7 @@ LiveStreamsAPI.update(liveStreamId: liveStreamId, liveStreamUpdatePayload: liveS
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **liveStreamId** | **String** | The unique ID for the live stream that you want to update information for such as player details, or whether you want the recording on or off. | 
+ **liveStreamId** | **String** | The unique ID for the live stream that you want to update information for such as player details. | 
  **liveStreamUpdatePayload** | [**LiveStreamUpdatePayload**](LiveStreamUpdatePayload.md) |  | 
 
 ### Return type

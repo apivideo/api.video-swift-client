@@ -19,7 +19,6 @@
     - [ChaptersAPI](#ChaptersAPI)
     - [LiveStreamsAPI](#LiveStreamsAPI)
     - [PlayerThemesAPI](#PlayerThemesAPI)
-    - [RawStatisticsAPI](#RawStatisticsAPI)
     - [UploadTokensAPI](#UploadTokensAPI)
     - [VideosAPI](#VideosAPI)
     - [WatermarksAPI](#WatermarksAPI)
@@ -190,23 +189,6 @@ Method | HTTP request | Description
 [**deleteLogo**](docs/PlayerThemesAPI.md#deleteLogo) | **DELETE** /players/{playerId}/logo | Delete logo
 
 
-### RawStatisticsAPI
-
-#### Retrieve an instance of RawStatisticsAPI:
-
-```swift
-RawStatisticsAPI
-```
-
-#### Endpoints
-
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**listLiveStreamSessions**](docs/RawStatisticsAPI.md#listLiveStreamSessions) | **GET** /analytics/live-streams/{liveStreamId} | List live stream player sessions
-[**listSessionEvents**](docs/RawStatisticsAPI.md#listSessionEvents) | **GET** /analytics/sessions/{sessionId}/events | List player session events
-[**listVideoSessions**](docs/RawStatisticsAPI.md#listVideoSessions) | **GET** /analytics/videos/{videoId} | List video player sessions
-
-
 ### UploadTokensAPI
 
 #### Retrieve an instance of UploadTokensAPI:
@@ -324,9 +306,6 @@ Method | HTTP request | Description
  - [PlayerThemeUpdatePayload](docs/PlayerThemeUpdatePayload.md)
  - [PlayerThemesListResponse](docs/PlayerThemesListResponse.md)
  - [Quality](docs/Quality.md)
- - [RawStatisticsListLiveStreamAnalyticsResponse](docs/RawStatisticsListLiveStreamAnalyticsResponse.md)
- - [RawStatisticsListPlayerSessionEventsResponse](docs/RawStatisticsListPlayerSessionEventsResponse.md)
- - [RawStatisticsListSessionsResponse](docs/RawStatisticsListSessionsResponse.md)
  - [RefreshTokenPayload](docs/RefreshTokenPayload.md)
  - [RestreamsRequestObject](docs/RestreamsRequestObject.md)
  - [RestreamsResponseObject](docs/RestreamsResponseObject.md)
