@@ -11,7 +11,6 @@ Sources/APIs/CaptionsAPI.swift
 Sources/APIs/ChaptersAPI.swift
 Sources/APIs/LiveStreamsAPI.swift
 Sources/APIs/PlayerThemesAPI.swift
-Sources/APIs/RawStatisticsAPI.swift
 Sources/APIs/UploadTokensAPI.swift
 Sources/APIs/VideosAPI.swift
 Sources/APIs/WatermarksAPI.swift
@@ -64,9 +63,6 @@ Sources/Models/PlayerThemeCreationPayload.swift
 Sources/Models/PlayerThemeUpdatePayload.swift
 Sources/Models/PlayerThemesListResponse.swift
 Sources/Models/Quality.swift
-Sources/Models/RawStatisticsListLiveStreamAnalyticsResponse.swift
-Sources/Models/RawStatisticsListPlayerSessionEventsResponse.swift
-Sources/Models/RawStatisticsListSessionsResponse.swift
 Sources/Models/RefreshTokenPayload.swift
 Sources/Models/RestreamsRequestObject.swift
 Sources/Models/RestreamsResponseObject.swift
@@ -150,10 +146,6 @@ docs/PlayerThemeUpdatePayload.md
 docs/PlayerThemesAPI.md
 docs/PlayerThemesListResponse.md
 docs/Quality.md
-docs/RawStatisticsAPI.md
-docs/RawStatisticsListLiveStreamAnalyticsResponse.md
-docs/RawStatisticsListPlayerSessionEventsResponse.md
-docs/RawStatisticsListSessionsResponse.md
 docs/RefreshTokenPayload.md
 docs/RestreamsRequestObject.md
 docs/RestreamsResponseObject.md

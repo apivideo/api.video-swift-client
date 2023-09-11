@@ -110,7 +110,7 @@ open class LiveStreamsAPI {
     /**
      Update a live stream
      
-     - parameter liveStreamId: (path) The unique ID for the live stream that you want to update information for such as player details, or whether you want the recording on or off. 
+     - parameter liveStreamId: (path) The unique ID for the live stream that you want to update information for such as player details. 
      - parameter liveStreamUpdatePayload: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects.
@@ -132,7 +132,7 @@ open class LiveStreamsAPI {
      Update a live stream
      - PATCH /live-streams/{liveStreamId}
      - Updates the livestream object.
-     - parameter liveStreamId: (path) The unique ID for the live stream that you want to update information for such as player details, or whether you want the recording on or off. 
+     - parameter liveStreamId: (path) The unique ID for the live stream that you want to update information for such as player details. 
      - parameter liveStreamUpdatePayload: (body)  
      - returns: RequestBuilder<LiveStream> 
      */

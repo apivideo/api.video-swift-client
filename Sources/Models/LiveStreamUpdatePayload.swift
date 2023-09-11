@@ -16,17 +16,14 @@ public struct LiveStreamUpdatePayload: Codable, Hashable {
     public var name: String?
     /** Whether your video can be viewed by everyone, or requires authentication to see it. A setting of false will require a unique token for each view. Learn more about the Private Video feature [here](https://docs.api.video/docs/private-videos). */
     public var _public: Bool?
-    /** Use this to indicate whether you want the recording on or off. On is true, off is false. */
-    public var record: Bool?
     /** The unique ID for the player associated with a live stream that you want to update. */
     public var playerId: String?
     /** Use this parameter to add, edit, or remove RTMP services where you want to restream a live stream. The list can only contain up to 5 destinations. This operation updates all restream destinations in the same request. If you do not want to modify an existing restream destination, you need to include it in your request, otherwise it is removed. */
     public var restreams: [RestreamsRequestObject]?
 
-    public init(name: String? = nil, _public: Bool? = nil, record: Bool? = nil, playerId: String? = nil, restreams: [RestreamsRequestObject]? = nil) {
+    public init(name: String? = nil, _public: Bool? = nil, playerId: String? = nil, restreams: [RestreamsRequestObject]? = nil) {
         self.name = name
         self._public = _public
-        self.record = record
         self.playerId = playerId
         self.restreams = restreams
     }
@@ -34,7 +31,6 @@ public struct LiveStreamUpdatePayload: Codable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case _public = "public"
-        case record
         case playerId
         case restreams
     }
@@ -45,7 +41,6 @@ public struct LiveStreamUpdatePayload: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(_public, forKey: ._public)
-        try container.encodeIfPresent(record, forKey: .record)
         try container.encodeIfPresent(playerId, forKey: .playerId)
         try container.encodeIfPresent(restreams, forKey: .restreams)
     }
