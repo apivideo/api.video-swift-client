@@ -307,7 +307,7 @@ open class PlayerThemesAPI {
     /**
      Upload a logo
      - POST /players/{playerId}/logo
-     - Upload an image logo for a player.
+     - Upload an image file as a logo for your player. The image should fit within these constraints: - The image mime type must be `image/jpeg` or `image/png`. api.video recommends using `png` images with transparent background. - The image size should be a maximum of 200px width x 100px. - The file size should be a maximum of 100 KiB. 
      - parameter playerId: (path) The unique identifier for the player. 
      - parameter file: (form) The name of the file you want to use for your logo. 
      - parameter link: (form) A public link that you want to advertise in your player. For example, you could add a link to your company. When a viewer clicks on your logo, they will be taken to this address. (optional)
