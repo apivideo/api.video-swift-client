@@ -14,7 +14,7 @@ public struct LiveStreamUpdatePayload: Codable, Hashable {
 
     /** The name you want to use for your live stream. */
     public var name: String?
-    /** Whether your video can be viewed by everyone, or requires authentication to see it. A setting of false will require a unique token for each view. Learn more about the Private Video feature [here](https://docs.api.video/docs/private-videos). */
+    /** Whether your video can be viewed by everyone, or requires authentication to see it. A setting of false will require a unique token for each view. Learn more about the Private Video feature [here](https://docs.api.video/delivery-analytics/video-privacy-access-management). */
     public var _public: Bool?
     /** The unique ID for the player associated with a live stream that you want to update. */
     public var playerId: String?

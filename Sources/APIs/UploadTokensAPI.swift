@@ -35,7 +35,7 @@ open class UploadTokensAPI {
     /**
      Generate an upload token
      - POST /upload-tokens
-     - Generates an upload token that can be used to replace the API Key. More information can be found [here](https://docs.api.video/reference/upload-tokens)
+     - Generates an upload token that can be used to replace the API Key. More information can be found [here](https://docs.api.video/vod/delegated-upload-tokens)
      - parameter tokenCreationPayload: (body)  
      - returns: RequestBuilder<UploadToken> 
      */
