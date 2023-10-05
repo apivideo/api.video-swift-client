@@ -37,7 +37,7 @@ open class CaptionsAPI {
     /**
      Upload a caption
      - POST /videos/{videoId}/captions/{language}
-     - Upload a VTT file to add captions to your video. More information can be found [here](https://docs.api.video/reference/captions)
+     - Upload a VTT file to add captions to your video. More information can be found [here](https://docs.api.video/vod/add-captions)
      - parameter videoId: (path) The unique identifier for the video you want to add a caption to. 
      - parameter language: (path) A valid BCP 47 language representation. 
      - parameter file: (form) The video text track (VTT) you want to upload. 

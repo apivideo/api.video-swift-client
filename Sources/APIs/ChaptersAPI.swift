@@ -37,7 +37,7 @@ open class ChaptersAPI {
     /**
      Upload a chapter
      - POST /videos/{videoId}/chapters/{language}
-     - Upload a VTT file to add chapters to your video. Chapters help break the video into sections. Read our [tutorial](https://api.video/blog/tutorials/adding-chapters-to-your-videos) for more details.
+     - Upload a VTT file to add chapters to your video. Chapters help break the video into sections. Read our [tutorial](https://api.video/blog/tutorials/adding-chapters-to-your-videos/) for more details.
      - parameter videoId: (path) The unique identifier for the video you want to upload a chapter for. 
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
      - parameter file: (form) The VTT file describing the chapters you want to upload. 
