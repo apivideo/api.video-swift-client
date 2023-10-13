@@ -1,4 +1,4 @@
-[![badge](https://img.shields.io/twitter/follow/api_video?style=social)](https://twitter.com/intent/follow?screen_name=api_video) &nbsp; [![badge](https://img.shields.io/github/stars/apivideo/api.video-ios-client?style=social)]() &nbsp; [![badge](https://img.shields.io/discourse/topics?server=https%3A%2F%2Fcommunity.api.video)](https://community.api.video)
+[![badge](https://img.shields.io/twitter/follow/api_video?style=social)](https://twitter.com/intent/follow?screen_name=api_video) &nbsp; [![badge](https://img.shields.io/github/stars/apivideo/api.video-swift-client?style=social)]() &nbsp; [![badge](https://img.shields.io/discourse/topics?server=https%3A%2F%2Fcommunity.api.video)](https://community.api.video)
 ![](https://github.com/apivideo/.github/blob/main/assets/apivideo_banner.png)
 <h1 align="center">api.video iOS client</h1>
 
@@ -42,7 +42,7 @@ api.video's iOS  streamlines the coding process. Chunking files is handled for y
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-ios-client" ~> 1.2.1
+github "apivideo/api.video-swift-client" ~> 1.2.1
 ```
 
 Run `carthage update`
