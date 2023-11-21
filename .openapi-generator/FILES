@@ -15,9 +15,6 @@ Sources/APIs/UploadTokensAPI.swift
 Sources/APIs/VideosAPI.swift
 Sources/APIs/WatermarksAPI.swift
 Sources/APIs/WebhooksAPI.swift
-Sources/AlamofireImplementations.swift
-Sources/Auth/ApiVideoAuthenticator.swift
-Sources/Auth/ApiVideoCredential.swift
 Sources/CodableHelper.swift
 Sources/Configuration.swift
 Sources/Extensions.swift
@@ -99,6 +96,7 @@ Sources/Models/WebhooksCreationPayload.swift
 Sources/Models/WebhooksListResponse.swift
 Sources/OpenISO8601DateFormatter.swift
 Sources/SynchronizedDictionary.swift
+Sources/URLSessionImplementations.swift
 Sources/Upload/FileChunkInputStream.swift
 Sources/Upload/ProgressiveUploadSessionProtocol.swift
 Sources/Upload/RequestTaskQueue.swift
