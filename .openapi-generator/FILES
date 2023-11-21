@@ -184,7 +184,6 @@ docs/Webhook.md
 docs/WebhooksAPI.md
 docs/WebhooksCreationPayload.md
 docs/WebhooksListResponse.md
-documentation.md
 git_push.sh
 post-generate.sh
 project.yml
