@@ -12,16 +12,22 @@ import AnyCodable
 
 public struct Caption: Codable, Hashable {
 
+    /** The unique resource identifier of the uploaded caption. */
     public var uri: String?
+    /** A direct URL to the uploaded caption file. */
     public var src: String?
+    /** Indicates the language of the uploaded caption file using IETF language tags. */
     public var srclang: String?
+    /** Returns the native name of the caption language in UTF-8 encoding. */
+    public var languageName: String?
     /** Whether you will have subtitles or not. True for yes you will have subtitles, false for no you will not have subtitles. */
     public var _default: Bool? = false
 
-    public init(uri: String? = nil, src: String? = nil, srclang: String? = nil, _default: Bool? = false) {
+    public init(uri: String? = nil, src: String? = nil, srclang: String? = nil, languageName: String? = nil, _default: Bool? = false) {
         self.uri = uri
         self.src = src
         self.srclang = srclang
+        self.languageName = languageName
         self._default = _default
     }
 
@@ -29,6 +35,7 @@ public struct Caption: Codable, Hashable {
         case uri
         case src
         case srclang
+        case languageName
         case _default = "default"
     }
 
@@ -39,6 +46,7 @@ public struct Caption: Codable, Hashable {
         try container.encodeIfPresent(uri, forKey: .uri)
         try container.encodeIfPresent(src, forKey: .src)
         try container.encodeIfPresent(srclang, forKey: .srclang)
+        try container.encodeIfPresent(languageName, forKey: .languageName)
         try container.encodeIfPresent(_default, forKey: ._default)
     }
 }
