@@ -14,6 +14,7 @@ public class ApiVideoClient {
     internal static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
     public static var apiResponseQueue: DispatchQueue = .main
     public static var timeout: TimeInterval = 60
+    public static var backgroundIdentifier: String = "video.api.upload.background"
     internal static var customHeaders:[String: String] {
         var headers = defaultHeaders
         if let apiKey = apiKey {
@@ -135,4 +136,5 @@ open class RequestBuilder<T> {
 public protocol RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
+    func getBackgroundBuilder<T: Decodable>() -> RequestBuilder<T>.Type
 }

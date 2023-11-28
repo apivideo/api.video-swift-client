@@ -9,6 +9,12 @@ import Foundation
 import MobileCoreServices
 #endif
 
+public protocol URLSessionProtocol {
+    func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+}
+
+extension URLSession: URLSessionProtocol {}
+
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
         return URLSessionRequestBuilder<T>.self
@@ -16,6 +22,10 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
 
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
         return URLSessionDecodableRequestBuilder<T>.self
+    }
+
+    func getBackgroundBuilder<T: Decodable>() -> RequestBuilder<T>.Type {
+        return URLSessionBackgroundUploadRequestBuilder<T>.self
     }
 }
 
@@ -62,7 +72,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      May be overridden by a subclass if you want to control the URLSession
      configuration.
      */
-    open func createURLSession() -> URLSession {
+    open func createURLSession() -> URLSessionProtocol {
         return defaultURLSession
     }
 
@@ -81,7 +91,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      May be overridden by a subclass if you want to control the URLRequest
      configuration (e.g. to override the cache policy).
      */
-    open func createURLRequest(urlSession: URLSession, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) throws -> URLRequest {
+    open func createURLRequest(urlSession: URLSessionProtocol, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) throws -> URLRequest {
 
         guard let url = URL(string: URLString) else {
             throw DownloadException.requestMissingURL
@@ -144,26 +154,9 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
              }
 
             let dataTask = urlSession.dataTask(with: request) { data, response, error in
-
-                if let taskCompletionShouldRetry = self.taskCompletionShouldRetry {
-
-                    taskCompletionShouldRetry(data, response, error) { shouldRetry in
-
-                        if shouldRetry {
-                            cleanupRequest()
-                            self.execute(apiResponseQueue, completion)
-                        } else {
-                            apiResponseQueue.async {
-                                self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                                cleanupRequest()
-                            }
-                        }
-                    }
-                } else {
-                    apiResponseQueue.async {
-                        self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                        cleanupRequest()
-                    }
+                apiResponseQueue.async {
+                    self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                    cleanupRequest()
                 }
             }
 
@@ -372,6 +365,68 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
     }
 }
 
+class BackgroundUploadTaskURLSession<T>: NSObject, URLSessionProtocol {
+    private let file: URL
+    private let sessionDelegate = BackgroundUploadSessionDelegate()
+
+    private lazy var urlSession = URLSession(configuration: .background(withIdentifier: ApiVideoClient.backgroundIdentifier), delegate: sessionDelegate, delegateQueue: nil)
+ 
+    init(_ file: URL) {
+        self.file = FileHelper.createTemporaryURLfrom(file)
+    }
+
+    func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        sessionDelegate.completionHandler = completionHandler
+        return urlSession.uploadTask(with: request, fromFile: file)
+    }
+}
+
+open class URLSessionBackgroundUploadRequestBuilder<T: Decodable>: URLSessionDecodableRequestBuilder<T> {
+    private var completion: ((Result<Response<T>, ErrorResponse>) -> Void)? = nil
+
+    override open func createURLSession() -> URLSessionProtocol {
+        guard let parameters = parameters else { fatalError("No parameters found") }
+
+        // Find file URL
+        var file: URL? = nil
+        for (_, value) in parameters {
+            if let fileURL = value as? URL {
+                file = fileURL
+                break
+            }
+        }
+        guard let fileURL = file else {
+            fatalError("No file URL found")
+        }
+        return BackgroundUploadTaskURLSession<T>(fileURL)
+    }
+
+    /**
+     May be overridden by a subclass if you want to control the URLRequest
+     configuration (e.g. to override the cache policy).
+     */
+    override open func createURLRequest(urlSession: URLSessionProtocol, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) throws -> URLRequest {
+
+        guard let url = URL(string: URLString) else {
+            throw DownloadException.requestMissingURL
+        }
+
+        var originalRequest = URLRequest(url: url)
+        originalRequest.timeoutInterval = ApiVideoClient.timeout
+        originalRequest.httpMethod = method.rawValue
+
+        headers.forEach { key, value in
+            originalRequest.setValue(value, forHTTPHeaderField: key)
+        }
+
+        buildHeaders().forEach { key, value in
+            originalRequest.setValue(value, forHTTPHeaderField: key)
+        }
+
+        return originalRequest
+    }
+}
+
 private class SessionDelegate: NSObject, URLSessionTaskDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 
@@ -394,6 +449,21 @@ private class SessionDelegate: NSObject, URLSessionTaskDelegate {
         }
 
         completionHandler(disposition, credential)
+    }
+}
+
+private class BackgroundUploadSessionDelegate: SessionDelegate, URLSessionDataDelegate {
+    var completionHandler: ((Data?, URLResponse?, Error?) -> Void)? = nil
+
+    func urlSession(_ session: URLSession, task: URLSessionTask, didBecomeInvalidWithError error: Error?) {
+        guard let error = error else {
+            return
+        }
+        completionHandler?(nil, task.response, error)
+    }
+
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        completionHandler?(data, dataTask.response, nil)
     }
 }
 
