@@ -208,6 +208,15 @@ open class LiveStreamsAPI {
 
 
     /**
+     * enum for parameter sortBy
+     */
+    public enum SortByList: String, CaseIterable {
+        case name = "name"
+        case createdat = "createdAt"
+        case updatedat = "updatedAt"
+    }
+
+    /**
      * enum for parameter sortOrder
      */
     public enum SortOrderList: String, CaseIterable {
@@ -220,7 +229,7 @@ open class LiveStreamsAPI {
      
      - parameter streamKey: (query) The unique stream key that allows you to stream videos. (optional)
      - parameter name: (query) You can filter live streams by their name or a part of their name. (optional)
-     - parameter sortBy: (query) Allowed: createdAt, publishedAt, name. createdAt - the time a livestream was created using the specified streamKey. publishedAt - the time a livestream was published using the specified streamKey. name - the name of the livestream. If you choose one of the time based options, the time is presented in ISO-8601 format. (optional)
+     - parameter sortBy: (query) Enables you to sort live stream results. Allowed attributes: &#x60;name&#x60;, &#x60;createdAt&#x60;, &#x60;updatedAt&#x60;. &#x60;name&#x60; - the name of the live stream. &#x60;createdAt&#x60; - the time a live stream was created. &#x60;updatedAt&#x60; - the time a live stream was last updated.  When using &#x60;createdAt&#x60; or &#x60;updatedAt&#x60;, the API sorts the results based on the ISO-8601 time format.  (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. For title, it is 0-9 and A-Z ascending and Z-A, 9-0 descending. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
@@ -228,7 +237,7 @@ open class LiveStreamsAPI {
      - parameter completion: completion handler to receive the data and the error objects.
      */
     @discardableResult
-    open class func list(streamKey: String? = nil, name: String? = nil, sortBy: String? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStreamListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func list(streamKey: String? = nil, name: String? = nil, sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: LiveStreamListResponse?, _ error: Error?) -> Void)) -> RequestTask {
             return listWithRequestBuilder(streamKey: streamKey, name: name, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
@@ -246,13 +255,13 @@ open class LiveStreamsAPI {
      - Get the list of livestreams on the workspace.
      - parameter streamKey: (query) The unique stream key that allows you to stream videos. (optional)
      - parameter name: (query) You can filter live streams by their name or a part of their name. (optional)
-     - parameter sortBy: (query) Allowed: createdAt, publishedAt, name. createdAt - the time a livestream was created using the specified streamKey. publishedAt - the time a livestream was published using the specified streamKey. name - the name of the livestream. If you choose one of the time based options, the time is presented in ISO-8601 format. (optional)
+     - parameter sortBy: (query) Enables you to sort live stream results. Allowed attributes: &#x60;name&#x60;, &#x60;createdAt&#x60;, &#x60;updatedAt&#x60;. &#x60;name&#x60; - the name of the live stream. &#x60;createdAt&#x60; - the time a live stream was created. &#x60;updatedAt&#x60; - the time a live stream was last updated.  When using &#x60;createdAt&#x60; or &#x60;updatedAt&#x60;, the API sorts the results based on the ISO-8601 time format.  (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. For title, it is 0-9 and A-Z ascending and Z-A, 9-0 descending. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<LiveStreamListResponse> 
      */
-    open class func listWithRequestBuilder(streamKey: String? = nil, name: String? = nil, sortBy: String? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<LiveStreamListResponse> {
+    open class func listWithRequestBuilder(streamKey: String? = nil, name: String? = nil, sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<LiveStreamListResponse> {
         let localVariablePath = "/live-streams"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
