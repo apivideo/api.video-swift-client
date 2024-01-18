@@ -190,7 +190,7 @@ The latter allows you to split a video source into X chunks and send those chunk
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBackgroundBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, onProgressReady: onProgressReady)
     }
@@ -248,7 +248,7 @@ The latter allows you to split a video source into X chunks and send those chunk
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBackgroundBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, onProgressReady: onProgressReady)
     }
@@ -395,7 +395,7 @@ The latter allows you to split a video source into X chunks and send those chunk
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBackgroundBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, onProgressReady: onProgressReady)
     }
@@ -438,7 +438,7 @@ The latter allows you to split a video source into X chunks and send those chunk
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBackgroundBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, onProgressReady: onProgressReady)
     }
