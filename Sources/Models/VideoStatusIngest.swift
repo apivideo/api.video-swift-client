@@ -14,11 +14,12 @@ import AnyCodable
 public struct VideoStatusIngest: Codable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
-        case missing = "missing"
         case uploading = "uploading"
         case uploaded = "uploaded"
+        case ingesting = "ingesting"
+        case ingested = "ingested"
     }
-    /** There are three possible ingest statuses. missing - you are missing information required to ingest the video. uploading - the video is in the process of being uploaded. uploaded - the video is ready for use. */
+    /** There are four possible statuses depending on how you provide a video file: - `uploading` - the API is gathering the video source file from an upload. - `uploaded` - the video file is fully uploaded. - `ingesting` - the API is gathering the video source file from either a URL, or from cloning. - `ingested` - the video file is fully stored.  */
     public var status: Status?
     /** The size of your file in bytes. */
     public var filesize: Int?

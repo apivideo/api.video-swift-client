@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.2.2] - 2024-02-19
+- Update VideoStatusIngest enum
+
 ## [1.2.1] - 2023-08-25
 - Fix progressive upload with upload token and video id
 - Use pascal case for enums
