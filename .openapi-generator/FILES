@@ -68,6 +68,7 @@ Sources/Models/RestreamsRequestObject.swift
 Sources/Models/RestreamsResponseObject.swift
 Sources/Models/TokenCreationPayload.swift
 Sources/Models/TokenListResponse.swift
+Sources/Models/TooManyRequests.swift
 Sources/Models/UploadToken.swift
 Sources/Models/Video.swift
 Sources/Models/VideoAssets.swift
@@ -151,6 +152,7 @@ docs/RestreamsRequestObject.md
 docs/RestreamsResponseObject.md
 docs/TokenCreationPayload.md
 docs/TokenListResponse.md
+docs/TooManyRequests.md
 docs/UploadToken.md
 docs/UploadTokensAPI.md
 docs/Video.md

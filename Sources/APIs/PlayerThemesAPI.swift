@@ -36,6 +36,7 @@ open class PlayerThemesAPI {
      Create a player
      - POST /players
      - Create a player for your video, and customise it.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter playerThemeCreationPayload: (body)  
      - returns: RequestBuilder<PlayerTheme> 
      */
@@ -82,6 +83,7 @@ open class PlayerThemesAPI {
      Retrieve a player
      - GET /players/{playerId}
      - Retreive a player theme by player id.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter playerId: (path) The unique identifier for the player you want to retrieve.  
      - returns: RequestBuilder<PlayerTheme> 
      */
@@ -132,6 +134,7 @@ open class PlayerThemesAPI {
      Update a player
      - PATCH /players/{playerId}
      - Use a player ID to update specific details for a player.  NOTE: It may take up to 10 min before the new player configuration is available from our CDN.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter playerId: (path) The unique identifier for the player. 
      - parameter playerThemeUpdatePayload: (body)  
      - returns: RequestBuilder<PlayerTheme> 
@@ -182,6 +185,7 @@ open class PlayerThemesAPI {
      Delete a player
      - DELETE /players/{playerId}
      - Delete a player if you no longer need it. You can delete any player that you have the player ID for.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter playerId: (path) The unique identifier for the player you want to delete. 
      - returns: RequestBuilder<Void> 
      */
@@ -251,6 +255,7 @@ open class PlayerThemesAPI {
      List all player themes
      - GET /players
      - Retrieve a list of all the player themes you created, as well as details about each one.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
@@ -308,6 +313,7 @@ open class PlayerThemesAPI {
      Upload a logo
      - POST /players/{playerId}/logo
      - Upload an image file as a logo for your player. The image should fit within these constraints: - The image mime type must be `image/jpeg` or `image/png`. api.video recommends using `png` images with transparent background. - The image size should be a maximum of 200px width x 100px. - The file size should be a maximum of 100 KiB. 
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter playerId: (path) The unique identifier for the player. 
      - parameter file: (form) The name of the file you want to use for your logo. 
      - parameter link: (form) A public link that you want to advertise in your player. For example, you could add a link to your company. When a viewer clicks on your logo, they will be taken to this address. (optional)
@@ -364,6 +370,7 @@ open class PlayerThemesAPI {
      Delete logo
      - DELETE /players/{playerId}/logo
      - Delete the logo associated to a player.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter playerId: (path) The unique identifier for the player. 
      - returns: RequestBuilder<Void> 
      */
