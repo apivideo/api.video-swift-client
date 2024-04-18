@@ -36,6 +36,7 @@ open class LiveStreamsAPI {
      Create live stream
      - POST /live-streams
      - Creates a livestream object.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter liveStreamCreationPayload: (body)  
      - returns: RequestBuilder<LiveStream> 
      */
@@ -82,6 +83,7 @@ open class LiveStreamsAPI {
      Retrieve live stream
      - GET /live-streams/{liveStreamId}
      - Get a livestream by id.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter liveStreamId: (path) The unique ID for the live stream you want to watch. 
      - returns: RequestBuilder<LiveStream> 
      */
@@ -132,6 +134,7 @@ open class LiveStreamsAPI {
      Update a live stream
      - PATCH /live-streams/{liveStreamId}
      - Updates the livestream object.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter liveStreamId: (path) The unique ID for the live stream that you want to update information for such as player details. 
      - parameter liveStreamUpdatePayload: (body)  
      - returns: RequestBuilder<LiveStream> 
@@ -182,6 +185,7 @@ open class LiveStreamsAPI {
      Delete a live stream
      - DELETE /live-streams/{liveStreamId}
      - If you do not need a live stream any longer, you can send a request to delete it. All you need is the liveStreamId.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter liveStreamId: (path) The unique ID for the live stream that you want to remove. 
      - returns: RequestBuilder<Void> 
      */
@@ -253,6 +257,7 @@ open class LiveStreamsAPI {
      List all live streams
      - GET /live-streams
      - Get the list of livestreams on the workspace.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter streamKey: (query) The unique stream key that allows you to stream videos. (optional)
      - parameter name: (query) You can filter live streams by their name or a part of their name. (optional)
      - parameter sortBy: (query) Enables you to sort live stream results. Allowed attributes: &#x60;name&#x60;, &#x60;createdAt&#x60;, &#x60;updatedAt&#x60;. &#x60;name&#x60; - the name of the live stream. &#x60;createdAt&#x60; - the time a live stream was created. &#x60;updatedAt&#x60; - the time a live stream was last updated.  When using &#x60;createdAt&#x60; or &#x60;updatedAt&#x60;, the API sorts the results based on the ISO-8601 time format.  (optional)
@@ -313,6 +318,7 @@ open class LiveStreamsAPI {
      Upload a thumbnail
      - POST /live-streams/{liveStreamId}/thumbnail
      - Upload the thumbnail for the livestream.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter liveStreamId: (path) The unique ID for the live stream you want to upload. 
      - parameter file: (form) The image to be added as a thumbnail. The mime type should be image/jpeg, image/png or image/webp. The max allowed size is 8 MiB. 
      - returns: RequestBuilder<LiveStream> 
@@ -367,6 +373,7 @@ open class LiveStreamsAPI {
      Delete a thumbnail
      - DELETE /live-streams/{liveStreamId}/thumbnail
      - Send the unique identifier for a live stream to delete its thumbnail.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter liveStreamId: (path) The unique identifier of the live stream whose thumbnail you want to delete. 
      - returns: RequestBuilder<LiveStream> 
      */

@@ -36,6 +36,7 @@ open class UploadTokensAPI {
      Generate an upload token
      - POST /upload-tokens
      - Generates an upload token that can be used to replace the API Key. More information can be found [here](https://docs.api.video/vod/delegated-upload-tokens)
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter tokenCreationPayload: (body)  
      - returns: RequestBuilder<UploadToken> 
      */
@@ -82,6 +83,7 @@ open class UploadTokensAPI {
      Retrieve upload token
      - GET /upload-tokens/{uploadToken}
      - Retrieve details about a specific upload token by id.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter uploadToken: (path) The unique identifier for the token you want information about. 
      - returns: RequestBuilder<UploadToken> 
      */
@@ -131,6 +133,7 @@ open class UploadTokensAPI {
      Delete an upload token
      - DELETE /upload-tokens/{uploadToken}
      - Delete an existing upload token. This is especially useful for tokens you may have created that do not expire.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter uploadToken: (path) The unique identifier for the upload token you want to delete. Deleting a token will make it so the token can no longer be used for authentication. 
      - returns: RequestBuilder<Void> 
      */
@@ -199,6 +202,7 @@ open class UploadTokensAPI {
      List all active upload tokens
      - GET /upload-tokens
      - Retrieve a list of all currently active delegated tokens.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ISO-8601 format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending is 0-9 or A-Z. Descending is 9-0 or Z-A. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
