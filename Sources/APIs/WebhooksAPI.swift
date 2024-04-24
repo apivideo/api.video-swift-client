@@ -21,14 +21,26 @@ open class WebhooksAPI {
      */
     @discardableResult
     open class func create(webhooksCreationPayload: WebhooksCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Webhook?, _ error: Error?) -> Void)) -> RequestTask {
-            return createWithRequestBuilder(webhooksCreationPayload: webhooksCreationPayload).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return create(webhooksCreationPayload: webhooksCreationPayload, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Create Webhook
+     
+     - parameter webhooksCreationPayload: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func create(webhooksCreationPayload: WebhooksCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Webhook>, ErrorResponse>) -> Void) -> RequestTask {
+            return createWithRequestBuilder(webhooksCreationPayload: webhooksCreationPayload).execute(apiResponseQueue, completion)
     }
 
 
@@ -40,7 +52,7 @@ open class WebhooksAPI {
      - parameter webhooksCreationPayload: (body)  
      - returns: RequestBuilder<Webhook> 
      */
-    open class func createWithRequestBuilder(webhooksCreationPayload: WebhooksCreationPayload) -> RequestBuilder<Webhook> {
+    internal class func createWithRequestBuilder(webhooksCreationPayload: WebhooksCreationPayload) -> RequestBuilder<Webhook> {
         let localVariablePath = "/webhooks"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: webhooksCreationPayload)
@@ -68,14 +80,26 @@ open class WebhooksAPI {
      */
     @discardableResult
     open class func get(webhookId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Webhook?, _ error: Error?) -> Void)) -> RequestTask {
-            return getWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return get(webhookId: webhookId, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Retrieve Webhook details
+     
+     - parameter webhookId: (path) The unique webhook you wish to retreive details on. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func get(webhookId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Webhook>, ErrorResponse>) -> Void) -> RequestTask {
+            return getWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue, completion)
     }
 
 
@@ -87,7 +111,7 @@ open class WebhooksAPI {
      - parameter webhookId: (path) The unique webhook you wish to retreive details on. 
      - returns: RequestBuilder<Webhook> 
      */
-    open class func getWithRequestBuilder(webhookId: String) -> RequestBuilder<Webhook> {
+    internal class func getWithRequestBuilder(webhookId: String) -> RequestBuilder<Webhook> {
         var localVariablePath = "/webhooks/{webhookId}"
         let webhookIdPreEscape = "\(APIHelper.mapValueToPathItem(webhookId))"
         let webhookIdPostEscape = webhookIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -118,14 +142,26 @@ open class WebhooksAPI {
      */
     @discardableResult
     open class func delete(webhookId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return deleteWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return delete(webhookId: webhookId, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Delete a Webhook
+     
+     - parameter webhookId: (path) The webhook you wish to delete. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func delete(webhookId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void) -> RequestTask {
+            return deleteWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue, completion)
     }
 
 
@@ -137,7 +173,7 @@ open class WebhooksAPI {
      - parameter webhookId: (path) The webhook you wish to delete. 
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteWithRequestBuilder(webhookId: String) -> RequestBuilder<Void> {
+    internal class func deleteWithRequestBuilder(webhookId: String) -> RequestBuilder<Void> {
         var localVariablePath = "/webhooks/{webhookId}"
         let webhookIdPreEscape = "\(APIHelper.mapValueToPathItem(webhookId))"
         let webhookIdPostEscape = webhookIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -170,14 +206,28 @@ open class WebhooksAPI {
      */
     @discardableResult
     open class func list(events: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: WebhooksListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-            return listWithRequestBuilder(events: events, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return list(events: events, currentPage: currentPage, pageSize: pageSize, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     List all webhooks
+     
+     - parameter events: (query) The webhook event that you wish to filter on. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func list(events: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<WebhooksListResponse>, ErrorResponse>) -> Void) -> RequestTask {
+            return listWithRequestBuilder(events: events, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue, completion)
     }
 
 
@@ -193,7 +243,7 @@ You can filter what the webhook list that the API returns using the parameters d
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<WebhooksListResponse> 
      */
-    open class func listWithRequestBuilder(events: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<WebhooksListResponse> {
+    internal class func listWithRequestBuilder(events: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<WebhooksListResponse> {
         let localVariablePath = "/webhooks"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil

@@ -23,14 +23,28 @@ open class ChaptersAPI {
      */
     @discardableResult
     open class func upload(videoId: String, language: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Chapter?, _ error: Error?) -> Void)) -> RequestTask {
-            return uploadWithRequestBuilder(videoId: videoId, language: language, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return upload(videoId: videoId, language: language, file: file, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Upload a chapter
+     
+     - parameter videoId: (path) The unique identifier for the video you want to upload a chapter for. 
+     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
+     - parameter file: (form) The VTT file describing the chapters you want to upload. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func upload(videoId: String, language: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Chapter>, ErrorResponse>) -> Void) -> RequestTask {
+            return uploadWithRequestBuilder(videoId: videoId, language: language, file: file).execute(apiResponseQueue, completion)
     }
 
 
@@ -44,7 +58,7 @@ open class ChaptersAPI {
      - parameter file: (form) The VTT file describing the chapters you want to upload. 
      - returns: RequestBuilder<Chapter> 
      */
-    open class func uploadWithRequestBuilder(videoId: String, language: String, file: URL) -> RequestBuilder<Chapter> {
+    internal class func uploadWithRequestBuilder(videoId: String, language: String, file: URL) -> RequestBuilder<Chapter> {
         var localVariablePath = "/videos/{videoId}/chapters/{language}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -83,14 +97,27 @@ open class ChaptersAPI {
      */
     @discardableResult
     open class func get(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Chapter?, _ error: Error?) -> Void)) -> RequestTask {
-            return getWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return get(videoId: videoId, language: language, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Retrieve a chapter
+     
+     - parameter videoId: (path) The unique identifier for the video you want to show a chapter for. 
+     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func get(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Chapter>, ErrorResponse>) -> Void) -> RequestTask {
+            return getWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue, completion)
     }
 
 
@@ -103,7 +130,7 @@ open class ChaptersAPI {
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
      - returns: RequestBuilder<Chapter> 
      */
-    open class func getWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Chapter> {
+    internal class func getWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Chapter> {
         var localVariablePath = "/videos/{videoId}/chapters/{language}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -138,14 +165,27 @@ open class ChaptersAPI {
      */
     @discardableResult
     open class func delete(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return deleteWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return delete(videoId: videoId, language: language, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Delete a chapter
+     
+     - parameter videoId: (path) The unique identifier for the video you want to delete a chapter from. 
+     - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func delete(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void) -> RequestTask {
+            return deleteWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue, completion)
     }
 
 
@@ -158,7 +198,7 @@ open class ChaptersAPI {
      - parameter language: (path) A valid [BCP 47](https://github.com/libyal/libfwnt/wiki/Language-Code-identifiers) language representation. 
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Void> {
+    internal class func deleteWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Void> {
         var localVariablePath = "/videos/{videoId}/chapters/{language}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -194,14 +234,28 @@ open class ChaptersAPI {
      */
     @discardableResult
     open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: ChaptersListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-            return listWithRequestBuilder(videoId: videoId, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return list(videoId: videoId, currentPage: currentPage, pageSize: pageSize, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     List video chapters
+     
+     - parameter videoId: (path) The unique identifier for the video you want to retrieve a list of chapters for. 
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<ChaptersListResponse>, ErrorResponse>) -> Void) -> RequestTask {
+            return listWithRequestBuilder(videoId: videoId, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue, completion)
     }
 
 
@@ -215,7 +269,7 @@ open class ChaptersAPI {
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<ChaptersListResponse> 
      */
-    open class func listWithRequestBuilder(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<ChaptersListResponse> {
+    internal class func listWithRequestBuilder(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<ChaptersListResponse> {
         var localVariablePath = "/videos/{videoId}/chapters"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

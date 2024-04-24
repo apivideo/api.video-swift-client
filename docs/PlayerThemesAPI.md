@@ -16,6 +16,7 @@ Method | HTTP request | Description
 # **create**
 ```swift
     open class func create(playerThemeCreationPayload: PlayerThemeCreationPayload, completion: @escaping (_ data: PlayerTheme?, _ error: Error?) -> Void)
+    open class func create(playerThemeCreationPayload: PlayerThemeCreationPayload, completion: @escaping (_ result: Swift.Result<Response<PlayerTheme>, ErrorResponse>) -> Void)
 ```
 
 Create a player
@@ -67,6 +68,7 @@ Name | Type | Description  | Notes
 # **get**
 ```swift
     open class func get(playerId: String, completion: @escaping (_ data: PlayerTheme?, _ error: Error?) -> Void)
+    open class func get(playerId: String, completion: @escaping (_ result: Swift.Result<Response<PlayerTheme>, ErrorResponse>) -> Void)
 ```
 
 Retrieve a player
@@ -118,6 +120,7 @@ Name | Type | Description  | Notes
 # **update**
 ```swift
     open class func update(playerId: String, playerThemeUpdatePayload: PlayerThemeUpdatePayload, completion: @escaping (_ data: PlayerTheme?, _ error: Error?) -> Void)
+    open class func update(playerId: String, playerThemeUpdatePayload: PlayerThemeUpdatePayload, completion: @escaping (_ result: Swift.Result<Response<PlayerTheme>, ErrorResponse>) -> Void)
 ```
 
 Update a player
@@ -171,6 +174,7 @@ Name | Type | Description  | Notes
 # **delete**
 ```swift
     open class func delete(playerId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func delete(playerId: String, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void)
 ```
 
 Delete a player
@@ -222,6 +226,7 @@ Void (empty response body)
 # **list**
 ```swift
     open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: PlayerThemesListResponse?, _ error: Error?) -> Void)
+    open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<PlayerThemesListResponse>, ErrorResponse>) -> Void)
 ```
 
 List all player themes
@@ -279,6 +284,7 @@ Name | Type | Description  | Notes
 # **uploadLogo**
 ```swift
     open class func uploadLogo(playerId: String, file: URL, link: String? = nil, completion: @escaping (_ data: PlayerTheme?, _ error: Error?) -> Void)
+    open class func uploadLogo(playerId: String, file: URL, link: String? = nil, completion: @escaping (_ result: Swift.Result<Response<PlayerTheme>, ErrorResponse>) -> Void)
 ```
 
 Upload a logo
@@ -334,6 +340,7 @@ Name | Type | Description  | Notes
 # **deleteLogo**
 ```swift
     open class func deleteLogo(playerId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func deleteLogo(playerId: String, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void)
 ```
 
 Delete logo

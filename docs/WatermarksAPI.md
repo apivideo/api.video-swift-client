@@ -12,6 +12,7 @@ Method | HTTP request | Description
 # **upload**
 ```swift
     open class func upload(file: URL, completion: @escaping (_ data: Watermark?, _ error: Error?) -> Void)
+    open class func upload(file: URL, completion: @escaping (_ result: Swift.Result<Response<Watermark>, ErrorResponse>) -> Void)
 ```
 
 Upload a watermark
@@ -63,6 +64,7 @@ Name | Type | Description  | Notes
 # **delete**
 ```swift
     open class func delete(watermarkId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func delete(watermarkId: String, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void)
 ```
 
 Delete a watermark
@@ -114,6 +116,7 @@ Void (empty response body)
 # **list**
 ```swift
     open class func list(sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: WatermarksListResponse?, _ error: Error?) -> Void)
+    open class func list(sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<WatermarksListResponse>, ErrorResponse>) -> Void)
 ```
 
 List all watermarks

@@ -21,14 +21,26 @@ open class WatermarksAPI {
      */
     @discardableResult
     open class func upload(file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Watermark?, _ error: Error?) -> Void)) -> RequestTask {
-            return uploadWithRequestBuilder(file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return upload(file: file, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Upload a watermark
+     
+     - parameter file: (form) The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func upload(file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Watermark>, ErrorResponse>) -> Void) -> RequestTask {
+            return uploadWithRequestBuilder(file: file).execute(apiResponseQueue, completion)
     }
 
 
@@ -40,7 +52,7 @@ open class WatermarksAPI {
      - parameter file: (form) The &#x60;.jpg&#x60; or &#x60;.png&#x60; image to be added as a watermark. 
      - returns: RequestBuilder<Watermark> 
      */
-    open class func uploadWithRequestBuilder(file: URL) -> RequestBuilder<Watermark> {
+    internal class func uploadWithRequestBuilder(file: URL) -> RequestBuilder<Watermark> {
         let localVariablePath = "/watermarks"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
@@ -72,14 +84,26 @@ open class WatermarksAPI {
      */
     @discardableResult
     open class func delete(watermarkId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return deleteWithRequestBuilder(watermarkId: watermarkId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return delete(watermarkId: watermarkId, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Delete a watermark
+     
+     - parameter watermarkId: (path) The watermark ID for the watermark you want to delete. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func delete(watermarkId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void) -> RequestTask {
+            return deleteWithRequestBuilder(watermarkId: watermarkId).execute(apiResponseQueue, completion)
     }
 
 
@@ -91,7 +115,7 @@ open class WatermarksAPI {
      - parameter watermarkId: (path) The watermark ID for the watermark you want to delete. 
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteWithRequestBuilder(watermarkId: String) -> RequestBuilder<Void> {
+    internal class func deleteWithRequestBuilder(watermarkId: String) -> RequestBuilder<Void> {
         var localVariablePath = "/watermarks/{watermarkId}"
         let watermarkIdPreEscape = "\(APIHelper.mapValueToPathItem(watermarkId))"
         let watermarkIdPostEscape = watermarkIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -125,14 +149,29 @@ open class WatermarksAPI {
      */
     @discardableResult
     open class func list(sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: WatermarksListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-            return listWithRequestBuilder(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return list(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     List all watermarks
+     
+     - parameter sortBy: (query) Allowed: createdAt. You can search by the time watermark were created at. (optional)
+     - parameter sortOrder: (query) Allowed: asc, desc. asc is ascending and sorts from A to Z. desc is descending and sorts from Z to A. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func list(sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<WatermarksListResponse>, ErrorResponse>) -> Void) -> RequestTask {
+            return listWithRequestBuilder(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue, completion)
     }
 
 
@@ -147,7 +186,7 @@ open class WatermarksAPI {
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<WatermarksListResponse> 
      */
-    open class func listWithRequestBuilder(sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<WatermarksListResponse> {
+    internal class func listWithRequestBuilder(sortBy: String? = nil, sortOrder: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<WatermarksListResponse> {
         let localVariablePath = "/watermarks"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil

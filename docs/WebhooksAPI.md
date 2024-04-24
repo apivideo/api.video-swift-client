@@ -13,6 +13,7 @@ Method | HTTP request | Description
 # **create**
 ```swift
     open class func create(webhooksCreationPayload: WebhooksCreationPayload, completion: @escaping (_ data: Webhook?, _ error: Error?) -> Void)
+    open class func create(webhooksCreationPayload: WebhooksCreationPayload, completion: @escaping (_ result: Swift.Result<Response<Webhook>, ErrorResponse>) -> Void)
 ```
 
 Create Webhook
@@ -64,6 +65,7 @@ Name | Type | Description  | Notes
 # **get**
 ```swift
     open class func get(webhookId: String, completion: @escaping (_ data: Webhook?, _ error: Error?) -> Void)
+    open class func get(webhookId: String, completion: @escaping (_ result: Swift.Result<Response<Webhook>, ErrorResponse>) -> Void)
 ```
 
 Retrieve Webhook details
@@ -115,6 +117,7 @@ Name | Type | Description  | Notes
 # **delete**
 ```swift
     open class func delete(webhookId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func delete(webhookId: String, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void)
 ```
 
 Delete a Webhook
@@ -166,6 +169,7 @@ Void (empty response body)
 # **list**
 ```swift
     open class func list(events: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: WebhooksListResponse?, _ error: Error?) -> Void)
+    open class func list(events: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<WebhooksListResponse>, ErrorResponse>) -> Void)
 ```
 
 List all webhooks

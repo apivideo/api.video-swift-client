@@ -23,14 +23,28 @@ open class CaptionsAPI {
      */
     @discardableResult
     open class func upload(videoId: String, language: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Caption?, _ error: Error?) -> Void)) -> RequestTask {
-            return uploadWithRequestBuilder(videoId: videoId, language: language, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return upload(videoId: videoId, language: language, file: file, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Upload a caption
+     
+     - parameter videoId: (path) The unique identifier for the video you want to add a caption to. 
+     - parameter language: (path) A valid language identifier using IETF language tags. You can use primary subtags like &#x60;en&#x60; (English), extended subtags like &#x60;fr-CA&#x60; (French, Canada), or region subtags like &#x60;zh-Hans-CN&#x60; (Simplified Chinese used in the PRC).  - This parameter **only accepts dashes for separators**, for example &#x60;fr-CA&#x60;. If you use a different separator in your request, the API returns an error. - When the value in your request does not match any covered language, the API returns an error. - You can find the list of supported tags [here](https://docs.api.video/vod/add-captions#supported-caption-language-tags). 
+     - parameter file: (form) The video text track (VTT) you want to upload. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func upload(videoId: String, language: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Caption>, ErrorResponse>) -> Void) -> RequestTask {
+            return uploadWithRequestBuilder(videoId: videoId, language: language, file: file).execute(apiResponseQueue, completion)
     }
 
 
@@ -44,7 +58,7 @@ open class CaptionsAPI {
      - parameter file: (form) The video text track (VTT) you want to upload. 
      - returns: RequestBuilder<Caption> 
      */
-    open class func uploadWithRequestBuilder(videoId: String, language: String, file: URL) -> RequestBuilder<Caption> {
+    internal class func uploadWithRequestBuilder(videoId: String, language: String, file: URL) -> RequestBuilder<Caption> {
         var localVariablePath = "/videos/{videoId}/captions/{language}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -83,14 +97,27 @@ open class CaptionsAPI {
      */
     @discardableResult
     open class func get(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Caption?, _ error: Error?) -> Void)) -> RequestTask {
-            return getWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return get(videoId: videoId, language: language, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Retrieve a caption
+     
+     - parameter videoId: (path) The unique identifier for the video you want captions for. 
+     - parameter language: (path) A valid language identifier using IETF language tags. You can use primary subtags like &#x60;en&#x60; (English), extended subtags like &#x60;fr-CA&#x60; (French, Canada), or region subtags like &#x60;zh-Hans-CN&#x60; (Simplified Chinese used in the PRC).  - This parameter **only accepts dashes for separators**, for example &#x60;fr-CA&#x60;. If you use a different separator in your request, the API returns an error. - When the value in your request does not match any covered language, the API returns an error. - You can find the list of supported tags [here](https://docs.api.video/vod/add-captions#supported-caption-language-tags). 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func get(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Caption>, ErrorResponse>) -> Void) -> RequestTask {
+            return getWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue, completion)
     }
 
 
@@ -105,7 +132,7 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
      - parameter language: (path) A valid language identifier using IETF language tags. You can use primary subtags like &#x60;en&#x60; (English), extended subtags like &#x60;fr-CA&#x60; (French, Canada), or region subtags like &#x60;zh-Hans-CN&#x60; (Simplified Chinese used in the PRC).  - This parameter **only accepts dashes for separators**, for example &#x60;fr-CA&#x60;. If you use a different separator in your request, the API returns an error. - When the value in your request does not match any covered language, the API returns an error. - You can find the list of supported tags [here](https://docs.api.video/vod/add-captions#supported-caption-language-tags). 
      - returns: RequestBuilder<Caption> 
      */
-    open class func getWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Caption> {
+    internal class func getWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Caption> {
         var localVariablePath = "/videos/{videoId}/captions/{language}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -141,14 +168,28 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
      */
     @discardableResult
     open class func update(videoId: String, language: String, captionsUpdatePayload: CaptionsUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Caption?, _ error: Error?) -> Void)) -> RequestTask {
-            return updateWithRequestBuilder(videoId: videoId, language: language, captionsUpdatePayload: captionsUpdatePayload).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return update(videoId: videoId, language: language, captionsUpdatePayload: captionsUpdatePayload, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Update a caption
+     
+     - parameter videoId: (path) The unique identifier for the video you want to have automatic captions for. 
+     - parameter language: (path) A valid language identifier using IETF language tags. You can use primary subtags like &#x60;en&#x60; (English), extended subtags like &#x60;fr-CA&#x60; (French, Canada), or region subtags like &#x60;zh-Hans-CN&#x60; (Simplified Chinese used in the PRC).  - This parameter **only accepts dashes for separators**, for example &#x60;fr-CA&#x60;. If you use a different separator in your request, the API returns an error. - When the value in your request does not match any covered language, the API returns an error. - You can find the list of supported tags [here](https://docs.api.video/vod/add-captions#supported-caption-language-tags). 
+     - parameter captionsUpdatePayload: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func update(videoId: String, language: String, captionsUpdatePayload: CaptionsUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Caption>, ErrorResponse>) -> Void) -> RequestTask {
+            return updateWithRequestBuilder(videoId: videoId, language: language, captionsUpdatePayload: captionsUpdatePayload).execute(apiResponseQueue, completion)
     }
 
 
@@ -162,7 +203,7 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
      - parameter captionsUpdatePayload: (body)  
      - returns: RequestBuilder<Caption> 
      */
-    open class func updateWithRequestBuilder(videoId: String, language: String, captionsUpdatePayload: CaptionsUpdatePayload) -> RequestBuilder<Caption> {
+    internal class func updateWithRequestBuilder(videoId: String, language: String, captionsUpdatePayload: CaptionsUpdatePayload) -> RequestBuilder<Caption> {
         var localVariablePath = "/videos/{videoId}/captions/{language}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -197,14 +238,27 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
      */
     @discardableResult
     open class func delete(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return deleteWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return delete(videoId: videoId, language: language, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Delete a caption
+     
+     - parameter videoId: (path) The unique identifier for the video you want to delete a caption from. 
+     - parameter language: (path) A valid language identifier using IETF language tags. You can use primary subtags like &#x60;en&#x60; (English), extended subtags like &#x60;fr-CA&#x60; (French, Canada), or region subtags like &#x60;zh-Hans-CN&#x60; (Simplified Chinese used in the PRC).  - This parameter **only accepts dashes for separators**, for example &#x60;fr-CA&#x60;. If you use a different separator in your request, the API returns an error. - When the value in your request does not match any covered language, the API returns an error. - You can find the list of supported tags [here](https://docs.api.video/vod/add-captions#supported-caption-language-tags). 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func delete(videoId: String, language: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void) -> RequestTask {
+            return deleteWithRequestBuilder(videoId: videoId, language: language).execute(apiResponseQueue, completion)
     }
 
 
@@ -217,7 +271,7 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
      - parameter language: (path) A valid language identifier using IETF language tags. You can use primary subtags like &#x60;en&#x60; (English), extended subtags like &#x60;fr-CA&#x60; (French, Canada), or region subtags like &#x60;zh-Hans-CN&#x60; (Simplified Chinese used in the PRC).  - This parameter **only accepts dashes for separators**, for example &#x60;fr-CA&#x60;. If you use a different separator in your request, the API returns an error. - When the value in your request does not match any covered language, the API returns an error. - You can find the list of supported tags [here](https://docs.api.video/vod/add-captions#supported-caption-language-tags). 
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Void> {
+    internal class func deleteWithRequestBuilder(videoId: String, language: String) -> RequestBuilder<Void> {
         var localVariablePath = "/videos/{videoId}/captions/{language}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -253,14 +307,28 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
      */
     @discardableResult
     open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: CaptionsListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-            return listWithRequestBuilder(videoId: videoId, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return list(videoId: videoId, currentPage: currentPage, pageSize: pageSize, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     List video captions
+     
+     - parameter videoId: (path) The unique identifier for the video you want to retrieve a list of captions for. 
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<CaptionsListResponse>, ErrorResponse>) -> Void) -> RequestTask {
+            return listWithRequestBuilder(videoId: videoId, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue, completion)
     }
 
 
@@ -274,7 +342,7 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<CaptionsListResponse> 
      */
-    open class func listWithRequestBuilder(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<CaptionsListResponse> {
+    internal class func listWithRequestBuilder(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<CaptionsListResponse> {
         var localVariablePath = "/videos/{videoId}/captions"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

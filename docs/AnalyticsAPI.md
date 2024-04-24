@@ -11,6 +11,7 @@ Method | HTTP request | Description
 # **getLiveStreamsPlays**
 ```swift
     open class func getLiveStreamsPlays(from: Date, dimension: Dimension_getLiveStreamsPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: AnalyticsPlaysResponse?, _ error: Error?) -> Void)
+    open class func getLiveStreamsPlays(from: Date, dimension: Dimension_getLiveStreamsPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<AnalyticsPlaysResponse>, ErrorResponse>) -> Void)
 ```
 
 Get play events for live stream
@@ -72,6 +73,7 @@ Name | Type | Description  | Notes
 # **getVideosPlays**
 ```swift
     open class func getVideosPlays(from: Date, dimension: Dimension_getVideosPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: AnalyticsPlaysResponse?, _ error: Error?) -> Void)
+    open class func getVideosPlays(from: Date, dimension: Dimension_getVideosPlays, to: Date? = nil, filter: String? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<AnalyticsPlaysResponse>, ErrorResponse>) -> Void)
 ```
 
 Get play events for video

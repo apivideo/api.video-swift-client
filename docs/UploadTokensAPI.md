@@ -13,6 +13,7 @@ Method | HTTP request | Description
 # **createToken**
 ```swift
     open class func createToken(tokenCreationPayload: TokenCreationPayload, completion: @escaping (_ data: UploadToken?, _ error: Error?) -> Void)
+    open class func createToken(tokenCreationPayload: TokenCreationPayload, completion: @escaping (_ result: Swift.Result<Response<UploadToken>, ErrorResponse>) -> Void)
 ```
 
 Generate an upload token
@@ -64,6 +65,7 @@ Name | Type | Description  | Notes
 # **getToken**
 ```swift
     open class func getToken(uploadToken: String, completion: @escaping (_ data: UploadToken?, _ error: Error?) -> Void)
+    open class func getToken(uploadToken: String, completion: @escaping (_ result: Swift.Result<Response<UploadToken>, ErrorResponse>) -> Void)
 ```
 
 Retrieve upload token
@@ -115,6 +117,7 @@ Name | Type | Description  | Notes
 # **deleteToken**
 ```swift
     open class func deleteToken(uploadToken: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func deleteToken(uploadToken: String, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void)
 ```
 
 Delete an upload token
@@ -166,6 +169,7 @@ Void (empty response body)
 # **list**
 ```swift
     open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: TokenListResponse?, _ error: Error?) -> Void)
+    open class func list(sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<TokenListResponse>, ErrorResponse>) -> Void)
 ```
 
 List all active upload tokens

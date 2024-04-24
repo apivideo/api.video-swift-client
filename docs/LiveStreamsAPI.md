@@ -16,6 +16,7 @@ Method | HTTP request | Description
 # **create**
 ```swift
     open class func create(liveStreamCreationPayload: LiveStreamCreationPayload, completion: @escaping (_ data: LiveStream?, _ error: Error?) -> Void)
+    open class func create(liveStreamCreationPayload: LiveStreamCreationPayload, completion: @escaping (_ result: Swift.Result<Response<LiveStream>, ErrorResponse>) -> Void)
 ```
 
 Create live stream
@@ -67,6 +68,7 @@ Name | Type | Description  | Notes
 # **get**
 ```swift
     open class func get(liveStreamId: String, completion: @escaping (_ data: LiveStream?, _ error: Error?) -> Void)
+    open class func get(liveStreamId: String, completion: @escaping (_ result: Swift.Result<Response<LiveStream>, ErrorResponse>) -> Void)
 ```
 
 Retrieve live stream
@@ -118,6 +120,7 @@ Name | Type | Description  | Notes
 # **update**
 ```swift
     open class func update(liveStreamId: String, liveStreamUpdatePayload: LiveStreamUpdatePayload, completion: @escaping (_ data: LiveStream?, _ error: Error?) -> Void)
+    open class func update(liveStreamId: String, liveStreamUpdatePayload: LiveStreamUpdatePayload, completion: @escaping (_ result: Swift.Result<Response<LiveStream>, ErrorResponse>) -> Void)
 ```
 
 Update a live stream
@@ -171,6 +174,7 @@ Name | Type | Description  | Notes
 # **delete**
 ```swift
     open class func delete(liveStreamId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func delete(liveStreamId: String, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void)
 ```
 
 Delete a live stream
@@ -222,6 +226,7 @@ Void (empty response body)
 # **list**
 ```swift
     open class func list(streamKey: String? = nil, name: String? = nil, sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: LiveStreamListResponse?, _ error: Error?) -> Void)
+    open class func list(streamKey: String? = nil, name: String? = nil, sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<LiveStreamListResponse>, ErrorResponse>) -> Void)
 ```
 
 List all live streams
@@ -283,6 +288,7 @@ Name | Type | Description  | Notes
 # **uploadThumbnail**
 ```swift
     open class func uploadThumbnail(liveStreamId: String, file: URL, completion: @escaping (_ data: LiveStream?, _ error: Error?) -> Void)
+    open class func uploadThumbnail(liveStreamId: String, file: URL, completion: @escaping (_ result: Swift.Result<Response<LiveStream>, ErrorResponse>) -> Void)
 ```
 
 Upload a thumbnail
@@ -336,6 +342,7 @@ Name | Type | Description  | Notes
 # **deleteThumbnail**
 ```swift
     open class func deleteThumbnail(liveStreamId: String, completion: @escaping (_ data: LiveStream?, _ error: Error?) -> Void)
+    open class func deleteThumbnail(liveStreamId: String, completion: @escaping (_ result: Swift.Result<Response<LiveStream>, ErrorResponse>) -> Void)
 ```
 
 Delete a thumbnail
