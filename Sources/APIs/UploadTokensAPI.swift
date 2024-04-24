@@ -21,14 +21,26 @@ open class UploadTokensAPI {
      */
     @discardableResult
     open class func createToken(tokenCreationPayload: TokenCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: UploadToken?, _ error: Error?) -> Void)) -> RequestTask {
-            return createTokenWithRequestBuilder(tokenCreationPayload: tokenCreationPayload).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return createToken(tokenCreationPayload: tokenCreationPayload, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Generate an upload token
+     
+     - parameter tokenCreationPayload: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func createToken(tokenCreationPayload: TokenCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<UploadToken>, ErrorResponse>) -> Void) -> RequestTask {
+            return createTokenWithRequestBuilder(tokenCreationPayload: tokenCreationPayload).execute(apiResponseQueue, completion)
     }
 
 
@@ -40,7 +52,7 @@ open class UploadTokensAPI {
      - parameter tokenCreationPayload: (body)  
      - returns: RequestBuilder<UploadToken> 
      */
-    open class func createTokenWithRequestBuilder(tokenCreationPayload: TokenCreationPayload) -> RequestBuilder<UploadToken> {
+    internal class func createTokenWithRequestBuilder(tokenCreationPayload: TokenCreationPayload) -> RequestBuilder<UploadToken> {
         let localVariablePath = "/upload-tokens"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tokenCreationPayload)
@@ -68,14 +80,26 @@ open class UploadTokensAPI {
      */
     @discardableResult
     open class func getToken(uploadToken: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: UploadToken?, _ error: Error?) -> Void)) -> RequestTask {
-            return getTokenWithRequestBuilder(uploadToken: uploadToken).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return getToken(uploadToken: uploadToken, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Retrieve upload token
+     
+     - parameter uploadToken: (path) The unique identifier for the token you want information about. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func getToken(uploadToken: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<UploadToken>, ErrorResponse>) -> Void) -> RequestTask {
+            return getTokenWithRequestBuilder(uploadToken: uploadToken).execute(apiResponseQueue, completion)
     }
 
 
@@ -87,7 +111,7 @@ open class UploadTokensAPI {
      - parameter uploadToken: (path) The unique identifier for the token you want information about. 
      - returns: RequestBuilder<UploadToken> 
      */
-    open class func getTokenWithRequestBuilder(uploadToken: String) -> RequestBuilder<UploadToken> {
+    internal class func getTokenWithRequestBuilder(uploadToken: String) -> RequestBuilder<UploadToken> {
         var localVariablePath = "/upload-tokens/{uploadToken}"
         let uploadTokenPreEscape = "\(APIHelper.mapValueToPathItem(uploadToken))"
         let uploadTokenPostEscape = uploadTokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -118,14 +142,26 @@ open class UploadTokensAPI {
      */
     @discardableResult
     open class func deleteToken(uploadToken: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return deleteTokenWithRequestBuilder(uploadToken: uploadToken).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return deleteToken(uploadToken: uploadToken, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Delete an upload token
+     
+     - parameter uploadToken: (path) The unique identifier for the upload token you want to delete. Deleting a token will make it so the token can no longer be used for authentication. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func deleteToken(uploadToken: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void) -> RequestTask {
+            return deleteTokenWithRequestBuilder(uploadToken: uploadToken).execute(apiResponseQueue, completion)
     }
 
 
@@ -137,7 +173,7 @@ open class UploadTokensAPI {
      - parameter uploadToken: (path) The unique identifier for the upload token you want to delete. Deleting a token will make it so the token can no longer be used for authentication. 
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteTokenWithRequestBuilder(uploadToken: String) -> RequestBuilder<Void> {
+    internal class func deleteTokenWithRequestBuilder(uploadToken: String) -> RequestBuilder<Void> {
         var localVariablePath = "/upload-tokens/{uploadToken}"
         let uploadTokenPreEscape = "\(APIHelper.mapValueToPathItem(uploadToken))"
         let uploadTokenPostEscape = uploadTokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -187,14 +223,29 @@ open class UploadTokensAPI {
      */
     @discardableResult
     open class func list(sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: TokenListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-            return listWithRequestBuilder(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return list(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     List all active upload tokens
+     
+     - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ISO-8601 format. (optional)
+     - parameter sortOrder: (query) Allowed: asc, desc. Ascending is 0-9 or A-Z. Descending is 9-0 or Z-A. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func list(sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<TokenListResponse>, ErrorResponse>) -> Void) -> RequestTask {
+            return listWithRequestBuilder(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue, completion)
     }
 
 
@@ -209,7 +260,7 @@ open class UploadTokensAPI {
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<TokenListResponse> 
      */
-    open class func listWithRequestBuilder(sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<TokenListResponse> {
+    internal class func listWithRequestBuilder(sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<TokenListResponse> {
         let localVariablePath = "/upload-tokens"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil

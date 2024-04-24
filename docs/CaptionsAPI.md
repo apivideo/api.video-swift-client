@@ -14,6 +14,7 @@ Method | HTTP request | Description
 # **upload**
 ```swift
     open class func upload(videoId: String, language: String, file: URL, completion: @escaping (_ data: Caption?, _ error: Error?) -> Void)
+    open class func upload(videoId: String, language: String, file: URL, completion: @escaping (_ result: Swift.Result<Response<Caption>, ErrorResponse>) -> Void)
 ```
 
 Upload a caption
@@ -69,6 +70,7 @@ Name | Type | Description  | Notes
 # **get**
 ```swift
     open class func get(videoId: String, language: String, completion: @escaping (_ data: Caption?, _ error: Error?) -> Void)
+    open class func get(videoId: String, language: String, completion: @escaping (_ result: Swift.Result<Response<Caption>, ErrorResponse>) -> Void)
 ```
 
 Retrieve a caption
@@ -124,6 +126,7 @@ Name | Type | Description  | Notes
 # **update**
 ```swift
     open class func update(videoId: String, language: String, captionsUpdatePayload: CaptionsUpdatePayload, completion: @escaping (_ data: Caption?, _ error: Error?) -> Void)
+    open class func update(videoId: String, language: String, captionsUpdatePayload: CaptionsUpdatePayload, completion: @escaping (_ result: Swift.Result<Response<Caption>, ErrorResponse>) -> Void)
 ```
 
 Update a caption
@@ -179,6 +182,7 @@ Name | Type | Description  | Notes
 # **delete**
 ```swift
     open class func delete(videoId: String, language: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func delete(videoId: String, language: String, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void)
 ```
 
 Delete a caption
@@ -232,6 +236,7 @@ Void (empty response body)
 # **list**
 ```swift
     open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: CaptionsListResponse?, _ error: Error?) -> Void)
+    open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<CaptionsListResponse>, ErrorResponse>) -> Void)
 ```
 
 List video captions

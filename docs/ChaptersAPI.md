@@ -13,6 +13,7 @@ Method | HTTP request | Description
 # **upload**
 ```swift
     open class func upload(videoId: String, language: String, file: URL, completion: @escaping (_ data: Chapter?, _ error: Error?) -> Void)
+    open class func upload(videoId: String, language: String, file: URL, completion: @escaping (_ result: Swift.Result<Response<Chapter>, ErrorResponse>) -> Void)
 ```
 
 Upload a chapter
@@ -68,6 +69,7 @@ Name | Type | Description  | Notes
 # **get**
 ```swift
     open class func get(videoId: String, language: String, completion: @escaping (_ data: Chapter?, _ error: Error?) -> Void)
+    open class func get(videoId: String, language: String, completion: @escaping (_ result: Swift.Result<Response<Chapter>, ErrorResponse>) -> Void)
 ```
 
 Retrieve a chapter
@@ -121,6 +123,7 @@ Name | Type | Description  | Notes
 # **delete**
 ```swift
     open class func delete(videoId: String, language: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func delete(videoId: String, language: String, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void)
 ```
 
 Delete a chapter
@@ -174,6 +177,7 @@ Void (empty response body)
 # **list**
 ```swift
     open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: ChaptersListResponse?, _ error: Error?) -> Void)
+    open class func list(videoId: String, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<ChaptersListResponse>, ErrorResponse>) -> Void)
 ```
 
 List video chapters

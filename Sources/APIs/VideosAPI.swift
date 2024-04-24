@@ -21,14 +21,26 @@ open class VideosAPI {
      */
     @discardableResult
     open class func create(videoCreationPayload: VideoCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
-            return createWithRequestBuilder(videoCreationPayload: videoCreationPayload).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return create(videoCreationPayload: videoCreationPayload, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Create a video object
+     
+     - parameter videoCreationPayload: (body) video to create 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func create(videoCreationPayload: VideoCreationPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) -> RequestTask {
+            return createWithRequestBuilder(videoCreationPayload: videoCreationPayload).execute(apiResponseQueue, completion)
     }
 
 
@@ -40,7 +52,7 @@ open class VideosAPI {
      - parameter videoCreationPayload: (body) video to create 
      - returns: RequestBuilder<Video> 
      */
-    open class func createWithRequestBuilder(videoCreationPayload: VideoCreationPayload) -> RequestBuilder<Video> {
+    internal class func createWithRequestBuilder(videoCreationPayload: VideoCreationPayload) -> RequestBuilder<Video> {
         let localVariablePath = "/videos"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: videoCreationPayload)
@@ -70,17 +82,31 @@ open class VideosAPI {
      */
     @discardableResult
     open class func upload(videoId: String, file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) throws -> RequestTask {
+        return try upload(videoId: videoId, file: file, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Upload a video
+     
+     - parameter videoId: (path) Enter the videoId you want to use to upload your video. 
+     - parameter file: (form) The path to the video you would like to upload. The path must be local. If you want to use a video from an online source, you must use the \\\&quot;/videos\\\&quot; endpoint and add the \\\&quot;source\\\&quot; parameter when you create a new video. 
+     - parameter onProgressReady: progress handler to receive request progress.
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func upload(videoId: String, file: URL, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) throws -> RequestTask {
         if (try file.isMultiChunk) {
             return try UploadChunkRequestTaskQueue(videoId: videoId, file: file, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
         } else {
-            return uploadWithRequestBuilder(videoId: videoId, file: file, onProgressReady: onProgressReady).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
+            return uploadWithRequestBuilder(videoId: videoId, file: file, onProgressReady: onProgressReady).execute(apiResponseQueue, completion)
         }
     }
 
@@ -125,13 +151,25 @@ open class VideosAPI {
         }
 
         public func uploadPart(file: URL, partId: Int, isLastPart: Bool, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
+            let requestTask = uploadPart(file: file, partId: partId, isLastPart: isLastPart, onProgressReady: onProgressReady, completion: { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            })
+            return requestTask
+        }
+
+        public func uploadPart(file: URL, partId: Int, isLastPart: Bool, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue  = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) -> RequestTask {
             var numOfChunks: Int? = nil
             if (isLastPart) {
                 numOfChunks = partId
             }
             let requestBuilder = uploadWithRequestBuilder(videoId: videoId, file: file, chunkId: partId, numOfChunks: numOfChunks, onProgressReady: onProgressReady)
-            execute(requestBuilder, apiResponseQueue: apiResponseQueue) { data, error in
-                completion(data, error)
+            execute(requestBuilder, apiResponseQueue: apiResponseQueue) { result in
+               completion(result)
             }
             return requestBuilder.requestTask
         }
@@ -168,7 +206,7 @@ The latter allows you to split a video source into X chunks and send those chunk
      - parameter onProgressReady: progress handler to receive request progress.
      - returns: RequestBuilder<Video> 
      */
-    open class func uploadWithRequestBuilder(videoId: String, file: URL, chunkId: Int? = nil, numOfChunks: Int? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
+    internal class func uploadWithRequestBuilder(videoId: String, file: URL, chunkId: Int? = nil, numOfChunks: Int? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
         var localVariablePath = "/videos/{videoId}/source"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -227,7 +265,7 @@ The latter allows you to split a video source into X chunks and send those chunk
      - parameter onProgressReady: progress handler to receive request progress.
      - returns: RequestBuilder<Video> 
      */
-    open class func uploadWithRequestBuilder(videoId: String, file: FileChunkInputStream, chunkId: Int? = nil, numOfChunks: Int? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
+    internal class func uploadWithRequestBuilder(videoId: String, file: FileChunkInputStream, chunkId: Int? = nil, numOfChunks: Int? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
         var localVariablePath = "/videos/{videoId}/source"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -267,17 +305,31 @@ The latter allows you to split a video source into X chunks and send those chunk
      */
     @discardableResult
     open class func uploadWithUploadToken(token: String, file: URL, videoId: String? = nil, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) throws -> RequestTask {
+        return try uploadWithUploadToken(token: token, file: file, videoId: videoId, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Upload with an delegated upload token
+     
+     - parameter token: (query) The unique identifier for the token you want to use to upload a video. 
+     - parameter file: (form) The path to the video you want to upload. 
+     - parameter onProgressReady: progress handler to receive request progress.
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func uploadWithUploadToken(token: String, file: URL, videoId: String? = nil, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) throws -> RequestTask {
         if (try file.isMultiChunk) {
             return try UploadChunkRequestTaskQueue(token: token, file: file, videoId: videoId, onProgressReady: onProgressReady, apiResponseQueue: apiResponseQueue, completion: completion)
         } else {
-            return uploadWithUploadTokenWithRequestBuilder(token: token, file: file, videoId: videoId, onProgressReady: onProgressReady).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
-            }
+            return uploadWithUploadTokenWithRequestBuilder(token: token, file: file, videoId: videoId, onProgressReady: onProgressReady).execute(apiResponseQueue, completion)
         }
     }
 
@@ -329,18 +381,32 @@ The latter allows you to split a video source into X chunks and send those chunk
         }
 
         public func uploadPart(file: URL, partId: Int, isLastPart: Bool, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
+            let requestTask = uploadPart(file: file, partId: partId, isLastPart: isLastPart, onProgressReady: onProgressReady, completion: { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
+            })
+            return requestTask
+        }
+
+        public func uploadPart(file: URL, partId: Int, isLastPart: Bool, onProgressReady: ((Progress) -> Void)? = nil, apiResponseQueue: DispatchQueue  = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) -> RequestTask {
             var numOfChunks: Int? = nil
             if (isLastPart) {
                 numOfChunks = partId
             }
             let requestBuilder = uploadWithUploadTokenWithRequestBuilder(token: token, file: file, videoId: videoId, chunkId: partId, numOfChunks: numOfChunks, onProgressReady: onProgressReady)
-            execute(requestBuilder, apiResponseQueue: apiResponseQueue) { data, error in
-                if let data = data {
+            execute(requestBuilder, apiResponseQueue: apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
                     if self.videoId == nil {
-                        self.videoId = data.videoId
+                        self.videoId = response.body.videoId
                     }
+                case .failure(_): break
                 }
-                completion(data, error)
+               completion(result)
             }
             return requestBuilder.requestTask
         }
@@ -372,7 +438,7 @@ The latter allows you to split a video source into X chunks and send those chunk
      - parameter onProgressReady: progress handler to receive request progress.
      - returns: RequestBuilder<Video> 
      */
-    open class func uploadWithUploadTokenWithRequestBuilder(token: String, file: URL, videoId: String? = nil, chunkId: Int? = nil, numOfChunks: Int? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
+    internal class func uploadWithUploadTokenWithRequestBuilder(token: String, file: URL, videoId: String? = nil, chunkId: Int? = nil, numOfChunks: Int? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
         let localVariablePath = "/upload"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         var localVariableFormParams: [String: Any?] = [
@@ -416,7 +482,7 @@ The latter allows you to split a video source into X chunks and send those chunk
      - parameter onProgressReady: progress handler to receive request progress.
      - returns: RequestBuilder<Video> 
      */
-    open class func uploadWithUploadTokenWithRequestBuilder(token: String, file: FileChunkInputStream, videoId: String? = nil, chunkId: Int? = nil, numOfChunks: Int? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
+    internal class func uploadWithUploadTokenWithRequestBuilder(token: String, file: FileChunkInputStream, videoId: String? = nil, chunkId: Int? = nil, numOfChunks: Int? = nil, onProgressReady: ((Progress) -> Void)? = nil) -> RequestBuilder<Video> {
         let localVariablePath = "/upload"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         var localVariableFormParams: [String: Any?] = [
@@ -457,14 +523,26 @@ The latter allows you to split a video source into X chunks and send those chunk
      */
     @discardableResult
     open class func get(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
-            return getWithRequestBuilder(videoId: videoId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return get(videoId: videoId, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Retrieve a video object
+     
+     - parameter videoId: (path) The unique identifier for the video you want details about. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func get(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) -> RequestTask {
+            return getWithRequestBuilder(videoId: videoId).execute(apiResponseQueue, completion)
     }
 
 
@@ -476,7 +554,7 @@ The latter allows you to split a video source into X chunks and send those chunk
      - parameter videoId: (path) The unique identifier for the video you want details about. 
      - returns: RequestBuilder<Video> 
      */
-    open class func getWithRequestBuilder(videoId: String) -> RequestBuilder<Video> {
+    internal class func getWithRequestBuilder(videoId: String) -> RequestBuilder<Video> {
         var localVariablePath = "/videos/{videoId}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -508,14 +586,27 @@ The latter allows you to split a video source into X chunks and send those chunk
      */
     @discardableResult
     open class func update(videoId: String, videoUpdatePayload: VideoUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
-            return updateWithRequestBuilder(videoId: videoId, videoUpdatePayload: videoUpdatePayload).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return update(videoId: videoId, videoUpdatePayload: videoUpdatePayload, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Update a video object
+     
+     - parameter videoId: (path) The video ID for the video you want to update. 
+     - parameter videoUpdatePayload: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func update(videoId: String, videoUpdatePayload: VideoUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) -> RequestTask {
+            return updateWithRequestBuilder(videoId: videoId, videoUpdatePayload: videoUpdatePayload).execute(apiResponseQueue, completion)
     }
 
 
@@ -534,7 +625,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      - parameter videoUpdatePayload: (body)  
      - returns: RequestBuilder<Video> 
      */
-    open class func updateWithRequestBuilder(videoId: String, videoUpdatePayload: VideoUpdatePayload) -> RequestBuilder<Video> {
+    internal class func updateWithRequestBuilder(videoId: String, videoUpdatePayload: VideoUpdatePayload) -> RequestBuilder<Video> {
         var localVariablePath = "/videos/{videoId}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -565,14 +656,26 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      */
     @discardableResult
     open class func delete(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return deleteWithRequestBuilder(videoId: videoId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return delete(videoId: videoId, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Delete a video object
+     
+     - parameter videoId: (path) The video ID for the video you want to delete. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func delete(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void) -> RequestTask {
+            return deleteWithRequestBuilder(videoId: videoId).execute(apiResponseQueue, completion)
     }
 
 
@@ -584,7 +687,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      - parameter videoId: (path) The video ID for the video you want to delete. 
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteWithRequestBuilder(videoId: String) -> RequestBuilder<Void> {
+    internal class func deleteWithRequestBuilder(videoId: String) -> RequestBuilder<Void> {
         var localVariablePath = "/videos/{videoId}"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -641,14 +744,34 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      */
     @discardableResult
     open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: VideosListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-            return listWithRequestBuilder(title: title, tags: tags, metadata: metadata, description: description, liveStreamId: liveStreamId, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return list(title: title, tags: tags, metadata: metadata, description: description, liveStreamId: liveStreamId, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     List all video objects
+     
+     - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
+     - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
+     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata/) allows you to define a key that allows any value pair. (optional)
+     - parameter description: (query) Retrieve video objects by &#x60;description&#x60;. (optional)
+     - parameter liveStreamId: (query) Retrieve video objects that were recorded from a live stream by &#x60;liveStreamId&#x60;. (optional)
+     - parameter sortBy: (query) Use this parameter to sort videos by the their created time, published time, updated time, or by title. (optional)
+     - parameter sortOrder: (query) Use this parameter to sort results. &#x60;asc&#x60; is ascending and sorts from A to Z. &#x60;desc&#x60; is descending and sorts from Z to A. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<VideosListResponse>, ErrorResponse>) -> Void) -> RequestTask {
+            return listWithRequestBuilder(title: title, tags: tags, metadata: metadata, description: description, liveStreamId: liveStreamId, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue, completion)
     }
 
 
@@ -668,7 +791,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
      - returns: RequestBuilder<VideosListResponse> 
      */
-    open class func listWithRequestBuilder(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<VideosListResponse> {
+    internal class func listWithRequestBuilder(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortByList? = nil, sortOrder: SortOrderList? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<VideosListResponse> {
         let localVariablePath = "/videos"
         let localVariableURLString = ApiVideoClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -708,14 +831,27 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      */
     @discardableResult
     open class func uploadThumbnail(videoId: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
-            return uploadThumbnailWithRequestBuilder(videoId: videoId, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return uploadThumbnail(videoId: videoId, file: file, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Upload a thumbnail
+     
+     - parameter videoId: (path) Unique identifier of the chosen video  
+     - parameter file: (form) The image to be added as a thumbnail. The mime type should be image/jpeg, image/png or image/webp. The max allowed size is 8 MiB. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func uploadThumbnail(videoId: String, file: URL, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) -> RequestTask {
+            return uploadThumbnailWithRequestBuilder(videoId: videoId, file: file).execute(apiResponseQueue, completion)
     }
 
 
@@ -740,7 +876,7 @@ Note: There may be a short delay before the new thumbnail is delivered to our CD
      - parameter file: (form) The image to be added as a thumbnail. The mime type should be image/jpeg, image/png or image/webp. The max allowed size is 8 MiB. 
      - returns: RequestBuilder<Video> 
      */
-    open class func uploadThumbnailWithRequestBuilder(videoId: String, file: URL) -> RequestBuilder<Video> {
+    internal class func uploadThumbnailWithRequestBuilder(videoId: String, file: URL) -> RequestBuilder<Video> {
         var localVariablePath = "/videos/{videoId}/thumbnail"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -776,14 +912,27 @@ Note: There may be a short delay before the new thumbnail is delivered to our CD
      */
     @discardableResult
     open class func pickThumbnail(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
-            return pickThumbnailWithRequestBuilder(videoId: videoId, videoThumbnailPickPayload: videoThumbnailPickPayload).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return pickThumbnail(videoId: videoId, videoThumbnailPickPayload: videoThumbnailPickPayload, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Set a thumbnail
+     
+     - parameter videoId: (path) Unique identifier of the video you want to add a thumbnail to, where you use a section of your video as the thumbnail. 
+     - parameter videoThumbnailPickPayload: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func pickThumbnail(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) -> RequestTask {
+            return pickThumbnailWithRequestBuilder(videoId: videoId, videoThumbnailPickPayload: videoThumbnailPickPayload).execute(apiResponseQueue, completion)
     }
 
 
@@ -806,7 +955,7 @@ There may be a short delay for the thumbnail to update.
      - parameter videoThumbnailPickPayload: (body)  
      - returns: RequestBuilder<Video> 
      */
-    open class func pickThumbnailWithRequestBuilder(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload) -> RequestBuilder<Video> {
+    internal class func pickThumbnailWithRequestBuilder(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload) -> RequestBuilder<Video> {
         var localVariablePath = "/videos/{videoId}/thumbnail"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -837,14 +986,26 @@ There may be a short delay for the thumbnail to update.
      */
     @discardableResult
     open class func getStatus(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: VideoStatus?, _ error: Error?) -> Void)) -> RequestTask {
-            return getStatusWithRequestBuilder(videoId: videoId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
-                }
+        return getStatus(videoId: videoId, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
             }
+        }
+    }
+
+    /**
+     Retrieve video status and details
+     
+     - parameter videoId: (path) The unique identifier for the video you want the status for. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func getStatus(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<VideoStatus>, ErrorResponse>) -> Void) -> RequestTask {
+            return getStatusWithRequestBuilder(videoId: videoId).execute(apiResponseQueue, completion)
     }
 
 
@@ -856,7 +1017,7 @@ There may be a short delay for the thumbnail to update.
      - parameter videoId: (path) The unique identifier for the video you want the status for. 
      - returns: RequestBuilder<VideoStatus> 
      */
-    open class func getStatusWithRequestBuilder(videoId: String) -> RequestBuilder<VideoStatus> {
+    internal class func getStatusWithRequestBuilder(videoId: String) -> RequestBuilder<VideoStatus> {
         var localVariablePath = "/videos/{videoId}/status"
         let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
         let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

@@ -19,6 +19,7 @@ Method | HTTP request | Description
 # **create**
 ```swift
     open class func create(videoCreationPayload: VideoCreationPayload, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
+    open class func create(videoCreationPayload: VideoCreationPayload, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void)
 ```
 
 Create a video object
@@ -70,6 +71,7 @@ Name | Type | Description  | Notes
 # **upload**
 ```swift
     open class func upload(videoId: String, file: URL, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
+    open class func upload(videoId: String, file: URL, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void)
 ```
 
 Upload a video
@@ -141,6 +143,7 @@ Name | Type | Description  | Notes
 # **uploadWithUploadToken**
 ```swift
     open class func uploadWithUploadToken(token: String, file: URL, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
+    open class func uploadWithUploadToken(token: String, file: URL, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void)
 ```
 
 Upload with an delegated upload token
@@ -194,6 +197,7 @@ No authorization required
 # **get**
 ```swift
     open class func get(videoId: String, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
+    open class func get(videoId: String, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void)
 ```
 
 Retrieve a video object
@@ -245,6 +249,7 @@ Name | Type | Description  | Notes
 # **update**
 ```swift
     open class func update(videoId: String, videoUpdatePayload: VideoUpdatePayload, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
+    open class func update(videoId: String, videoUpdatePayload: VideoUpdatePayload, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void)
 ```
 
 Update a video object
@@ -304,6 +309,7 @@ Name | Type | Description  | Notes
 # **delete**
 ```swift
     open class func delete(videoId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func delete(videoId: String, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void)
 ```
 
 Delete a video object
@@ -355,6 +361,7 @@ Void (empty response body)
 # **list**
 ```swift
     open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: VideosListResponse?, _ error: Error?) -> Void)
+    open class func list(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortBy_list? = nil, sortOrder: SortOrder_list? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<VideosListResponse>, ErrorResponse>) -> Void)
 ```
 
 List all video objects
@@ -422,6 +429,7 @@ Name | Type | Description  | Notes
 # **uploadThumbnail**
 ```swift
     open class func uploadThumbnail(videoId: String, file: URL, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
+    open class func uploadThumbnail(videoId: String, file: URL, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void)
 ```
 
 Upload a thumbnail
@@ -487,6 +495,7 @@ Name | Type | Description  | Notes
 # **pickThumbnail**
 ```swift
     open class func pickThumbnail(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
+    open class func pickThumbnail(videoId: String, videoThumbnailPickPayload: VideoThumbnailPickPayload, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void)
 ```
 
 Set a thumbnail
@@ -550,6 +559,7 @@ Name | Type | Description  | Notes
 # **getStatus**
 ```swift
     open class func getStatus(videoId: String, completion: @escaping (_ data: VideoStatus?, _ error: Error?) -> Void)
+    open class func getStatus(videoId: String, completion: @escaping (_ result: Swift.Result<Response<VideoStatus>, ErrorResponse>) -> Void)
 ```
 
 Retrieve video status and details
