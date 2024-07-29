@@ -454,6 +454,7 @@ The latter allows you to split a video source into X chunks and send those chunk
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "token": token.encodeToJSON(),
         ])
+        
 
         var localVariableNillableHeaders: [String: Any?] = [
             "Content-Type": "multipart/form-data",
@@ -499,6 +500,8 @@ The latter allows you to split a video source into X chunks and send those chunk
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "token": token.encodeToJSON(),
         ])
+
+    
 
         var localVariableNillableHeaders: [String: Any?] = [
             "Content-Type": "multipart/form-data",
@@ -808,6 +811,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
             "currentPage": currentPage?.encodeToJSON(),
             "pageSize": pageSize?.encodeToJSON(),
         ])
+        
 
         let localVariableNillableHeaders: [String: Any?] = [
             :

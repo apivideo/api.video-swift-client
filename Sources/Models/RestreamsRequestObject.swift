@@ -15,7 +15,7 @@ public struct RestreamsRequestObject: Codable, Hashable {
 
     /** Use this parameter to define a name for the restream destination. */
     public var name: String
-    /** Use this parameter to set the RTMP URL of the restream destination. */
+    /** Use this parameter to set the `RTMPS` or `RTMP` server URL of the restream destination. */
     public var serverUrl: String
     /** Use this parameter to provide the unique key of the live stream that you want to restream. */
     public var streamKey: String

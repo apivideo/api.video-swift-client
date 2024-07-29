@@ -338,6 +338,7 @@ open class PlayerThemesAPI {
             "currentPage": currentPage?.encodeToJSON(),
             "pageSize": pageSize?.encodeToJSON(),
         ])
+        
 
         let localVariableNillableHeaders: [String: Any?] = [
             :

@@ -355,6 +355,7 @@ Tutorials that use the [captions endpoint](https://api.video/blog/endpoints/capt
             "currentPage": currentPage?.encodeToJSON(),
             "pageSize": pageSize?.encodeToJSON(),
         ])
+        
 
         let localVariableNillableHeaders: [String: Any?] = [
             :

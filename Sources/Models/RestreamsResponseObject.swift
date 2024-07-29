@@ -14,7 +14,7 @@ public struct RestreamsResponseObject: Codable, Hashable {
 
     /** Returns the name of a restream destination. */
     public var name: String?
-    /** Returns the RTMP URL of a restream destination. */
+    /** Returns the server URL of a restream destination. */
     public var serverUrl: String?
     /** Returns the unique key of the live stream that is set up for restreaming. */
     public var streamKey: String?
