@@ -282,6 +282,7 @@ open class ChaptersAPI {
             "currentPage": currentPage?.encodeToJSON(),
             "pageSize": pageSize?.encodeToJSON(),
         ])
+        
 
         let localVariableNillableHeaders: [String: Any?] = [
             :

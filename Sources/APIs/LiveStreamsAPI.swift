@@ -346,6 +346,7 @@ open class LiveStreamsAPI {
             "currentPage": currentPage?.encodeToJSON(),
             "pageSize": pageSize?.encodeToJSON(),
         ])
+        
 
         let localVariableNillableHeaders: [String: Any?] = [
             :
@@ -487,6 +488,68 @@ open class LiveStreamsAPI {
         let localVariableRequestBuilder: RequestBuilder<LiveStream>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     Complete a live stream
+     
+     - parameter liveStreamId: (path) The unique ID for the live stream you want to complete. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func complete(liveStreamId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+        return complete(liveStreamId: liveStreamId, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Complete a live stream
+     
+     - parameter liveStreamId: (path) The unique ID for the live stream you want to complete. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func complete(liveStreamId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void) -> RequestTask {
+            return completeWithRequestBuilder(liveStreamId: liveStreamId).execute(apiResponseQueue, completion)
+    }
+
+
+    /**
+     Complete a live stream
+     - PUT /live-streams/{liveStreamId}/complete
+     - Request the completion of a live stream that is currently running. This operation is asynchronous and the live stream will stop after a few seconds.   The API adds the `EXT-X-ENDLIST` tag to the live stream's HLS manifest. This stops the live stream on the player and also stops the recording of the live stream. The API keeps the incoming connection from the streamer open for at most 1 minute, which can be used to terminate the stream. 
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
+     - parameter liveStreamId: (path) The unique ID for the live stream you want to complete. 
+     - returns: RequestBuilder<Void> 
+     */
+    internal class func completeWithRequestBuilder(liveStreamId: String) -> RequestBuilder<Void> {
+        var localVariablePath = "/live-streams/{liveStreamId}/complete"
+        let liveStreamIdPreEscape = "\(APIHelper.mapValueToPathItem(liveStreamId))"
+        let liveStreamIdPostEscape = liveStreamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{liveStreamId}", with: liveStreamIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = ApiVideoClient.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 }

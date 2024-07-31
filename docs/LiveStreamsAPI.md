@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**list**](LiveStreamsAPI.md#getlivestreams) | **GET** /live-streams | List all live streams
 [**uploadThumbnail**](LiveStreamsAPI.md#postlivestreamslivestreamidthumbnail) | **POST** /live-streams/{liveStreamId}/thumbnail | Upload a thumbnail
 [**deleteThumbnail**](LiveStreamsAPI.md#deletelivestreamslivestreamidthumbnail) | **DELETE** /live-streams/{liveStreamId}/thumbnail | Delete a thumbnail
+[**complete**](LiveStreamsAPI.md#putlivestreamslivestreamidcomplete) | **PUT** /live-streams/{liveStreamId}/complete | Complete a live stream
 
 
 # **create**
@@ -379,6 +380,58 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**LiveStream**](LiveStream.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **complete**
+```swift
+    open class func complete(liveStreamId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func complete(liveStreamId: String, completion: @escaping (_ result: Swift.Result<Response<Void>, ErrorResponse>) -> Void)
+```
+
+Complete a live stream
+
+Request the completion of a live stream that is currently running. This operation is asynchronous and the live stream will stop after a few seconds.   The API adds the `EXT-X-ENDLIST` tag to the live stream's HLS manifest. This stops the live stream on the player and also stops the recording of the live stream. The API keeps the incoming connection from the streamer open for at most 1 minute, which can be used to terminate the stream. 
+
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ApiVideoClient
+
+let liveStreamId = "liveStreamId_example" // String | The unique ID for the live stream you want to complete.
+
+// Complete a live stream
+LiveStreamsAPI.complete(liveStreamId: liveStreamId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **liveStreamId** | **String** | The unique ID for the live stream you want to complete. | 
+
+### Return type
+
+Void (empty response body)
 
 ### Authorization
 
