@@ -214,7 +214,7 @@ open class UploadTokensAPI {
     /**
      List all active upload tokens
      
-     - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ISO-8601 format. (optional)
+     - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ATOM UTC format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending is 0-9 or A-Z. Descending is 9-0 or Z-A. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
@@ -236,7 +236,7 @@ open class UploadTokensAPI {
     /**
      List all active upload tokens
      
-     - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ISO-8601 format. (optional)
+     - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ATOM UTC format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending is 0-9 or A-Z. Descending is 9-0 or Z-A. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
@@ -254,7 +254,7 @@ open class UploadTokensAPI {
      - GET /upload-tokens
      - Retrieve a list of all currently active delegated tokens.
      - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
-     - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ISO-8601 format. (optional)
+     - parameter sortBy: (query) Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ATOM UTC format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending is 0-9 or A-Z. Descending is 9-0 or Z-A. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)

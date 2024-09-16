@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **mp4Support** | **Bool** | Enables mp4 version in addition to streamed version. | [optional] [default to true]
 **playerId** | **String** | The unique identification number for your video player. | [optional] 
 **tags** | **[String]** | A list of tags you want to use to describe your video. | [optional] 
-**metadata** | [Metadata] | A list of key value pairs that you use to provide metadata for your video. These pairs can be made dynamic, allowing you to segment your audience. Read more on [dynamic metadata](https://api.video/blog/endpoints/dynamic-metadata/). | [optional] 
+**metadata** | [Metadata] | A list of key value pairs that you use to provide metadata for your video. | [optional] 
 **clip** | [**VideoClip**](VideoClip.md) |  | [optional] 
 **watermark** | [**VideoWatermark**](VideoWatermark.md) |  | [optional] 
 

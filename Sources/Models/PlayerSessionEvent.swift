@@ -14,7 +14,7 @@ public struct PlayerSessionEvent: Codable, Hashable {
 
     /** Possible values are: ready, play, pause, resume, seek.backward, seek.forward, end */
     public var type: String?
-    /** When an event occurred, presented in ISO-8601 format. */
+    /** When an event occurred, presented in ATOM UTC format. */
     public var emittedAt: Date?
     public var at: Int?
     public var from: Int?

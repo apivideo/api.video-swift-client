@@ -28,7 +28,7 @@ public struct VideoCreationPayload: Codable, Hashable {
     public var playerId: String?
     /** A list of tags you want to use to describe your video. */
     public var tags: [String]?
-    /** A list of key value pairs that you use to provide metadata for your video. These pairs can be made dynamic, allowing you to segment your audience. Read more on [dynamic metadata](https://api.video/blog/endpoints/dynamic-metadata/). */
+    /** A list of key value pairs that you use to provide metadata for your video. */
     public var metadata: [Metadata]?
     public var clip: VideoClip?
     public var watermark: VideoWatermark?

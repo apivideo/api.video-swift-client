@@ -13,7 +13,10 @@ Method | HTTP request | Description
 [**list**](VideosAPI.md#listvideos) | **GET** /videos | List all video objects
 [**uploadThumbnail**](VideosAPI.md#postvideosvideoidthumbnail) | **POST** /videos/{videoId}/thumbnail | Upload a thumbnail
 [**pickThumbnail**](VideosAPI.md#patchvideosvideoidthumbnail) | **PATCH** /videos/{videoId}/thumbnail | Set a thumbnail
+[**getDiscarded**](VideosAPI.md#getdiscardedvideo) | **GET** /discarded/videos/{videoId} | Retrieve a discarded video object
 [**getStatus**](VideosAPI.md#getvideostatus) | **GET** /videos/{videoId}/status | Retrieve video status and details
+[**listDiscarded**](VideosAPI.md#listdiscardedvideos) | **GET** /discarded/videos | List all discarded video objects
+[**updateDiscarded**](VideosAPI.md#patchdiscardedvideo) | **PATCH** /discarded/videos/{videoId} | Update a discarded video object
 
 
 # **create**
@@ -314,7 +317,7 @@ Name | Type | Description  | Notes
 
 Delete a video object
 
-If you do not need a video any longer, you can send a request to delete it. All you need is the videoId.
+If you do not need a video any longer, you can send a request to delete it. All you need is the videoId. By default, deleted videos cannot be recovered. If you have the Video Restore feature enabled, this operation will discard the video instead of permanently deleting it. Make sure you subscribe to the Video Restore feature if you want to be able to restore deleted videos! The Video Restore feature retains videos for 90 days, after which the videos are permanently deleted
 
 
 ### Example
@@ -376,7 +379,7 @@ import ApiVideoClient
 
 let title = "title_example" // String | The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
 let tags = ["inner_example"] // [String] | A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
-let metadata = "TODO" // [String: String] | Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata/) allows you to define a key that allows any value pair. (optional)
+let metadata = "TODO" // [String: String] | Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. (optional)
 let description = "description_example" // String | Retrieve video objects by `description`. (optional)
 let liveStreamId = "liveStreamId_example" // String | Retrieve video objects that were recorded from a live stream by `liveStreamId`. (optional)
 let sortBy = "sortBy_example" // String | Use this parameter to sort videos by the their created time, published time, updated time, or by title. (optional)
@@ -403,7 +406,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **title** | **String** | The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. | [optional] 
  **tags** | [**[String]**](String.md) | A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. | [optional] 
- **metadata** | [**[String: String]**](String.md) | Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata/) allows you to define a key that allows any value pair. | [optional] 
+ **metadata** | [**[String: String]**](String.md) | Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. | [optional] 
  **description** | **String** | Retrieve video objects by &#x60;description&#x60;. | [optional] 
  **liveStreamId** | **String** | Retrieve video objects that were recorded from a live stream by &#x60;liveStreamId&#x60;. | [optional] 
  **sortBy** | **String** | Use this parameter to sort videos by the their created time, published time, updated time, or by title. | [optional] 
@@ -556,6 +559,58 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **getDiscarded**
+```swift
+    open class func getDiscarded(videoId: String, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
+    open class func getDiscarded(videoId: String, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void)
+```
+
+Retrieve a discarded video object
+
+This call provides the same information provided on video creation. For private videos, it will generate a unique token url. Use this to retrieve any details you need about a video, or set up a private viewing URL.
+
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ApiVideoClient
+
+let videoId = "videoId_example" // String | The unique identifier for the video you want details about.
+
+// Retrieve a discarded video object
+VideosAPI.getDiscarded(videoId: videoId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **videoId** | **String** | The unique identifier for the video you want details about. | 
+
+### Return type
+
+[**Video**](Video.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **getStatus**
 ```swift
     open class func getStatus(videoId: String, completion: @escaping (_ data: VideoStatus?, _ error: Error?) -> Void)
@@ -604,6 +659,130 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **listDiscarded**
+```swift
+    open class func listDiscarded(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortBy_listDiscarded? = nil, sortOrder: SortOrder_listDiscarded? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ data: VideosListResponse?, _ error: Error?) -> Void)
+    open class func listDiscarded(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortBy_listDiscarded? = nil, sortOrder: SortOrder_listDiscarded? = nil, currentPage: Int? = nil, pageSize: Int? = nil, completion: @escaping (_ result: Swift.Result<Response<VideosListResponse>, ErrorResponse>) -> Void)
+```
+
+List all discarded video objects
+
+This method returns a list of your discarded videos (with all their details). With no parameters added, the API returns the first page of all discarded videos. You can filter discarded videos using the parameters described below.
+
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ApiVideoClient
+
+let title = "title_example" // String | The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
+let tags = ["inner_example"] // [String] | A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
+let metadata = "TODO" // [String: String] | Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. (optional)
+let description = "description_example" // String | Retrieve video objects by `description`. (optional)
+let liveStreamId = "liveStreamId_example" // String | Retrieve video objects that were recorded from a live stream by `liveStreamId`. (optional)
+let sortBy = "sortBy_example" // String | Use this parameter to sort videos by the their created time, published time, updated time, or by title. (optional)
+let sortOrder = "sortOrder_example" // String | Use this parameter to sort results. `asc` is ascending and sorts from A to Z. `desc` is descending and sorts from Z to A. (optional)
+let currentPage = 987 // Int | Choose the number of search results to return per page. Minimum value: 1 (optional) (default to 1)
+let pageSize = 987 // Int | Results per page. Allowed values 1-100, default is 25. (optional) (default to 25)
+
+// List all discarded video objects
+VideosAPI.listDiscarded(title: title, tags: tags, metadata: metadata, description: description, liveStreamId: liveStreamId, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **title** | **String** | The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. | [optional] 
+ **tags** | [**[String]**](String.md) | A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. | [optional] 
+ **metadata** | [**[String: String]**](String.md) | Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. | [optional] 
+ **description** | **String** | Retrieve video objects by &#x60;description&#x60;. | [optional] 
+ **liveStreamId** | **String** | Retrieve video objects that were recorded from a live stream by &#x60;liveStreamId&#x60;. | [optional] 
+ **sortBy** | **String** | Use this parameter to sort videos by the their created time, published time, updated time, or by title. | [optional] 
+ **sortOrder** | **String** | Use this parameter to sort results. &#x60;asc&#x60; is ascending and sorts from A to Z. &#x60;desc&#x60; is descending and sorts from Z to A. | [optional] 
+ **currentPage** | **Int** | Choose the number of search results to return per page. Minimum value: 1 | [optional] [default to 1]
+ **pageSize** | **Int** | Results per page. Allowed values 1-100, default is 25. | [optional] [default to 25]
+
+### Return type
+
+[**VideosListResponse**](VideosListResponse.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateDiscarded**
+```swift
+    open class func updateDiscarded(videoId: String, discardedVideoUpdatePayload: DiscardedVideoUpdatePayload, completion: @escaping (_ data: Video?, _ error: Error?) -> Void)
+    open class func updateDiscarded(videoId: String, discardedVideoUpdatePayload: DiscardedVideoUpdatePayload, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void)
+```
+
+Update a discarded video object
+
+Use this endpoint to restore a discarded video when you have the Video Restore feature enabled.
+
+
+
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import ApiVideoClient
+
+let videoId = "videoId_example" // String | The video ID for the video you want to restore.
+let discardedVideoUpdatePayload = DiscardedVideoUpdatePayload(discarded: false) // DiscardedVideoUpdatePayload | 
+
+// Update a discarded video object
+VideosAPI.updateDiscarded(videoId: videoId, discardedVideoUpdatePayload: discardedVideoUpdatePayload) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **videoId** | **String** | The video ID for the video you want to restore. | 
+ **discardedVideoUpdatePayload** | [**DiscardedVideoUpdatePayload**](DiscardedVideoUpdatePayload.md) |  | 
+
+### Return type
+
+[**Video**](Video.md)
+
+### Authorization
+
+[apiKey](../README.md#apiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

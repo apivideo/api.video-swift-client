@@ -239,7 +239,7 @@ Retrieve a list of all the player themes you created, as well as details about e
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let sortBy = "sortBy_example" // String | createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. (optional)
+let sortBy = "sortBy_example" // String | createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ATOM UTC format. (optional)
 let sortOrder = "sortOrder_example" // String | Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. (optional)
 let currentPage = 987 // Int | Choose the number of search results to return per page. Minimum value: 1 (optional) (default to 1)
 let pageSize = 987 // Int | Results per page. Allowed values 1-100, default is 25. (optional) (default to 25)
@@ -261,7 +261,7 @@ PlayerThemesAPI.list(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentP
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sortBy** | **String** | createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. | [optional] 
+ **sortBy** | **String** | createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ATOM UTC format. | [optional] 
  **sortOrder** | **String** | Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. | [optional] 
  **currentPage** | **Int** | Choose the number of search results to return per page. Minimum value: 1 | [optional] [default to 1]
  **pageSize** | **Int** | Results per page. Allowed values 1-100, default is 25. | [optional] [default to 25]

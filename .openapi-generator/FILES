@@ -46,6 +46,7 @@ Sources/Models/CaptionsListResponse.swift
 Sources/Models/CaptionsUpdatePayload.swift
 Sources/Models/Chapter.swift
 Sources/Models/ChaptersListResponse.swift
+Sources/Models/DiscardedVideoUpdatePayload.swift
 Sources/Models/Environment.swift
 Sources/Models/FilterBy.swift
 Sources/Models/FilterBy1.swift
@@ -130,6 +131,7 @@ docs/CaptionsUpdatePayload.md
 docs/Chapter.md
 docs/ChaptersAPI.md
 docs/ChaptersListResponse.md
+docs/DiscardedVideoUpdatePayload.md
 docs/FilterBy.md
 docs/FilterBy1.md
 docs/FilterBy2.md

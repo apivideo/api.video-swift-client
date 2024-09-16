@@ -55,14 +55,14 @@ api.video's Swift API client for iOS, macOS and tvOS streamlines the coding proc
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-swift-client" ~> 1.3.1
+github "apivideo/api.video-swift-client" ~> 1.3.2
 ```
 
 Run `carthage update`
 
 #### CocoaPods
 
-Add `pod 'ApiVideoClient', '1.3.1'` in your `Podfile`
+Add `pod 'ApiVideoClient', '1.3.2'` in your `Podfile`
 
 Run `pod install`
 
@@ -228,7 +228,10 @@ Method | HTTP request | Description
 [**list**](https://github.com/apivideo/api.video-swift-client/blob/main/docs/VideosAPI.md#list) | **GET** `/videos` | List all video objects
 [**uploadThumbnail**](https://github.com/apivideo/api.video-swift-client/blob/main/docs/VideosAPI.md#uploadThumbnail) | **POST** `/videos/{videoId}/thumbnail` | Upload a thumbnail
 [**pickThumbnail**](https://github.com/apivideo/api.video-swift-client/blob/main/docs/VideosAPI.md#pickThumbnail) | **PATCH** `/videos/{videoId}/thumbnail` | Set a thumbnail
+[**getDiscarded**](https://github.com/apivideo/api.video-swift-client/blob/main/docs/VideosAPI.md#getDiscarded) | **GET** `/discarded/videos/{videoId}` | Retrieve a discarded video object
 [**getStatus**](https://github.com/apivideo/api.video-swift-client/blob/main/docs/VideosAPI.md#getStatus) | **GET** `/videos/{videoId}/status` | Retrieve video status and details
+[**listDiscarded**](https://github.com/apivideo/api.video-swift-client/blob/main/docs/VideosAPI.md#listDiscarded) | **GET** `/discarded/videos` | List all discarded video objects
+[**updateDiscarded**](https://github.com/apivideo/api.video-swift-client/blob/main/docs/VideosAPI.md#updateDiscarded) | **PATCH** `/discarded/videos/{videoId}` | Update a discarded video object
 
 
 #### WatermarksAPI
@@ -291,6 +294,7 @@ Method | HTTP request | Description
  - [CaptionsUpdatePayload](https://github.com/apivideo/api.video-swift-client/blob/main/docs/CaptionsUpdatePayload.md)
  - [Chapter](https://github.com/apivideo/api.video-swift-client/blob/main/docs/Chapter.md)
  - [ChaptersListResponse](https://github.com/apivideo/api.video-swift-client/blob/main/docs/ChaptersListResponse.md)
+ - [DiscardedVideoUpdatePayload](https://github.com/apivideo/api.video-swift-client/blob/main/docs/DiscardedVideoUpdatePayload.md)
  - [FilterBy](https://github.com/apivideo/api.video-swift-client/blob/main/docs/FilterBy.md)
  - [FilterBy1](https://github.com/apivideo/api.video-swift-client/blob/main/docs/FilterBy1.md)
  - [FilterBy2](https://github.com/apivideo/api.video-swift-client/blob/main/docs/FilterBy2.md)
