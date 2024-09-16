@@ -14,7 +14,7 @@ public struct Watermark: Codable, Hashable {
 
     /** The unique identifier of the watermark. */
     public var watermarkId: String?
-    /** When the watermark was created, presented in ISO-8601 format. */
+    /** When the watermark was created, presented in ATOM UTC format. */
     public var createdAt: Date?
 
     public init(watermarkId: String? = nil, createdAt: Date? = nil) {

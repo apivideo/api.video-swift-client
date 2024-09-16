@@ -27,9 +27,9 @@ public struct LiveStream: Codable, Hashable {
     public var broadcasting: Bool?
     /** Returns the list of restream destinations. */
     public var restreams: [RestreamsResponseObject]
-    /** When the player was created, presented in ISO-8601 format. */
+    /** When the player was created, presented in ATOM UTC format. */
     public var createdAt: Date?
-    /** When the player was last updated, presented in ISO-8601 format. */
+    /** When the player was last updated, presented in ATOM UTC format. */
     public var updatedAt: Date?
 
     public init(liveStreamId: String, name: String? = nil, streamKey: String? = nil, _public: Bool? = nil, assets: LiveStreamAssets? = nil, playerId: String? = nil, broadcasting: Bool? = nil, restreams: [RestreamsResponseObject], createdAt: Date? = nil, updatedAt: Date? = nil) {

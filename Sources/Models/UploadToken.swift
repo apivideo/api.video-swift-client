@@ -16,9 +16,9 @@ public struct UploadToken: Codable, Hashable {
     public var token: String?
     /** Time-to-live - how long the upload token is valid for. */
     public var ttl: Int?
-    /** When the token was created, displayed in ISO-8601 format. */
+    /** When the token was created, displayed in ATOM UTC format. */
     public var createdAt: Date?
-    /** When the token expires, displayed in ISO-8601 format. */
+    /** When the token expires, displayed in ATOM UTC format. */
     public var expiresAt: Date?
 
     public init(token: String? = nil, ttl: Int? = nil, createdAt: Date? = nil, expiresAt: Date? = nil) {

@@ -182,7 +182,7 @@ Retrieve a list of all currently active delegated tokens.
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let sortBy = "sortBy_example" // String | Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ISO-8601 format. (optional)
+let sortBy = "sortBy_example" // String | Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ATOM UTC format. (optional)
 let sortOrder = "sortOrder_example" // String | Allowed: asc, desc. Ascending is 0-9 or A-Z. Descending is 9-0 or Z-A. (optional)
 let currentPage = 987 // Int | Choose the number of search results to return per page. Minimum value: 1 (optional) (default to 1)
 let pageSize = 987 // Int | Results per page. Allowed values 1-100, default is 25. (optional) (default to 25)
@@ -204,7 +204,7 @@ UploadTokensAPI.list(sortBy: sortBy, sortOrder: sortOrder, currentPage: currentP
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sortBy** | **String** | Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ISO-8601 format. | [optional] 
+ **sortBy** | **String** | Allowed: createdAt, ttl. You can use these to sort by when a token was created, or how much longer the token will be active (ttl - time to live). Date and time is presented in ATOM UTC format. | [optional] 
  **sortOrder** | **String** | Allowed: asc, desc. Ascending is 0-9 or A-Z. Descending is 9-0 or Z-A. | [optional] 
  **currentPage** | **Int** | Choose the number of search results to return per page. Minimum value: 1 | [optional] [default to 1]
  **pageSize** | **Int** | Results per page. Allowed values 1-100, default is 25. | [optional] [default to 25]

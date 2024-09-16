@@ -685,7 +685,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
     /**
      Delete a video object
      - DELETE /videos/{videoId}
-     - If you do not need a video any longer, you can send a request to delete it. All you need is the videoId.
+     - If you do not need a video any longer, you can send a request to delete it. All you need is the videoId. By default, deleted videos cannot be recovered. If you have the Video Restore feature enabled, this operation will discard the video instead of permanently deleting it. Make sure you subscribe to the Video Restore feature if you want to be able to restore deleted videos! The Video Restore feature retains videos for 90 days, after which the videos are permanently deleted
      - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter videoId: (path) The video ID for the video you want to delete. 
      - returns: RequestBuilder<Void> 
@@ -735,7 +735,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      
      - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
      - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
-     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata/) allows you to define a key that allows any value pair. (optional)
+     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. (optional)
      - parameter description: (query) Retrieve video objects by &#x60;description&#x60;. (optional)
      - parameter liveStreamId: (query) Retrieve video objects that were recorded from a live stream by &#x60;liveStreamId&#x60;. (optional)
      - parameter sortBy: (query) Use this parameter to sort videos by the their created time, published time, updated time, or by title. (optional)
@@ -762,7 +762,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      
      - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
      - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
-     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata/) allows you to define a key that allows any value pair. (optional)
+     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. (optional)
      - parameter description: (query) Retrieve video objects by &#x60;description&#x60;. (optional)
      - parameter liveStreamId: (query) Retrieve video objects that were recorded from a live stream by &#x60;liveStreamId&#x60;. (optional)
      - parameter sortBy: (query) Use this parameter to sort videos by the their created time, published time, updated time, or by title. (optional)
@@ -785,7 +785,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
      - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
      - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
-     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata/) allows you to define a key that allows any value pair. (optional)
+     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. (optional)
      - parameter description: (query) Retrieve video objects by &#x60;description&#x60;. (optional)
      - parameter liveStreamId: (query) Retrieve video objects that were recorded from a live stream by &#x60;liveStreamId&#x60;. (optional)
      - parameter sortBy: (query) Use this parameter to sort videos by the their created time, published time, updated time, or by title. (optional)
@@ -982,6 +982,68 @@ There may be a short delay for the thumbnail to update.
 
 
     /**
+     Retrieve a discarded video object
+     
+     - parameter videoId: (path) The unique identifier for the video you want details about. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func getDiscarded(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
+        return getDiscarded(videoId: videoId, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Retrieve a discarded video object
+     
+     - parameter videoId: (path) The unique identifier for the video you want details about. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func getDiscarded(videoId: String, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) -> RequestTask {
+            return getDiscardedWithRequestBuilder(videoId: videoId).execute(apiResponseQueue, completion)
+    }
+
+
+    /**
+     Retrieve a discarded video object
+     - GET /discarded/videos/{videoId}
+     - This call provides the same information provided on video creation. For private videos, it will generate a unique token url. Use this to retrieve any details you need about a video, or set up a private viewing URL.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
+     - parameter videoId: (path) The unique identifier for the video you want details about. 
+     - returns: RequestBuilder<Video> 
+     */
+    internal class func getDiscardedWithRequestBuilder(videoId: String) -> RequestBuilder<Video> {
+        var localVariablePath = "/discarded/videos/{videoId}"
+        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
+        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
      Retrieve video status and details
      
      - parameter videoId: (path) The unique identifier for the video you want the status for. 
@@ -1040,6 +1102,186 @@ There may be a short delay for the thumbnail to update.
         let localVariableRequestBuilder: RequestBuilder<VideoStatus>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     * enum for parameter sortBy
+     */
+    public enum SortByListDiscarded: String, CaseIterable {
+        case title = "title"
+        case createdat = "createdAt"
+        case publishedat = "publishedAt"
+        case updatedat = "updatedAt"
+    }
+
+    /**
+     * enum for parameter sortOrder
+     */
+    public enum SortOrderListDiscarded: String, CaseIterable {
+        case asc = "asc"
+        case desc = "desc"
+    }
+
+    /**
+     List all discarded video objects
+     
+     - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
+     - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
+     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. (optional)
+     - parameter description: (query) Retrieve video objects by &#x60;description&#x60;. (optional)
+     - parameter liveStreamId: (query) Retrieve video objects that were recorded from a live stream by &#x60;liveStreamId&#x60;. (optional)
+     - parameter sortBy: (query) Use this parameter to sort videos by the their created time, published time, updated time, or by title. (optional)
+     - parameter sortOrder: (query) Use this parameter to sort results. &#x60;asc&#x60; is ascending and sorts from A to Z. &#x60;desc&#x60; is descending and sorts from Z to A. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func listDiscarded(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortByListDiscarded? = nil, sortOrder: SortOrderListDiscarded? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: VideosListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return listDiscarded(title: title, tags: tags, metadata: metadata, description: description, liveStreamId: liveStreamId, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     List all discarded video objects
+     
+     - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
+     - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
+     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. (optional)
+     - parameter description: (query) Retrieve video objects by &#x60;description&#x60;. (optional)
+     - parameter liveStreamId: (query) Retrieve video objects that were recorded from a live stream by &#x60;liveStreamId&#x60;. (optional)
+     - parameter sortBy: (query) Use this parameter to sort videos by the their created time, published time, updated time, or by title. (optional)
+     - parameter sortOrder: (query) Use this parameter to sort results. &#x60;asc&#x60; is ascending and sorts from A to Z. &#x60;desc&#x60; is descending and sorts from Z to A. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func listDiscarded(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortByListDiscarded? = nil, sortOrder: SortOrderListDiscarded? = nil, currentPage: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<VideosListResponse>, ErrorResponse>) -> Void) -> RequestTask {
+            return listDiscardedWithRequestBuilder(title: title, tags: tags, metadata: metadata, description: description, liveStreamId: liveStreamId, sortBy: sortBy, sortOrder: sortOrder, currentPage: currentPage, pageSize: pageSize).execute(apiResponseQueue, completion)
+    }
+
+
+    /**
+     List all discarded video objects
+     - GET /discarded/videos
+     - This method returns a list of your discarded videos (with all their details). With no parameters added, the API returns the first page of all discarded videos. You can filter discarded videos using the parameters described below.
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
+     - parameter title: (query) The title of a specific video you want to find. The search will match exactly to what term you provide and return any videos that contain the same term as part of their titles. (optional)
+     - parameter tags: (query) A tag is a category you create and apply to videos. You can search for videos with particular tags by listing one or more here. Only videos that have all the tags you list will be returned. (optional)
+     - parameter metadata: (query) Videos can be tagged with metadata tags in key:value pairs. You can search for videos with specific key value pairs using this parameter. (optional)
+     - parameter description: (query) Retrieve video objects by &#x60;description&#x60;. (optional)
+     - parameter liveStreamId: (query) Retrieve video objects that were recorded from a live stream by &#x60;liveStreamId&#x60;. (optional)
+     - parameter sortBy: (query) Use this parameter to sort videos by the their created time, published time, updated time, or by title. (optional)
+     - parameter sortOrder: (query) Use this parameter to sort results. &#x60;asc&#x60; is ascending and sorts from A to Z. &#x60;desc&#x60; is descending and sorts from Z to A. (optional)
+     - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
+     - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
+     - returns: RequestBuilder<VideosListResponse> 
+     */
+    internal class func listDiscardedWithRequestBuilder(title: String? = nil, tags: [String]? = nil, metadata: [String: String]? = nil, description: String? = nil, liveStreamId: String? = nil, sortBy: SortByListDiscarded? = nil, sortOrder: SortOrderListDiscarded? = nil, currentPage: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<VideosListResponse> {
+        let localVariablePath = "/discarded/videos"
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "title": title?.encodeToJSON(),
+            "tags[]": tags?.encodeToJSON(),
+            "metadata": metadata?.encodeToJSON(),
+            "description": description?.encodeToJSON(),
+            "liveStreamId": liveStreamId?.encodeToJSON(),
+            "sortBy": sortBy?.encodeToJSON(),
+            "sortOrder": sortOrder?.encodeToJSON(),
+            "currentPage": currentPage?.encodeToJSON(),
+            "pageSize": pageSize?.encodeToJSON(),
+        ])
+        
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<VideosListResponse>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+
+    /**
+     Update a discarded video object
+     
+     - parameter videoId: (path) The video ID for the video you want to restore. 
+     - parameter discardedVideoUpdatePayload: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects.
+     */
+    @discardableResult
+    open class func updateDiscarded(videoId: String, discardedVideoUpdatePayload: DiscardedVideoUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping ((_ data: Video?, _ error: Error?) -> Void)) -> RequestTask {
+        return updateDiscarded(videoId: videoId, discardedVideoUpdatePayload: discardedVideoUpdatePayload, apiResponseQueue: apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Update a discarded video object
+     
+     - parameter videoId: (path) The video ID for the video you want to restore. 
+     - parameter discardedVideoUpdatePayload: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the result of the request (incl. headers).
+     */
+    @discardableResult
+    open class func updateDiscarded(videoId: String, discardedVideoUpdatePayload: DiscardedVideoUpdatePayload, apiResponseQueue: DispatchQueue = ApiVideoClient.apiResponseQueue, completion: @escaping (_ result: Swift.Result<Response<Video>, ErrorResponse>) -> Void) -> RequestTask {
+            return updateDiscardedWithRequestBuilder(videoId: videoId, discardedVideoUpdatePayload: discardedVideoUpdatePayload).execute(apiResponseQueue, completion)
+    }
+
+
+    /**
+     Update a discarded video object
+     - PATCH /discarded/videos/{videoId}
+     - Use this endpoint to restore a discarded video when you have the Video Restore feature enabled.
+
+
+     - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
+     - parameter videoId: (path) The video ID for the video you want to restore. 
+     - parameter discardedVideoUpdatePayload: (body)  
+     - returns: RequestBuilder<Video> 
+     */
+    internal class func updateDiscardedWithRequestBuilder(videoId: String, discardedVideoUpdatePayload: DiscardedVideoUpdatePayload) -> RequestBuilder<Video> {
+        var localVariablePath = "/discarded/videos/{videoId}"
+        let videoIdPreEscape = "\(APIHelper.mapValueToPathItem(videoId))"
+        let videoIdPostEscape = videoIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{videoId}", with: videoIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = ApiVideoClient.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: discardedVideoUpdatePayload)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Video>.Type = ApiVideoClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
 }

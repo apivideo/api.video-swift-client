@@ -280,7 +280,7 @@ open class PlayerThemesAPI {
     /**
      List all player themes
      
-     - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. (optional)
+     - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ATOM UTC format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
@@ -302,7 +302,7 @@ open class PlayerThemesAPI {
     /**
      List all player themes
      
-     - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. (optional)
+     - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ATOM UTC format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)
@@ -320,7 +320,7 @@ open class PlayerThemesAPI {
      - GET /players
      - Retrieve a list of all the player themes you created, as well as details about each one.
      - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
-     - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ISO-8601 format. (optional)
+     - parameter sortBy: (query) createdAt is the time the player was created. updatedAt is the time the player was last updated. The time is presented in ATOM UTC format. (optional)
      - parameter sortOrder: (query) Allowed: asc, desc. Ascending for date and time means that earlier values precede later ones. Descending means that later values preced earlier ones. (optional)
      - parameter currentPage: (query) Choose the number of search results to return per page. Minimum value: 1 (optional, default to 1)
      - parameter pageSize: (query) Results per page. Allowed values 1-100, default is 25. (optional, default to 25)

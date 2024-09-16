@@ -14,7 +14,7 @@ public struct Webhook: Codable, Hashable {
 
     /** Unique identifier of the webhook */
     public var webhookId: String?
-    /** When an webhook was created, presented in ISO-8601 format. */
+    /** When an webhook was created, presented in ATOM UTC format. */
     public var createdAt: Date?
     /** A list of events that will trigger the webhook. */
     public var events: [String]?

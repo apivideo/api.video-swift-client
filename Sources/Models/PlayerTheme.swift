@@ -45,9 +45,9 @@ public struct PlayerTheme: Codable, Hashable {
     /** enable/disable looping. Default: false */
     public var forceLoop: Bool?
     public var playerId: String
-    /** When the player was created, presented in ISO-8601 format. */
+    /** When the player was created, presented in ATOM UTC format. */
     public var createdAt: Date?
-    /** When the player was last updated, presented in ISO-8601 format. */
+    /** When the player was last updated, presented in ATOM UTC format. */
     public var updatedAt: Date?
     public var assets: PlayerThemeAssets?
 

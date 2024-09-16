@@ -26,7 +26,7 @@ public struct VideoUpdatePayload: Codable, Hashable {
     public var mp4Support: Bool?
     /** A list of terms or words you want to tag the video with. Make sure the list includes all the tags you want as whatever you send in this list will overwrite the existing list for the video. */
     public var tags: [String]?
-    /** A list (array) of dictionaries where each dictionary contains a key value pair that describes the video. As with tags, you must send the complete list of metadata you want as whatever you send here will overwrite the existing metadata for the video. [Dynamic Metadata](https://api.video/blog/endpoints/dynamic-metadata/) allows you to define a key that allows any value pair. */
+    /** A list (array) of dictionaries where each dictionary contains a key value pair that describes the video. As with tags, you must send the complete list of metadata you want as whatever you send here will overwrite the existing metadata for the video. */
     public var metadata: [Metadata]?
 
     public init(playerId: NullableString? = nil, title: String? = nil, description: String? = nil, _public: Bool? = nil, panoramic: Bool? = nil, mp4Support: Bool? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil) {
