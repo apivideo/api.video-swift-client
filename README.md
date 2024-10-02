@@ -20,6 +20,7 @@
     - [ChaptersAPI](#ChaptersAPI)
     - [LiveStreamsAPI](#LiveStreamsAPI)
     - [PlayerThemesAPI](#PlayerThemesAPI)
+    - [TagsAPI](#TagsAPI)
     - [UploadTokensAPI](#UploadTokensAPI)
     - [VideosAPI](#VideosAPI)
     - [WatermarksAPI](#WatermarksAPI)
@@ -55,14 +56,14 @@ api.video's Swift API client for iOS, macOS and tvOS streamlines the coding proc
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-swift-client" ~> 1.3.2
+github "apivideo/api.video-swift-client" ~> 1.3.3
 ```
 
 Run `carthage update`
 
 #### CocoaPods
 
-Add `pod 'ApiVideoClient', '1.3.2'` in your `Podfile`
+Add `pod 'ApiVideoClient', '1.3.3'` in your `Podfile`
 
 Run `pod install`
 
@@ -189,6 +190,21 @@ Method | HTTP request | Description
 [**deleteLogo**](https://github.com/apivideo/api.video-swift-client/blob/main/docs/PlayerThemesAPI.md#deleteLogo) | **DELETE** `/players/{playerId}/logo` | Delete logo
 
 
+#### TagsAPI
+
+##### Retrieve an instance of TagsAPI:
+
+```swift
+TagsAPI
+```
+
+##### Endpoints
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**list**](https://github.com/apivideo/api.video-swift-client/blob/main/docs/TagsAPI.md#list) | **GET** `/tags` | List all video tags
+
+
 #### UploadTokensAPI
 
 ##### Retrieve an instance of UploadTokensAPI:
@@ -299,6 +315,8 @@ Method | HTTP request | Description
  - [FilterBy1](https://github.com/apivideo/api.video-swift-client/blob/main/docs/FilterBy1.md)
  - [FilterBy2](https://github.com/apivideo/api.video-swift-client/blob/main/docs/FilterBy2.md)
  - [Link](https://github.com/apivideo/api.video-swift-client/blob/main/docs/Link.md)
+ - [ListTagsResponse](https://github.com/apivideo/api.video-swift-client/blob/main/docs/ListTagsResponse.md)
+ - [ListTagsResponseData](https://github.com/apivideo/api.video-swift-client/blob/main/docs/ListTagsResponseData.md)
  - [LiveStream](https://github.com/apivideo/api.video-swift-client/blob/main/docs/LiveStream.md)
  - [LiveStreamAssets](https://github.com/apivideo/api.video-swift-client/blob/main/docs/LiveStreamAssets.md)
  - [LiveStreamCreationPayload](https://github.com/apivideo/api.video-swift-client/blob/main/docs/LiveStreamCreationPayload.md)

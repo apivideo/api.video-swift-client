@@ -11,6 +11,7 @@ Sources/APIs/CaptionsAPI.swift
 Sources/APIs/ChaptersAPI.swift
 Sources/APIs/LiveStreamsAPI.swift
 Sources/APIs/PlayerThemesAPI.swift
+Sources/APIs/TagsAPI.swift
 Sources/APIs/UploadTokensAPI.swift
 Sources/APIs/VideosAPI.swift
 Sources/APIs/WatermarksAPI.swift
@@ -52,6 +53,8 @@ Sources/Models/FilterBy.swift
 Sources/Models/FilterBy1.swift
 Sources/Models/FilterBy2.swift
 Sources/Models/Link.swift
+Sources/Models/ListTagsResponse.swift
+Sources/Models/ListTagsResponseData.swift
 Sources/Models/LiveStream.swift
 Sources/Models/LiveStreamAssets.swift
 Sources/Models/LiveStreamCreationPayload.swift
@@ -136,6 +139,8 @@ docs/FilterBy.md
 docs/FilterBy1.md
 docs/FilterBy2.md
 docs/Link.md
+docs/ListTagsResponse.md
+docs/ListTagsResponseData.md
 docs/LiveStream.md
 docs/LiveStreamAssets.md
 docs/LiveStreamCreationPayload.md
@@ -158,6 +163,7 @@ docs/Quality.md
 docs/RefreshTokenPayload.md
 docs/RestreamsRequestObject.md
 docs/RestreamsResponseObject.md
+docs/TagsAPI.md
 docs/TokenCreationPayload.md
 docs/TokenListResponse.md
 docs/TooManyRequests.md

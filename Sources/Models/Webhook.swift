@@ -12,20 +12,23 @@ import AnyCodable
 
 public struct Webhook: Codable, Hashable {
 
-    /** Unique identifier of the webhook */
+    /** A unique identifier of the webhook you subscribed to. */
     public var webhookId: String?
-    /** When an webhook was created, presented in ATOM UTC format. */
+    /** The time and date when you created this webhook subscription, in ATOM UTC format. */
     public var createdAt: Date?
-    /** A list of events that will trigger the webhook. */
+    /** A list of events that you subscribed to. When these events occur, the API triggers a webhook call to the URL you provided. */
     public var events: [String]?
-    /** URL of the webhook */
+    /** The URL where the API sends the webhook. */
     public var url: String?
+    /** A secret key for the webhook you subscribed to. You can use it to verify the origin of the webhook call that you receive. */
+    public var signatureSecret: String?
 
-    public init(webhookId: String? = nil, createdAt: Date? = nil, events: [String]? = nil, url: String? = nil) {
+    public init(webhookId: String? = nil, createdAt: Date? = nil, events: [String]? = nil, url: String? = nil, signatureSecret: String? = nil) {
         self.webhookId = webhookId
         self.createdAt = createdAt
         self.events = events
         self.url = url
+        self.signatureSecret = signatureSecret
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -33,6 +36,7 @@ public struct Webhook: Codable, Hashable {
         case createdAt
         case events
         case url
+        case signatureSecret
     }
 
     // Encodable protocol methods
@@ -43,6 +47,7 @@ public struct Webhook: Codable, Hashable {
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(events, forKey: .events)
         try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(signatureSecret, forKey: .signatureSecret)
     }
 }
 

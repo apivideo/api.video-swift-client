@@ -3,10 +3,11 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**webhookId** | **String** | Unique identifier of the webhook | [optional] 
-**createdAt** | **Date** | When an webhook was created, presented in ATOM UTC format. | [optional] 
-**events** | **[String]** | A list of events that will trigger the webhook. | [optional] 
-**url** | **String** | URL of the webhook | [optional] 
+**webhookId** | **String** | A unique identifier of the webhook you subscribed to. | [optional] 
+**createdAt** | **Date** | The time and date when you created this webhook subscription, in ATOM UTC format. | [optional] 
+**events** | **[String]** | A list of events that you subscribed to. When these events occur, the API triggers a webhook call to the URL you provided. | [optional] 
+**url** | **String** | The URL where the API sends the webhook. | [optional] 
+**signatureSecret** | **String** | A secret key for the webhook you subscribed to. You can use it to verify the origin of the webhook call that you receive. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
