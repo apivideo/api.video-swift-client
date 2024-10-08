@@ -12,6 +12,41 @@ import AnyCodable
 
 public struct VideoCreationPayload: Codable, Hashable {
 
+    public enum Language: String, Codable, CaseIterable {
+        case ar = "ar"
+        case ca = "ca"
+        case cs = "cs"
+        case da = "da"
+        case de = "de"
+        case el = "el"
+        case en = "en"
+        case es = "es"
+        case fa = "fa"
+        case fi = "fi"
+        case fr = "fr"
+        case he = "he"
+        case hi = "hi"
+        case hr = "hr"
+        case hu = "hu"
+        case it = "it"
+        case ja = "ja"
+        case ko = "ko"
+        case ml = "ml"
+        case nl = "nl"
+        case nn = "nn"
+        case _false = "false"
+        case pl = "pl"
+        case pt = "pt"
+        case ru = "ru"
+        case sk = "sk"
+        case sl = "sl"
+        case te = "te"
+        case tr = "tr"
+        case uk = "uk"
+        case ur = "ur"
+        case vi = "vi"
+        case zh = "zh"
+    }
     /** The title of your new video. */
     public var title: String
     /** A brief description of your video. */
@@ -32,8 +67,12 @@ public struct VideoCreationPayload: Codable, Hashable {
     public var metadata: [Metadata]?
     public var clip: VideoClip?
     public var watermark: VideoWatermark?
+    /** Use this parameter to set the language of the video. When this parameter is set, the API creates a transcript of the video using the language you specify. You must use the [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag) format.  `language` is a permanent attribute of the video. You can update it to another language using the [`PATCH /videos/{videoId}`](https://docs.api.video/reference/api/Videos#update-a-video-object) operation. This triggers the API to generate a new transcript using a different language. */
+    public var language: Language?
+    /** Use this parameter to enable transcription.   - When `true`, the API generates a transcript for the video. - The default value is `false`. - If you define a video language using the `language` parameter, the API uses that language to transcribe the video. If you do not define a language, the API detects it based on the video.  - When the API generates a transcript, it will be available as a caption for the video. */
+    public var transcript: Bool?
 
-    public init(title: String, description: String? = nil, source: String? = nil, _public: Bool? = true, panoramic: Bool? = false, mp4Support: Bool? = true, playerId: String? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, clip: VideoClip? = nil, watermark: VideoWatermark? = nil) {
+    public init(title: String, description: String? = nil, source: String? = nil, _public: Bool? = true, panoramic: Bool? = false, mp4Support: Bool? = true, playerId: String? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, clip: VideoClip? = nil, watermark: VideoWatermark? = nil, language: Language? = nil, transcript: Bool? = nil) {
         self.title = title
         self.description = description
         self.source = source
@@ -45,6 +84,8 @@ public struct VideoCreationPayload: Codable, Hashable {
         self.metadata = metadata
         self.clip = clip
         self.watermark = watermark
+        self.language = language
+        self.transcript = transcript
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -59,6 +100,8 @@ public struct VideoCreationPayload: Codable, Hashable {
         case metadata
         case clip
         case watermark
+        case language
+        case transcript
     }
 
     // Encodable protocol methods
@@ -76,6 +119,8 @@ public struct VideoCreationPayload: Codable, Hashable {
         try container.encodeIfPresent(metadata, forKey: .metadata)
         try container.encodeIfPresent(clip, forKey: .clip)
         try container.encodeIfPresent(watermark, forKey: .watermark)
+        try container.encodeIfPresent(language, forKey: .language)
+        try container.encodeIfPresent(transcript, forKey: .transcript)
     }
 }
 
