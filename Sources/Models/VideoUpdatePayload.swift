@@ -12,6 +12,41 @@ import AnyCodable
 
 public struct VideoUpdatePayload: Codable, Hashable {
 
+    public enum Language: String, Codable, CaseIterable {
+        case ar = "ar"
+        case ca = "ca"
+        case cs = "cs"
+        case da = "da"
+        case de = "de"
+        case el = "el"
+        case en = "en"
+        case es = "es"
+        case fa = "fa"
+        case fi = "fi"
+        case fr = "fr"
+        case he = "he"
+        case hi = "hi"
+        case hr = "hr"
+        case hu = "hu"
+        case it = "it"
+        case ja = "ja"
+        case ko = "ko"
+        case ml = "ml"
+        case nl = "nl"
+        case nn = "nn"
+        case _false = "false"
+        case pl = "pl"
+        case pt = "pt"
+        case ru = "ru"
+        case sk = "sk"
+        case sl = "sl"
+        case te = "te"
+        case tr = "tr"
+        case uk = "uk"
+        case ur = "ur"
+        case vi = "vi"
+        case zh = "zh"
+    }
     /** The unique ID for the player you want to associate with your video. */
     public var playerId: NullableString?
     /** The title you want to use for your video. */
@@ -28,8 +63,12 @@ public struct VideoUpdatePayload: Codable, Hashable {
     public var tags: [String]?
     /** A list (array) of dictionaries where each dictionary contains a key value pair that describes the video. As with tags, you must send the complete list of metadata you want as whatever you send here will overwrite the existing metadata for the video. */
     public var metadata: [Metadata]?
+    /** Use this parameter to set the language of the video. When this parameter is set, the API creates a transcript of the video using the language you specify. You must use the [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag) format.  `language` is a permanent attribute of the video. You can update it to another language using the [`PATCH /videos/{videoId}`](https://docs.api.video/reference/api/Videos#update-a-video-object) operation. This triggers the API to generate a new transcript using a different language. */
+    public var language: Language?
+    /** Use this parameter to enable transcription.   - When `true`, the API generates a transcript for the video. - The default value is `false`. - If you define a video language using the `language` parameter, the API uses that language to transcribe the video. If you do not define a language, the API detects it based on the video.  - When the API generates a transcript, it will be available as a caption for the video. */
+    public var transcript: Bool?
 
-    public init(playerId: NullableString? = nil, title: String? = nil, description: String? = nil, _public: Bool? = nil, panoramic: Bool? = nil, mp4Support: Bool? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil) {
+    public init(playerId: NullableString? = nil, title: String? = nil, description: String? = nil, _public: Bool? = nil, panoramic: Bool? = nil, mp4Support: Bool? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, language: Language? = nil, transcript: Bool? = nil) {
         self.playerId = playerId
         self.title = title
         self.description = description
@@ -38,6 +77,8 @@ public struct VideoUpdatePayload: Codable, Hashable {
         self.mp4Support = mp4Support
         self.tags = tags
         self.metadata = metadata
+        self.language = language
+        self.transcript = transcript
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -49,6 +90,8 @@ public struct VideoUpdatePayload: Codable, Hashable {
         case mp4Support
         case tags
         case metadata
+        case language
+        case transcript
     }
 
     // Encodable protocol methods
@@ -63,6 +106,8 @@ public struct VideoUpdatePayload: Codable, Hashable {
         try container.encodeIfPresent(mp4Support, forKey: .mp4Support)
         try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(metadata, forKey: .metadata)
+        try container.encodeIfPresent(language, forKey: .language)
+        try container.encodeIfPresent(transcript, forKey: .transcript)
     }
 }
 
