@@ -12,6 +12,7 @@ import AnyCodable
 
 public struct CaptionsUpdatePayload: Codable, Hashable {
 
+    /** Set this parameter to `true` to define a caption as the default for a video. */
     public var _default: Bool?
 
     public init(_default: Bool? = nil) {
