@@ -35,7 +35,7 @@ Creates a video object. More information on video objects can be found [here](ht
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let videoCreationPayload = VideoCreationPayload(title: "title_example", description: "description_example", source: "source_example", _public: true, panoramic: false, mp4Support: true, playerId: "playerId_example", tags: ["tags_example"], metadata: [Metadata(key: "key_example", value: "value_example")], clip: VideoClip(startTimecode: "startTimecode_example", endTimecode: "endTimecode_example"), watermark: VideoWatermark(id: "id_example", top: "top_example", _left: "_left_example", bottom: "bottom_example", _right: "_right_example", width: "width_example", height: "height_example", opacity: "opacity_example"), language: "language_example", transcript: false) // VideoCreationPayload | video to create
+let videoCreationPayload = VideoCreationPayload(title: "title_example", description: "description_example", source: "source_example", _public: true, panoramic: false, mp4Support: true, playerId: "playerId_example", tags: ["tags_example"], metadata: [Metadata(key: "key_example", value: "value_example")], clip: VideoClip(startTimecode: "startTimecode_example", endTimecode: "endTimecode_example"), watermark: VideoWatermark(id: "id_example", top: "top_example", _left: "_left_example", bottom: "bottom_example", _right: "_right_example", width: "width_example", height: "height_example", opacity: "opacity_example"), language: "language_example", transcript: false, transcriptSummary: false) // VideoCreationPayload | video to create
 
 // Create a video object
 VideosAPI.create(videoCreationPayload: videoCreationPayload) { (response, error) in
@@ -272,7 +272,7 @@ NOTE: If you are updating an array, you must provide the entire array as what yo
 import ApiVideoClient
 
 let videoId = "videoId_example" // String | The video ID for the video you want to update.
-let videoUpdatePayload = VideoUpdatePayload(playerId: NullableString(value: "pl4k0jvEUuaTdRAEjQ4Jfrgz"), title: "title_example", description: "description_example", _public: true, panoramic: false, mp4Support: true, tags: ["tags_example"], metadata: [Metadata(key: "key_example", value: "value_example")], language: "language_example", transcript: false) // VideoUpdatePayload | 
+let videoUpdatePayload = VideoUpdatePayload(playerId: NullableString(value: "pl4k0jvEUuaTdRAEjQ4Jfrgz"), title: "title_example", description: "description_example", _public: true, panoramic: false, mp4Support: true, tags: ["tags_example"], metadata: [Metadata(key: "key_example", value: "value_example")], language: "language_example", transcript: false, transcriptSummary: false) // VideoUpdatePayload | 
 
 // Update a video object
 VideosAPI.update(videoId: videoId, videoUpdatePayload: videoUpdatePayload) { (response, error) in

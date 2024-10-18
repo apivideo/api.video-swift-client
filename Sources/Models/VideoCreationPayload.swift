@@ -71,8 +71,10 @@ public struct VideoCreationPayload: Codable, Hashable {
     public var language: Language?
     /** Use this parameter to enable transcription.   - When `true`, the API generates a transcript for the video. - The default value is `false`. - If you define a video language using the `language` parameter, the API uses that language to transcribe the video. If you do not define a language, the API detects it based on the video.  - When the API generates a transcript, it will be available as a caption for the video. */
     public var transcript: Bool?
+    /** Use this parameter to enable summarization. We recommend using this parameter together with `transcript: true`.  - When `true`, the API generates a summary for the video, based on the transcription. - The default value is `false`. - If you define a video language using the `language` parameter, the API uses that language to summarize the video. If you do not define a language, the API detects it based on the video. */
+    public var transcriptSummary: Bool?
 
-    public init(title: String, description: String? = nil, source: String? = nil, _public: Bool? = true, panoramic: Bool? = false, mp4Support: Bool? = true, playerId: String? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, clip: VideoClip? = nil, watermark: VideoWatermark? = nil, language: Language? = nil, transcript: Bool? = nil) {
+    public init(title: String, description: String? = nil, source: String? = nil, _public: Bool? = true, panoramic: Bool? = false, mp4Support: Bool? = true, playerId: String? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, clip: VideoClip? = nil, watermark: VideoWatermark? = nil, language: Language? = nil, transcript: Bool? = nil, transcriptSummary: Bool? = nil) {
         self.title = title
         self.description = description
         self.source = source
@@ -86,6 +88,7 @@ public struct VideoCreationPayload: Codable, Hashable {
         self.watermark = watermark
         self.language = language
         self.transcript = transcript
+        self.transcriptSummary = transcriptSummary
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -102,6 +105,7 @@ public struct VideoCreationPayload: Codable, Hashable {
         case watermark
         case language
         case transcript
+        case transcriptSummary
     }
 
     // Encodable protocol methods
@@ -121,6 +125,7 @@ public struct VideoCreationPayload: Codable, Hashable {
         try container.encodeIfPresent(watermark, forKey: .watermark)
         try container.encodeIfPresent(language, forKey: .language)
         try container.encodeIfPresent(transcript, forKey: .transcript)
+        try container.encodeIfPresent(transcriptSummary, forKey: .transcriptSummary)
     }
 }
 
