@@ -11,6 +11,7 @@ Sources/APIs/CaptionsAPI.swift
 Sources/APIs/ChaptersAPI.swift
 Sources/APIs/LiveStreamsAPI.swift
 Sources/APIs/PlayerThemesAPI.swift
+Sources/APIs/SummariesAPI.swift
 Sources/APIs/TagsAPI.swift
 Sources/APIs/UploadTokensAPI.swift
 Sources/APIs/VideosAPI.swift
@@ -47,6 +48,7 @@ Sources/Models/CaptionsListResponse.swift
 Sources/Models/CaptionsUpdatePayload.swift
 Sources/Models/Chapter.swift
 Sources/Models/ChaptersListResponse.swift
+Sources/Models/ConflictError.swift
 Sources/Models/DiscardedVideoUpdatePayload.swift
 Sources/Models/Environment.swift
 Sources/Models/FilterBy.swift
@@ -76,6 +78,11 @@ Sources/Models/Quality.swift
 Sources/Models/RefreshTokenPayload.swift
 Sources/Models/RestreamsRequestObject.swift
 Sources/Models/RestreamsResponseObject.swift
+Sources/Models/SummariesListResponse.swift
+Sources/Models/Summary.swift
+Sources/Models/SummaryCreationPayload.swift
+Sources/Models/SummarySource.swift
+Sources/Models/SummaryUpdatePayload.swift
 Sources/Models/TokenCreationPayload.swift
 Sources/Models/TokenListResponse.swift
 Sources/Models/TooManyRequests.swift
@@ -134,6 +141,7 @@ docs/CaptionsUpdatePayload.md
 docs/Chapter.md
 docs/ChaptersAPI.md
 docs/ChaptersListResponse.md
+docs/ConflictError.md
 docs/DiscardedVideoUpdatePayload.md
 docs/FilterBy.md
 docs/FilterBy1.md
@@ -163,6 +171,12 @@ docs/Quality.md
 docs/RefreshTokenPayload.md
 docs/RestreamsRequestObject.md
 docs/RestreamsResponseObject.md
+docs/SummariesAPI.md
+docs/SummariesListResponse.md
+docs/Summary.md
+docs/SummaryCreationPayload.md
+docs/SummarySource.md
+docs/SummaryUpdatePayload.md
 docs/TagsAPI.md
 docs/TokenCreationPayload.md
 docs/TokenListResponse.md
