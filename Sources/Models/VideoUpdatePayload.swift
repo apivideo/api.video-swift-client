@@ -67,8 +67,10 @@ public struct VideoUpdatePayload: Codable, Hashable {
     public var language: Language?
     /** Use this parameter to enable transcription.   - When `true`, the API generates a transcript for the video. - The default value is `false`. - If you define a video language using the `language` parameter, the API uses that language to transcribe the video. If you do not define a language, the API detects it based on the video.  - When the API generates a transcript, it will be available as a caption for the video. */
     public var transcript: Bool?
+    /** Use this parameter to enable summarization.   - When `true`, the API generates a summary for the video, based on the transcription. - The default value is `false`. - If you define a video language using the `language` parameter, the API uses that language to summarize the video. If you do not define a language, the API detects it based on the video. */
+    public var transcriptSummary: Bool?
 
-    public init(playerId: NullableString? = nil, title: String? = nil, description: String? = nil, _public: Bool? = nil, panoramic: Bool? = nil, mp4Support: Bool? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, language: Language? = nil, transcript: Bool? = nil) {
+    public init(playerId: NullableString? = nil, title: String? = nil, description: String? = nil, _public: Bool? = nil, panoramic: Bool? = nil, mp4Support: Bool? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, language: Language? = nil, transcript: Bool? = nil, transcriptSummary: Bool? = nil) {
         self.playerId = playerId
         self.title = title
         self.description = description
@@ -79,6 +81,7 @@ public struct VideoUpdatePayload: Codable, Hashable {
         self.metadata = metadata
         self.language = language
         self.transcript = transcript
+        self.transcriptSummary = transcriptSummary
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -92,6 +95,7 @@ public struct VideoUpdatePayload: Codable, Hashable {
         case metadata
         case language
         case transcript
+        case transcriptSummary
     }
 
     // Encodable protocol methods
@@ -108,6 +112,7 @@ public struct VideoUpdatePayload: Codable, Hashable {
         try container.encodeIfPresent(metadata, forKey: .metadata)
         try container.encodeIfPresent(language, forKey: .language)
         try container.encodeIfPresent(transcript, forKey: .transcript)
+        try container.encodeIfPresent(transcriptSummary, forKey: .transcriptSummary)
     }
 }
 
