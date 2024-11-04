@@ -57,14 +57,14 @@ api.video's Swift API client for iOS, macOS and tvOS streamlines the coding proc
 Specify it in your `Cartfile`:
 
 ```
-github "apivideo/api.video-swift-client" ~> 1.3.5
+github "apivideo/api.video-swift-client" ~> 1.3.6
 ```
 
 Run `carthage update`
 
 #### CocoaPods
 
-Add `pod 'ApiVideoClient', '1.3.5'` in your `Podfile`
+Add `pod 'ApiVideoClient', '1.3.6'` in your `Podfile`
 
 Run `pod install`
 

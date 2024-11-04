@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**metric** | **String** | Returns the metric you selected. | [optional] 
+**metric** | **String** | Returns the metric and relevant parameters you selected. | [optional] 
 **breakdown** | **String** | Returns the dimension you selected. | [optional] 
 **timeframe** | [**AnalyticsAggregatedMetricsResponseContextTimeframe**](AnalyticsAggregatedMetricsResponseContextTimeframe.md) |  | [optional] 
 

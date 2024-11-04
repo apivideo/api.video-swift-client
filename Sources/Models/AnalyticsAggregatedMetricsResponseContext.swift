@@ -19,6 +19,17 @@ public struct AnalyticsAggregatedMetricsResponseContext: Codable, Hashable {
         case impression = "impression"
         case impressionTime = "impression-time"
         case watchTime = "watch-time"
+        case ccv = "ccv"
+        case uniqueCcv = "unique-ccv"
+        case view3 = "view-3"
+        case view5 = "view-5"
+        case view10 = "view-10"
+        case view30 = "view-30"
+        case uniqueView = "unique-view"
+        case uniqueView3 = "unique-view-3"
+        case uniqueView5 = "unique-view-5"
+        case uniqueView10 = "unique-view-10"
+        case uniqueView30 = "unique-view-30"
     }
     public enum Aggregation: String, Codable, CaseIterable {
         case count = "count"
@@ -27,7 +38,7 @@ public struct AnalyticsAggregatedMetricsResponseContext: Codable, Hashable {
         case average = "average"
         case sum = "sum"
     }
-    /** Returns the metric you selected. */
+    /** Returns the metric and relevant parameters you selected. */
     public var metric: Metric?
     /** Returns the aggregation you selected. */
     public var aggregation: Aggregation?

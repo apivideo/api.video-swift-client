@@ -18,6 +18,19 @@ public struct AnalyticsMetricsBreakdownResponseContext: Codable, Hashable {
         case start = "start"
         case end = "end"
         case impression = "impression"
+        case ccvAverage = "ccv-average"
+        case ccvPeak = "ccv-peak"
+        case uniqueCcvAverage = "unique-ccv-average"
+        case uniqueCcvPeak = "unique-ccv-peak"
+        case view3 = "view-3"
+        case view5 = "view-5"
+        case view10 = "view-10"
+        case view30 = "view-30"
+        case uniqueView = "unique-view"
+        case uniqueView3 = "unique-view-3"
+        case uniqueView5 = "unique-view-5"
+        case uniqueView10 = "unique-view-10"
+        case uniqueView30 = "unique-view-30"
     }
     public enum Breakdown: String, Codable, CaseIterable {
         case mediaId = "media-id"
@@ -28,7 +41,7 @@ public struct AnalyticsMetricsBreakdownResponseContext: Codable, Hashable {
         case operatingSystem = "operating-system"
         case browser = "browser"
     }
-    /** Returns the metric you selected. */
+    /** Returns the metric and relevant parameters you selected. */
     public var metric: Metric?
     /** Returns the dimension you selected. */
     public var breakdown: Breakdown?
