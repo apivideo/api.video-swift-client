@@ -40,8 +40,10 @@ public struct FilterBy2: Codable, Hashable {
     public var browser: [String]?
     /** Returns analytics for videos using this tag. This filter only accepts a single value and is case sensitive. Read more about tagging your videos [here](https://docs.api.video/vod/tags-metadata). */
     public var tag: String?
+    /** Filters data based on the URL where the view is originating from. This filter parameter accepts an empty string to filter view events where no referrer is available.  - The API filters for exact matches. Include the trailing `/` characters if needed. - The URLs you add must be URL encoded. */
+    public var referrer: [String]?
 
-    public init(mediaId: [String]? = nil, mediaType: MediaType? = nil, continent: [Continent]? = nil, country: [String]? = nil, deviceType: [String]? = nil, operatingSystem: [String]? = nil, browser: [String]? = nil, tag: String? = nil) {
+    public init(mediaId: [String]? = nil, mediaType: MediaType? = nil, continent: [Continent]? = nil, country: [String]? = nil, deviceType: [String]? = nil, operatingSystem: [String]? = nil, browser: [String]? = nil, tag: String? = nil, referrer: [String]? = nil) {
         self.mediaId = mediaId
         self.mediaType = mediaType
         self.continent = continent
@@ -50,6 +52,7 @@ public struct FilterBy2: Codable, Hashable {
         self.operatingSystem = operatingSystem
         self.browser = browser
         self.tag = tag
+        self.referrer = referrer
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -61,6 +64,7 @@ public struct FilterBy2: Codable, Hashable {
         case operatingSystem
         case browser
         case tag
+        case referrer
     }
 
       public func encodeToQueryParams() -> [URLQueryItem] {
@@ -102,6 +106,11 @@ public struct FilterBy2: Codable, Hashable {
         if let tag = tag {
             queryItems.append(URLQueryItem(name: "filterBy[tag]", value: tag))
         }
+        if let referrer = referrer, !referrer.isEmpty {
+            for (index, val) in referrer.enumerated() {
+                queryItems.append(URLQueryItem(name: "filterBy[referrer][\(index)]", value: val))
+            }
+        }
 
         return queryItems
     }
@@ -117,6 +126,7 @@ public struct FilterBy2: Codable, Hashable {
         try container.encodeIfPresent(operatingSystem, forKey: .operatingSystem)
         try container.encodeIfPresent(browser, forKey: .browser)
         try container.encodeIfPresent(tag, forKey: .tag)
+        try container.encodeIfPresent(referrer, forKey: .referrer)
     }
 }
 

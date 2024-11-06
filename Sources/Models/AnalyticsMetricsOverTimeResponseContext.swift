@@ -18,12 +18,26 @@ public struct AnalyticsMetricsOverTimeResponseContext: Codable, Hashable {
         case start = "start"
         case end = "end"
         case impression = "impression"
+        case ccvAverage = "ccv-average"
+        case ccvPeak = "ccv-peak"
+        case uniqueCcvAverage = "unique-ccv-average"
+        case uniqueCcvPeak = "unique-ccv-peak"
+        case view3 = "view-3"
+        case view5 = "view-5"
+        case view10 = "view-10"
+        case view30 = "view-30"
+        case uniqueView = "unique-view"
+        case uniqueView3 = "unique-view-3"
+        case uniqueView5 = "unique-view-5"
+        case uniqueView10 = "unique-view-10"
+        case uniqueView30 = "unique-view-30"
     }
     public enum Interval: String, Codable, CaseIterable {
+        case minute = "minute"
         case hour = "hour"
         case day = "day"
     }
-    /** Returns the metric you selected. */
+    /** Returns the metric and relevant parameters you selected. */
     public var metric: Metric?
     /** Returns the interval you selected. */
     public var interval: Interval?

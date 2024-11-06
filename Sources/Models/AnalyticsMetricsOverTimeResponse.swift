@@ -13,7 +13,7 @@ import AnyCodable
 public struct AnalyticsMetricsOverTimeResponse: Codable, Hashable {
 
     public var context: AnalyticsMetricsOverTimeResponseContext
-    /** Returns an array of metrics and the timestamps . */
+    /** Returns an array of metrics and the timestamps. */
     public var data: [AnalyticsMetricsOverTimeResponseData]
     public var pagination: Pagination
 
