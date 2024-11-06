@@ -47,6 +47,10 @@ public struct VideoUpdatePayload: Codable, Hashable {
         case vi = "vi"
         case zh = "zh"
     }
+    public enum TranscriptSummaryAttributes: String, Codable, CaseIterable {
+        case abstract = "abstract"
+        case takeaways = "takeaways"
+    }
     /** The unique ID for the player you want to associate with your video. */
     public var playerId: NullableString?
     /** The title you want to use for your video. */
@@ -69,8 +73,10 @@ public struct VideoUpdatePayload: Codable, Hashable {
     public var transcript: Bool?
     /** Use this parameter to enable summarization.   - When `true`, the API generates a summary for the video, based on the transcription. - The default value is `false`. - If you define a video language using the `language` parameter, the API uses that language to summarize the video. If you do not define a language, the API detects it based on the video. */
     public var transcriptSummary: Bool?
+    /** Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes. */
+    public var transcriptSummaryAttributes: [TranscriptSummaryAttributes]?
 
-    public init(playerId: NullableString? = nil, title: String? = nil, description: String? = nil, _public: Bool? = nil, panoramic: Bool? = nil, mp4Support: Bool? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, language: Language? = nil, transcript: Bool? = nil, transcriptSummary: Bool? = nil) {
+    public init(playerId: NullableString? = nil, title: String? = nil, description: String? = nil, _public: Bool? = nil, panoramic: Bool? = nil, mp4Support: Bool? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, language: Language? = nil, transcript: Bool? = nil, transcriptSummary: Bool? = nil, transcriptSummaryAttributes: [TranscriptSummaryAttributes]? = nil) {
         self.playerId = playerId
         self.title = title
         self.description = description
@@ -82,6 +88,7 @@ public struct VideoUpdatePayload: Codable, Hashable {
         self.language = language
         self.transcript = transcript
         self.transcriptSummary = transcriptSummary
+        self.transcriptSummaryAttributes = transcriptSummaryAttributes
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -96,6 +103,7 @@ public struct VideoUpdatePayload: Codable, Hashable {
         case language
         case transcript
         case transcriptSummary
+        case transcriptSummaryAttributes
     }
 
     // Encodable protocol methods
@@ -113,6 +121,7 @@ public struct VideoUpdatePayload: Codable, Hashable {
         try container.encodeIfPresent(language, forKey: .language)
         try container.encodeIfPresent(transcript, forKey: .transcript)
         try container.encodeIfPresent(transcriptSummary, forKey: .transcriptSummary)
+        try container.encodeIfPresent(transcriptSummaryAttributes, forKey: .transcriptSummaryAttributes)
     }
 }
 

@@ -47,7 +47,7 @@ open class SummariesAPI {
     /**
      Generate video summary
      - POST /summaries
-     - Generate a title, abstract, and key takeaways for a video.
+     - Generate an abstract and key takeaways for a video.
      - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter summaryCreationPayload: (body)  
      - returns: RequestBuilder<Summary> 
@@ -108,7 +108,7 @@ open class SummariesAPI {
     /**
      Update summary details
      - PATCH /summaries/{summaryId}/source
-     - Update details for a summary. Note that this operation is only allowed for summary objects where `sourceStatus` is `missing`.
+     - Update details for a summary.
      - responseHeaders: [X-RateLimit-Limit(Int), X-RateLimit-Remaining(Int), X-RateLimit-Retry-After(Int)]
      - parameter summaryId: (path) The unique identifier of the summary source you want to update. 
      - parameter summaryUpdatePayload: (body)  
