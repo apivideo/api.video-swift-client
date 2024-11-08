@@ -15,19 +15,27 @@ public struct SummaryCreationPayload: Codable, Hashable {
     public enum Origin: String, Codable, CaseIterable {
         case auto = "auto"
     }
+    public enum Attributes: String, Codable, CaseIterable {
+        case abstract = "abstract"
+        case takeaways = "takeaways"
+    }
     /** Create a summary of a video using the video ID. */
     public var videoId: String
     /** Use this parameter to define how the API generates the summary. The only allowed value is `auto`, which means that the API generates a summary automatically.  If you do not set this parameter, **the API will not generate a summary automatically**.  In this case, `sourceStatus` will return `missing`, and you have to manually add a summary using the `PATCH /summaries/{summaryId}/source` endpoint operation. */
     public var origin: Origin?
+    /** Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes. */
+    public var attributes: [Attributes]?
 
-    public init(videoId: String, origin: Origin? = nil) {
+    public init(videoId: String, origin: Origin? = nil, attributes: [Attributes]? = nil) {
         self.videoId = videoId
         self.origin = origin
+        self.attributes = attributes
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case videoId
         case origin
+        case attributes
     }
 
     // Encodable protocol methods
@@ -36,6 +44,7 @@ public struct SummaryCreationPayload: Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(videoId, forKey: .videoId)
         try container.encodeIfPresent(origin, forKey: .origin)
+        try container.encodeIfPresent(attributes, forKey: .attributes)
     }
 }
 

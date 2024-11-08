@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 Generate video summary
 
-Generate a title, abstract, and key takeaways for a video.
+Generate an abstract and key takeaways for a video.
 
 
 ### Example
@@ -27,7 +27,7 @@ Generate a title, abstract, and key takeaways for a video.
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import ApiVideoClient
 
-let summaryCreationPayload = SummaryCreationPayload(videoId: "videoId_example", origin: "origin_example") // SummaryCreationPayload | 
+let summaryCreationPayload = SummaryCreationPayload(videoId: "videoId_example", origin: "origin_example", attributes: ["attributes_example"]) // SummaryCreationPayload | 
 
 // Generate video summary
 SummariesAPI.create(summaryCreationPayload: summaryCreationPayload) { (response, error) in
@@ -71,7 +71,7 @@ Name | Type | Description  | Notes
 
 Update summary details
 
-Update details for a summary. Note that this operation is only allowed for summary objects where `sourceStatus` is `missing`.
+Update details for a summary.
 
 
 ### Example
@@ -80,7 +80,7 @@ Update details for a summary. Note that this operation is only allowed for summa
 import ApiVideoClient
 
 let summaryId = "summaryId_example" // String | The unique identifier of the summary source you want to update.
-let summaryUpdatePayload = SummaryUpdatePayload(title: "title_example", abstract: "abstract_example", takeaways: ["takeaways_example"]) // SummaryUpdatePayload | 
+let summaryUpdatePayload = SummaryUpdatePayload(abstract: "abstract_example", takeaways: ["takeaways_example"]) // SummaryUpdatePayload | 
 
 // Update summary details
 SummariesAPI.update(summaryId: summaryId, summaryUpdatePayload: summaryUpdatePayload) { (response, error) in
