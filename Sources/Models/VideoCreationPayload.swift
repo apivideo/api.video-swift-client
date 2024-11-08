@@ -77,7 +77,7 @@ public struct VideoCreationPayload: Codable, Hashable {
     public var transcript: Bool?
     /** Use this parameter to enable summarization. We recommend using this parameter together with `transcript: true`.  - When `true`, the API generates a summary for the video, based on the transcription. - The default value is `false`. - If you define a video language using the `language` parameter, the API uses that language to summarize the video. If you do not define a language, the API detects it based on the video. */
     public var transcriptSummary: Bool?
-    /** Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes. */
+    /** Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes. The possible values are `abstract` and `takeaways`. */
     public var transcriptSummaryAttributes: [TranscriptSummaryAttributes]?
 
     public init(title: String, description: String? = nil, source: String? = nil, _public: Bool? = true, panoramic: Bool? = false, mp4Support: Bool? = true, playerId: String? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, clip: VideoClip? = nil, watermark: VideoWatermark? = nil, language: Language? = nil, transcript: Bool? = nil, transcriptSummary: Bool? = nil, transcriptSummaryAttributes: [TranscriptSummaryAttributes]? = nil) {
