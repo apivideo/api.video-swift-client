@@ -12,18 +12,26 @@ import AnyCodable
 
 public struct Webhook: Codable, Hashable {
 
+    public enum Events: String, Codable, CaseIterable {
+        case liveStreamBroadcastStarted = "live-stream.broadcast.started"
+        case liveStreamBroadcastEnded = "live-stream.broadcast.ended"
+        case videoSourceRecorded = "video.source.recorded"
+        case videoEncodingQualityCompleted = "video.encoding.quality.completed"
+        case videoCaptionGenerated = "video.caption.generated"
+        case videoSummaryGenerated = "video.summary.generated"
+    }
     /** A unique identifier of the webhook you subscribed to. */
     public var webhookId: String?
     /** The time and date when you created this webhook subscription, in ATOM UTC format. */
     public var createdAt: Date?
     /** A list of events that you subscribed to. When these events occur, the API triggers a webhook call to the URL you provided. */
-    public var events: [String]?
+    public var events: [Events]?
     /** The URL where the API sends the webhook. */
     public var url: String?
     /** A secret key for the webhook you subscribed to. You can use it to verify the origin of the webhook call that you receive. */
     public var signatureSecret: String?
 
-    public init(webhookId: String? = nil, createdAt: Date? = nil, events: [String]? = nil, url: String? = nil, signatureSecret: String? = nil) {
+    public init(webhookId: String? = nil, createdAt: Date? = nil, events: [Events]? = nil, url: String? = nil, signatureSecret: String? = nil) {
         self.webhookId = webhookId
         self.createdAt = createdAt
         self.events = events
