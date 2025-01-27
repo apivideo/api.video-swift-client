@@ -53,6 +53,8 @@ public struct VideoCreationPayload: Codable, Hashable {
     }
     /** The title of your new video. */
     public var title: String
+    /** A subtitle for your video. */
+    public var subtitle: String?
     /** A brief description of your video. */
     public var description: String?
     /** You can either add a video already on the web, by entering the URL of the video, or you can also enter the `videoId` of one of the videos you already have on your api.video acccount, and this will generate a copy of your video. Creating a copy of a video can be especially useful if you want to keep your original video and trim or apply a watermark onto the copy you would create. */
@@ -80,8 +82,9 @@ public struct VideoCreationPayload: Codable, Hashable {
     /** Use this parameter to define the elements of a summary that you want to generate. If you do not define this parameter, the API generates a full summary with all attributes. The possible values are `abstract` and `takeaways`. */
     public var transcriptSummaryAttributes: [TranscriptSummaryAttributes]?
 
-    public init(title: String, description: String? = nil, source: String? = nil, _public: Bool? = true, panoramic: Bool? = false, mp4Support: Bool? = true, playerId: String? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, clip: VideoClip? = nil, watermark: VideoWatermark? = nil, language: Language? = nil, transcript: Bool? = nil, transcriptSummary: Bool? = nil, transcriptSummaryAttributes: [TranscriptSummaryAttributes]? = nil) {
+    public init(title: String, subtitle: String? = nil, description: String? = nil, source: String? = nil, _public: Bool? = true, panoramic: Bool? = false, mp4Support: Bool? = true, playerId: String? = nil, tags: [String]? = nil, metadata: [Metadata]? = nil, clip: VideoClip? = nil, watermark: VideoWatermark? = nil, language: Language? = nil, transcript: Bool? = nil, transcriptSummary: Bool? = nil, transcriptSummaryAttributes: [TranscriptSummaryAttributes]? = nil) {
         self.title = title
+        self.subtitle = subtitle
         self.description = description
         self.source = source
         self._public = _public
@@ -100,6 +103,7 @@ public struct VideoCreationPayload: Codable, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case title
+        case subtitle
         case description
         case source
         case _public = "public"
@@ -121,6 +125,7 @@ public struct VideoCreationPayload: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(title, forKey: .title)
+        try container.encodeIfPresent(subtitle, forKey: .subtitle)
         try container.encodeIfPresent(description, forKey: .description)
         try container.encodeIfPresent(source, forKey: .source)
         try container.encodeIfPresent(_public, forKey: ._public)
